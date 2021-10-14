@@ -5,6 +5,7 @@
 
 CREATE DATABASE IF NOT EXISTS yonseitalk;
 
+# location table ------------------------------------
 CREATE TABLE IF NOT EXISTS location(
     name varchar(255) NOT NULL UNIQUE
 );
@@ -12,6 +13,8 @@ CREATE TABLE IF NOT EXISTS location(
 ALTER TABLE location
     ADD CONSTRAINT location_pk PRIMARY KEY (name);
 
+
+# yt_user table -------------------------------------
 CREATE TABLE IF NOT EXISTS yt_user(
     user_id varchar(255) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
@@ -29,6 +32,8 @@ ALTER TABLE yt_user
 ALTER TABLE yt_user
     ADD CONSTRAINT user_location_fk FOREIGN KEY (user_location) REFERENCES location(name);
 
+
+# friends table ------------------------------------
 CREATE TABLE IF NOT EXISTS friends(
     user_id varchar(255) NOT NULL,
     friend_id varchar(255) NOT NULL
@@ -41,6 +46,7 @@ ALTER TABLE friends
     ADD CONSTRAINT friends_fk FOREIGN KEY (friend_id) REFERENCES yt_user(user_id);
 
 
+# message table ------------------------------------
 CREATE TABLE IF NOT EXISTS message(
     message_id bigint NOT NULL UNIQUE,
     sender_id varchar(255) NOT NULL,
@@ -59,6 +65,8 @@ ALTER TABLE message
 ALTER TABLE message
     ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yt_user(user_id);
 
+
+# chatroom table ------------------------------------
 CREATE TABLE IF NOT EXISTS chatroom(
     chatroom_id bigint NOT NULL UNIQUE,
     user_1 varchar(255) NOT NULL,
