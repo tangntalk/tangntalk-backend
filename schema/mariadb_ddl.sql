@@ -1,7 +1,5 @@
-# drop table friends cascade;
-# drop table message cascade;
-# drop table yt_user cascade;
-# drop table location cascade;
+#DROP TABLE IF EXISTS yonseitalk.chatroom, yonseitalk.message, yonseitalk.friends, yonseitalk.yt_user, yonseitalk.location cascade;
+
 
 CREATE DATABASE IF NOT EXISTS yonseitalk;
 
