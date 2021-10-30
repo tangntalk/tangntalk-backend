@@ -8,18 +8,16 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    Optional<User> findById(int id);
+    Optional<User> findById(String id);
 
-    void save(User user); // 최초 가입 시 사용
+    int save(User user); // 최초 가입 시 사용
 
-    void delete(User user);
+    int delete(String id);
 
-    List<User> findFriend(String query);
+    void updateUserTime(String id,Timestamp timestamp); //로그인시 사용
 
-    void changeUserTime(Timestamp timestamp); //로그인시 사용
+    void updateStatusMessage(String id,String msg);
 
-    void changeStatusMessage(String msg);
-
-    void changeUserLocation(String location);
+    void updateUserLocation(String id,String location);
 
 }

@@ -16,4 +16,5 @@ public class User {
     private String status_message;
     private String type;
     private String user_location;
+    private Boolean connection_status;
 }

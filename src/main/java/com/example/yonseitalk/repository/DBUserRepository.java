@@ -1,9 +1,18 @@
 package com.example.yonseitalk.repository;
 
+import com.example.yonseitalk.domain.Friend;
 import com.example.yonseitalk.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -11,38 +20,94 @@ import java.util.Optional;
 @Repository
 public class DBUserRepository implements UserRepository {
 
-    @Override
-    public Optional<User> findById(int id) {
-        return Optional.empty();
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public DBUserRepository(DataSource dataSource){
+        jdbcTemplate =new JdbcTemplate(dataSource);
     }
 
     @Override
-    public void save(User user) {
-
+    public Optional<User> findById(String id) {
+        List<User> result=jdbcTemplate.query("select * from yt_user where user_id = ?", userRowMapper(),id);
+        return result.stream().findAny();
     }
 
     @Override
-    public void delete(User user) {
+    public int save(User user){
+//        String INSERT_QUERY = "insert into yt_user (user_id, name,password,user_time,status_message,type,connection_status,user_location) values (?, ?,?,?,?,?,?,?)";
+//        return jdbcTemplate.update(INSERT_QUERY, user.getUser_id(),user.getName(),user.getPassword(),user.getUser_time(),user.getStatus_message(),user.getType(),user.getConnection_status(),user.getUser_location());
 
-    }
+        SimpleJdbcInsert jdbcInsert=new SimpleJdbcInsert(jdbcTemplate).withTableName("yt_user");
+        SqlParameterSource param=new BeanPropertySqlParameterSource(user);
+        return jdbcInsert.execute(param);
 
-    @Override
-    public List<User> findFriend(String query) {
-        return null;
-    }
-
-    @Override
-    public void changeUserTime(Timestamp timestamp) {
-
-    }
-
-    @Override
-    public void changeStatusMessage(String msg) {
 
     }
 
     @Override
-    public void changeUserLocation(String location) {
+    public int delete(String id) {
+        int status =jdbcTemplate.update("delete from yt_user where user_id = ?",id);
+        return status;
 
+    }
+    public int deleteAll(){
+        int status=jdbcTemplate.update("delete from yt_user");
+        return status;
+    }
+
+//    @Override
+//    public List<User> findFriend(String id) {
+//        List<User> result=jdbcTemplate.query("select yt_user.* from yt_user join (select friend_id from frineds where user_id=?) on friends.friend_id =yt_user.id", userRowMapper(),id);
+//        return result;//아직 제대로 검증 안함
+//    }
+
+    @Override
+    public void updateUserTime(String id,Timestamp timestamp) {
+        String UPDATE_QUERY = "update yt_user set user_time = ? where user_id = ?";
+        int status =jdbcTemplate.update(UPDATE_QUERY,timestamp,id);
+
+    }
+
+    @Override
+    public void updateStatusMessage(String id,String msg) {
+        String UPDATE_QUERY = "update yt_user set status_message = ? where user_id = ?";
+        int status =jdbcTemplate.update(UPDATE_QUERY,msg,id);
+    }
+
+    @Override
+    public void updateUserLocation(String id,String location) {
+        String UPDATE_QUERY = "update yt_user set user_location = ? where user_id = ?";
+        int status =jdbcTemplate.update(UPDATE_QUERY,location,id);
+    }
+
+    private RowMapper<User> userRowMapper(){
+        return new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                User user=new User();
+                user.setName(rs.getString("name"));
+                user.setUser_id(rs.getString("user_id"));
+                user.setPassword(rs.getString("password"));
+                user.setUser_location(rs.getString("user_location"));
+                user.setUser_time(rs.getTimestamp("user_time"));
+                user.setStatus_message(rs.getString("status_message"));
+                user.setType(rs.getString("type"));
+                user.setConnection_status(rs.getBoolean("connection_status"));
+
+                return user;
+            }
+        };
+    }
+    private RowMapper<Friend> friendRowMapper(){
+        return new RowMapper<Friend>() {
+            @Override
+            public Friend mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Friend friend=new Friend();
+                friend.setFriend_id(rs.getString("friend_id"));
+                friend.setUser_id(rs.getString("user_id"));
+                return friend;
+            }
+        };
     }
 }
