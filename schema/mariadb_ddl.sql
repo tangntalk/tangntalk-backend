@@ -93,7 +93,7 @@ ALTER TABLE yonseitalk.message
     ADD CONSTRAINT message_pk PRIMARY KEY (message_id);
 
 ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT message_location_fk FOREIGN KEY (message_location) REFERENCES yonseitalk.location(name);
+    ADD CONSTRAINT message_location_fk FOREIGN KEY (rendezvous_location) REFERENCES yonseitalk.location(name);
 
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id);
@@ -107,8 +107,9 @@ ALTER TABLE yonseitalk.message
 ALTER TABLE yonseitalk.message
     ALTER rendezvous_location_flag SET DEFAULT false;
 
-ALTER TABLE yonseitalk.message
-    ALTER rendezvous_location SET DEFAULT NULL;
+-- location 테이블에 not null이어서 여기도 not null로 해야할듯..
+-- ALTER TABLE yonseitalk.message
+--     ALTER rendezvous_location SET DEFAULT NULL;
 
 ALTER TABLE yonseitalk.message
     ALTER rendezvous_time_flag SET DEFAULT false;
