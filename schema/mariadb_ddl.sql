@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS  yonseitalk.message, yonseitalk.chatroom, yonseitalk.friends, yonseitalk.yt_user, yonseitalk.location cascade;
+#DROP TABLE IF EXISTS  yonseitalk.message, yonseitalk.chatroom, yonseitalk.friends, yonseitalk.yt_user, yonseitalk.location cascade;
 
 
 CREATE DATABASE IF NOT EXISTS yonseitalk;
