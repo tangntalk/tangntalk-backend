@@ -56,19 +56,6 @@ public class DBUserRepository implements UserRepository {
         return status;
     }
 
-//    @Override
-//    public List<User> findFriend(String id) {
-//        List<User> result=jdbcTemplate.query("select yt_user.* from yt_user join (select friend_id from frineds where user_id=?) on friends.friend_id =yt_user.id", userRowMapper(),id);
-//        return result;//아직 제대로 검증 안함
-//    }
-
-    @Override
-    public void updateUserTime(String id,Timestamp timestamp) {
-        String UPDATE_QUERY = "update yt_user set user_time = ? where user_id = ?";
-        int status =jdbcTemplate.update(UPDATE_QUERY,timestamp,id);
-
-    }
-
     @Override
     public void updateStatusMessage(String id,String msg) {
         String UPDATE_QUERY = "update yt_user set status_message = ? where user_id = ?";
@@ -90,7 +77,6 @@ public class DBUserRepository implements UserRepository {
                 user.setUser_id(rs.getString("user_id"));
                 user.setPassword(rs.getString("password"));
                 user.setUser_location(rs.getString("user_location"));
-                user.setUser_time(rs.getTimestamp("user_time"));
                 user.setStatus_message(rs.getString("status_message"));
                 user.setType(rs.getString("type"));
                 user.setConnection_status(rs.getBoolean("connection_status"));

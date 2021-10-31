@@ -33,8 +33,7 @@ class DBFriendRepositoryTest {
         user1.setUser_id("tt");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -44,8 +43,7 @@ class DBFriendRepositoryTest {
         user2.setUser_id("nam");
         user2.setName("jihoon");
         user2.setPassword("ddda");
-        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
-        user2.setUser_time(timestamp2);
+
         user2.setStatus_message("hihi");
         user2.setType("1");
         user2.setUser_location("공학원");
@@ -55,8 +53,7 @@ class DBFriendRepositoryTest {
         user3.setUser_id("pp");
         user3.setName("jihoon");
         user3.setPassword("ddda");
-        Timestamp timestamp3 = new Timestamp(System.currentTimeMillis());
-        user3.setUser_time(timestamp3);
+
         user3.setStatus_message("hihi");
         user3.setType("1");
         user3.setUser_location("공학원");
@@ -95,8 +92,7 @@ class DBFriendRepositoryTest {
         user1.setUser_id("tt");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -106,8 +102,7 @@ class DBFriendRepositoryTest {
         user2.setUser_id("nam");
         user2.setName("jihoon");
         user2.setPassword("ddda");
-        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
-        user2.setUser_time(timestamp2);
+
         user2.setStatus_message("hihi");
         user2.setType("1");
         user2.setUser_location("공학원");
@@ -117,8 +112,7 @@ class DBFriendRepositoryTest {
         user3.setUser_id("pp");
         user3.setName("jihoon");
         user3.setPassword("ddda");
-        Timestamp timestamp3 = new Timestamp(System.currentTimeMillis());
-        user3.setUser_time(timestamp3);
+
         user3.setStatus_message("hihi");
         user3.setType("1");
         user3.setUser_location("공학원");
@@ -165,8 +159,7 @@ class DBFriendRepositoryTest {
         user1.setUser_id("tt");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -176,8 +169,7 @@ class DBFriendRepositoryTest {
         user2.setUser_id("nam");
         user2.setName("jihoon");
         user2.setPassword("ddda");
-        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
-        user2.setUser_time(timestamp2);
+
         user2.setStatus_message("hihi");
         user2.setType("1");
         user2.setUser_location("공학원");
@@ -187,8 +179,7 @@ class DBFriendRepositoryTest {
         user3.setUser_id("pp");
         user3.setName("jihoon");
         user3.setPassword("ddda");
-        Timestamp timestamp3 = new Timestamp(System.currentTimeMillis());
-        user3.setUser_time(timestamp3);
+
         user3.setStatus_message("hihi");
         user3.setType("1");
         user3.setUser_location("공학원");
@@ -230,8 +221,7 @@ class DBFriendRepositoryTest {
         user1.setUser_id("tt");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -241,8 +231,7 @@ class DBFriendRepositoryTest {
         user2.setUser_id("nam");
         user2.setName("jihoon");
         user2.setPassword("ddda");
-        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
-        user2.setUser_time(timestamp2);
+
         user2.setStatus_message("hihi");
         user2.setType("1");
         user2.setUser_location("공학원");
@@ -252,8 +241,7 @@ class DBFriendRepositoryTest {
         user3.setUser_id("pp");
         user3.setName("jihoon");
         user3.setPassword("ddda");
-        Timestamp timestamp3 = new Timestamp(System.currentTimeMillis());
-        user3.setUser_time(timestamp3);
+
         user3.setStatus_message("hihi");
         user3.setType("1");
         user3.setUser_location("공학원");

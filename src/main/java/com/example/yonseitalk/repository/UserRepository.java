@@ -14,8 +14,6 @@ public interface UserRepository {
 
     int delete(String id);
 
-    void updateUserTime(String id,Timestamp timestamp); //로그인시 사용
-
     void updateStatusMessage(String id,String msg);
 
     void updateUserLocation(String id,String location);

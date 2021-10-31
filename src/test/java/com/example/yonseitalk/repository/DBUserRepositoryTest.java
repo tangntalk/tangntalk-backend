@@ -33,8 +33,7 @@ class DBUserRepositoryTest {
         user1.setUser_id("ji1");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -55,8 +54,7 @@ class DBUserRepositoryTest {
         user1.setUser_id("ji2");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -79,8 +77,7 @@ class DBUserRepositoryTest {
         user1.setUser_id("ji2");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -98,43 +95,13 @@ class DBUserRepositoryTest {
 
     }
 
-//    @Test
-//    void findFriend() {
-//    }
-
-    @Test
-    void updateUserTime() {
-        User user1= new User();
-        user1.setUser_id("ji2");
-        user1.setName("jihoon");
-        user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학원");
-        user1.setConnection_status(true);
-
-        //when
-        dbUserRepository.save(user1);
-        Date myDate = new Date("Sun,5 Dec 1999 00:07:21");
-        Timestamp timestamp2 = new Timestamp(myDate.getTime());
-        dbUserRepository.updateUserTime(user1.getUser_id(),timestamp2);
-
-        //then
-        User findUser=dbUserRepository.findById(user1.getUser_id()).get();
-
-        Assertions.assertThat(findUser.getUser_time()).isEqualTo(timestamp2);
-    }
-
     @Test
     void updateStatusMessage() {
         User user1= new User();
         user1.setUser_id("ji2");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
@@ -157,8 +124,7 @@ class DBUserRepositoryTest {
         user1.setUser_id("ji2");
         user1.setName("jihoon");
         user1.setPassword("ddda");
-        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        user1.setUser_time(timestamp1);
+
         user1.setStatus_message("hihi");
         user1.setType("1");
         user1.setUser_location("공학원");
