@@ -36,7 +36,7 @@ class DBUserRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         //when
@@ -57,7 +57,7 @@ class DBUserRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         //when
@@ -80,7 +80,7 @@ class DBUserRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         //when
@@ -104,7 +104,7 @@ class DBUserRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         //when
@@ -127,7 +127,7 @@ class DBUserRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         //when

@@ -36,7 +36,7 @@ class DBFriendRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         User user2= new User();
@@ -46,7 +46,7 @@ class DBFriendRepositoryTest {
 
         user2.setStatus_message("hihi");
         user2.setType("1");
-        user2.setUser_location("공학원");
+        user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
         User user3= new User();
@@ -56,7 +56,7 @@ class DBFriendRepositoryTest {
 
         user3.setStatus_message("hihi");
         user3.setType("1");
-        user3.setUser_location("공학원");
+        user3.setUser_location("공학관");
         user3.setConnection_status(true);
 
         Friend friend1=new Friend();
@@ -95,7 +95,7 @@ class DBFriendRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         User user2= new User();
@@ -105,7 +105,7 @@ class DBFriendRepositoryTest {
 
         user2.setStatus_message("hihi");
         user2.setType("1");
-        user2.setUser_location("공학원");
+        user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
         User user3= new User();
@@ -115,7 +115,7 @@ class DBFriendRepositoryTest {
 
         user3.setStatus_message("hihi");
         user3.setType("1");
-        user3.setUser_location("공학원");
+        user3.setUser_location("공학관");
         user3.setConnection_status(true);
 
         Friend friend1=new Friend();
@@ -162,7 +162,7 @@ class DBFriendRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         User user2= new User();
@@ -172,7 +172,7 @@ class DBFriendRepositoryTest {
 
         user2.setStatus_message("hihi");
         user2.setType("1");
-        user2.setUser_location("공학원");
+        user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
         User user3= new User();
@@ -182,7 +182,7 @@ class DBFriendRepositoryTest {
 
         user3.setStatus_message("hihi");
         user3.setType("1");
-        user3.setUser_location("공학원");
+        user3.setUser_location("공학관");
         user3.setConnection_status(true);
 
         Friend friend1=new Friend();
@@ -224,7 +224,7 @@ class DBFriendRepositoryTest {
 
         user1.setStatus_message("hihi");
         user1.setType("1");
-        user1.setUser_location("공학원");
+        user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
         User user2= new User();
@@ -234,7 +234,7 @@ class DBFriendRepositoryTest {
 
         user2.setStatus_message("hihi");
         user2.setType("1");
-        user2.setUser_location("공학원");
+        user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
         User user3= new User();
@@ -244,7 +244,7 @@ class DBFriendRepositoryTest {
 
         user3.setStatus_message("hihi");
         user3.setType("1");
-        user3.setUser_location("공학원");
+        user3.setUser_location("공학관");
         user3.setConnection_status(true);
 
         Friend friend1=new Friend();
