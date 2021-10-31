@@ -80,13 +80,13 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
     sender_id varchar(255) NOT NULL,
     send_time timestamp NOT NULL,
     content varchar(255) NOT NULL,
-    message_location varchar(255),
-    location_rendezvous boolean NOT NULL,
+    rendezvous_location_flag boolean NOT NULL,
+    rendezvous_location varchar(255),
     receiver_id varchar(255) NOT NULL,
-    rendezvous_flag boolean,
+    rendezvous_time_flag boolean,
     rendezvous_time timestamp,
     read_time timestamp,
-    time_location_rendezvous boolean NOT NULL
+    rendezvous_time_location_flag boolean NOT NULL
 );
 
 ALTER TABLE yonseitalk.message
@@ -105,13 +105,13 @@ ALTER TABLE yonseitalk.message
     ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id);
 
 ALTER TABLE yonseitalk.message
-    ALTER location_rendezvous SET DEFAULT false;
+    ALTER rendezvous_location_flag SET DEFAULT false;
 
 ALTER TABLE yonseitalk.message
-    ALTER message_location SET DEFAULT NULL;
+    ALTER rendezvous_location SET DEFAULT NULL;
 
 ALTER TABLE yonseitalk.message
-    ALTER rendezvous_flag SET DEFAULT false;
+    ALTER rendezvous_time_flag SET DEFAULT false;
 
 ALTER TABLE yonseitalk.message
     ALTER rendezvous_time SET DEFAULT 0;
@@ -120,5 +120,5 @@ ALTER TABLE yonseitalk.message
     ALTER read_time SET DEFAULT 0;
 
 ALTER TABLE yonseitalk.message
-    ALTER time_location_rendezvous SET DEFAULT false;
+    ALTER rendezvous_time_location_flag SET DEFAULT false;
 
