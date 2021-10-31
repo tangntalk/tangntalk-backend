@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
     receiver_id varchar(255) NOT NULL,
     rendezvous_flag boolean,
     rendezvous_time timestamp,
-    read_time timestamp
+    read_time timestamp,
+    time_location_rendezvous boolean NOT NULL
 );
 
 ALTER TABLE yonseitalk.message
@@ -118,4 +119,6 @@ ALTER TABLE yonseitalk.message
 ALTER TABLE yonseitalk.message
     ALTER read_time SET DEFAULT 0;
 
+ALTER TABLE yonseitalk.message
+    ALTER time_location_rendezvous SET DEFAULT false;
 
