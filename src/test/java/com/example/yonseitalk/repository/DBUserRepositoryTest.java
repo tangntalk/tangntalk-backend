@@ -91,8 +91,6 @@ class DBUserRepositoryTest {
         User findUser=dbUserRepository.findById(user1.getUser_id()).orElse(new User());
 
         Assertions.assertThat(findUser.getUser_id()).isNull();
-
-
     }
 
     @Test
@@ -138,29 +136,6 @@ class DBUserRepositoryTest {
         //then
         User findUser=dbUserRepository.findById(user1.getUser_id()).get();
         Assertions.assertThat(findUser.getUser_location()).isEqualTo(newLocation);
-
-    }
-
-    @Test
-    void updateUserName() {
-        User user1= new User();
-        user1.setUser_id("ji2");
-        user1.setName("jihoon");
-        user1.setPassword("ddda");
-
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
-
-        //when
-        dbUserRepository.save(user1);
-        String newName = "목요한";
-        dbUserRepository.updateUserName(user1.getUser_id(),newName);
-
-        //then
-        User findUser=dbUserRepository.findById(user1.getUser_id()).get();
-        Assertions.assertThat(findUser.getName()).isEqualTo(newName);
 
     }
 }
