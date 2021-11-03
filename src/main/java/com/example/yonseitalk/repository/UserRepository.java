@@ -14,6 +14,8 @@ public interface UserRepository {
 
     int delete(String id);
 
+    void updateUserName(String id, String name);
+
     void updateStatusMessage(String id,String msg);
 
     void updateUserLocation(String id,String location);

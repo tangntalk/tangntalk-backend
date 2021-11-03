@@ -57,6 +57,12 @@ public class DBUserRepository implements UserRepository {
     }
 
     @Override
+    public void updateUserName(String id,String name) {
+        String UPDATE_QUERY = "update yt_user set name = ? where user_id = ?";
+        int status =jdbcTemplate.update(UPDATE_QUERY,name,id);
+    }
+
+    @Override
     public void updateStatusMessage(String id,String msg) {
         String UPDATE_QUERY = "update yt_user set status_message = ? where user_id = ?";
         int status =jdbcTemplate.update(UPDATE_QUERY,msg,id);
