@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface FriendService {
-    List<FriendUser> findFriends(String userId);
-    List<FriendUser> searchFriends(String userId, String searchQuery);
+    List<FriendUser> FindFriends(String userId);
     int addFriend(String userId, String friendId);
     int delFriend(String userId, String friendId);
-
 }

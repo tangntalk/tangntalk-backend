@@ -64,7 +64,7 @@ class DBFriendRepositoryTest {
     @Transactional
     void delete(){
 
-        dbFriendRepository.delete("tt");
+        dbFriendRepository.delete("pp");
 
         //then
         List<Friend> findFriends=dbFriendRepository.findByUserId("tt");

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class DBFriendUserRepository implements FriendUserRepository{
@@ -22,40 +21,23 @@ public class DBFriendUserRepository implements FriendUserRepository{
 
     @Override
     public List<FriendUser> findAll(String id) {
-        return jdbcTemplate.query("select yt_user.name,yt_user.user_id as user_id," +
-                "yt_user.user_location,yt_user.status_message," +
-                "yt_user.type,yt_user.connection_status,friends.user_id as my_id " +
-                "from yt_user join friends " +
-                "on yt_user.user_id=friends.friend_id where friends.user_id = ?", FriendUserRowMapper(),id);
+        return jdbcTemplate.query("select yt_user.name,yt_user.user_id as user_id, " +
+                "yt_user.status_message," +
+                "yt_user.type,yt_user.connection_status,chatroom.chatroom_id as chatroom_id " +
+                "from yt_user join friends on yt_user.user_id=friends.friend_id " +
+                "left join chatroom  on friends.user_id in (chatroom.user_1,chatroom.user_2) and " +
+                "friends.friend_id in (chatroom.user_1,chatroom.user_2) " +
+                "where friends.user_id = ?", FriendUserRowMapper(),id);
     }
-
-    @Override
-    public List<FriendUser> search(String id,String searchQuery) {
-        //sql injection 미처리
-        return jdbcTemplate.query("select yt_user.name,yt_user.user_id as user_id," +
-                "yt_user.user_location,yt_user.status_message," +
-                "yt_user.type,yt_user.connection_status,fr.user_id as my_id " +
-                "from yt_user left join " +
-                "(select * from friends where friends.user_id = '"+id+"') as fr " +
-                "on yt_user.user_id=fr.friend_id " +
-                "where yt_user.user_id like '%"+searchQuery+"%' or " +
-                "yt_user.name like '%"+searchQuery+"%' and not yt_user.user_id = '"+id+"'"
-                , FriendUserRowMapper());
-    }
-
-
     private RowMapper<FriendUser> FriendUserRowMapper(){
         return (rs, rowNum) -> {
             FriendUser friendUser = new FriendUser();
             friendUser.setName(rs.getString("name"));
             friendUser.setUser_id(rs.getString("user_id"));
-            friendUser.setUser_location(rs.getString("user_location"));
             friendUser.setStatus_message(rs.getString("status_message"));
             friendUser.setType(rs.getString("type"));
             friendUser.setConnection_status(rs.getBoolean("connection_status"));
-            friendUser.setIsFriend(
-                    Optional.ofNullable(rs.getString("my_id")).isPresent()
-            );
+            friendUser.setChatroomId(rs.getLong("chatroom_id"));
             return friendUser;
         };
     }

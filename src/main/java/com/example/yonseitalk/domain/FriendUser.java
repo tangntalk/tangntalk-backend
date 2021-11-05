@@ -5,18 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FriendUser extends User{
-    public FriendUser() {
-        super.setPassword(null);
-    }
-
-    private Boolean isFriend;
-
-    @Override
-    public String toString() {
-
-        return "FriendUser{" +super.toString()+
-                ", isFriend=" + isFriend +
-                '}';
-    }
+public class FriendUser{
+    private String name;
+    private String user_id;
+    private String status_message;
+    private String type;
+    private Boolean connection_status;
+    private Long chatroomId;
 }
