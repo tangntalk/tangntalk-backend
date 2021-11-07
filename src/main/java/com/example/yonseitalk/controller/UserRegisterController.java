@@ -38,6 +38,9 @@ public class UserRegisterController {
 
         User user = objectMapper.readValue(messageBody, User.class);
         // 여기에 추가적으로 디폴트 값들 채워 넣기
+        user.setConnection_status(false);
+        user.setStatus_message("");
+
 
         Boolean isPresentUser= userRepository.findById(user.getUser_id()).isEmpty();
 
@@ -45,7 +48,7 @@ public class UserRegisterController {
             log.info("User={}", user);
             userRepository.save(user);
             //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
-            String redirect="/login";
+            String redirect="/";
             response.sendRedirect(redirect);
         }
         else{

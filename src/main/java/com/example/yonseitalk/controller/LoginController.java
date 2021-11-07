@@ -28,13 +28,21 @@ public class LoginController {
     private final LoginService loginService;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @GetMapping("/login")
+    @GetMapping("/")
     @ResponseBody
-    public void loginEnter(){
+    public void loginEnter(HttpServletRequest request, HttpServletResponse response) throws IOException{
         // 로그인 들어오는것
         //프론트에서 알아서 해준다.
+        //기존에 로그인이 되어 있으면 바로 해당 유저의 공간으로 리디렉션해줌
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Object user = session.getAttribute("loginUser");
+            User loginUser= (User)user;
+            String redirect="/"+loginUser.getUser_id();
+            response.sendRedirect(redirect);
+        }
     }
-    @PostMapping("/login")
+    @PostMapping("/")
     public void login(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         ServletInputStream inputStream = request.getInputStream();
@@ -64,7 +72,7 @@ public class LoginController {
         if (session != null) {
             session.invalidate();
         }
-        String redirect="/login";
+        String redirect="/";
         response.sendRedirect(redirect);
 
     }
