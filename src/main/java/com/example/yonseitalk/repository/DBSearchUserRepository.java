@@ -20,7 +20,6 @@ public class DBSearchUserRepository implements SearchUserRepository{
     }
     @Override
     public List<SearchUser> search(String id, String searchQuery) {
-        //sql injection 미처리
         return jdbcTemplate.query("select yt_user.name,yt_user.user_id as user_id, " +
                         "yt_user.status_message," +
                         "yt_user.type,yt_user.connection_status,fr.user_id as my_id " +
@@ -28,7 +27,8 @@ public class DBSearchUserRepository implements SearchUserRepository{
                         "(select * from friends where friends.user_id = '"+id+"') as fr " +
                         "on yt_user.user_id=fr.friend_id " +
                         "where yt_user.user_id like '%"+searchQuery+"%' or " +
-                        "yt_user.name like '%"+searchQuery+"%' and not yt_user.user_id = '"+id+"'"
+                        "yt_user.name like '%"+searchQuery+"%' and not yt_user.user_id = '"+id+"' " +
+                        "order by yt_user.name"
                 , FriendUserRowMapper());
     }
     private RowMapper<SearchUser> FriendUserRowMapper(){

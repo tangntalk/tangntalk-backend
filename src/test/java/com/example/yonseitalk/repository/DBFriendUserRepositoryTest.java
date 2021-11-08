@@ -84,6 +84,7 @@ class DBFriendUserRepositoryTest {
         Assertions.assertThat(friends.size()).isEqualTo(2);
         Assertions.assertThat(friends.stream().map(FriendUser::getUser_id)).contains("pp");
         Assertions.assertThat(friends.stream().map(FriendUser::getUser_id)).contains("nam");
+        Assertions.assertThat(friends.stream().map(FriendUser::getChatroomId)).containsNull();
     }
 
 

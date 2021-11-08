@@ -14,7 +14,7 @@ public interface FriendRepository {
 
     int save(Friend friend); // 최초 등록시 사용
 
-    int delete(String friend_id);
+    int delete(Friend friend);
 
 
 }

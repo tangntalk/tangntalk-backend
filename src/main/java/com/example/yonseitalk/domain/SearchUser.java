@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SearchUser{
-    private String name;
     private String user_id;
+    private String name;
     private String status_message;
     private String type;
     private Boolean isFriend;

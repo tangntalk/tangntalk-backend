@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DBFriendUserRepository implements FriendUserRepository{
@@ -37,7 +38,8 @@ public class DBFriendUserRepository implements FriendUserRepository{
             friendUser.setStatus_message(rs.getString("status_message"));
             friendUser.setType(rs.getString("type"));
             friendUser.setConnection_status(rs.getBoolean("connection_status"));
-            friendUser.setChatroomId(rs.getLong("chatroom_id"));
+            String chatroomIdStr= rs.getString("chatroom_id");
+            friendUser.setChatroomId(chatroomIdStr==null?null:Long.parseLong(chatroomIdStr));
             return friendUser;
         };
     }

@@ -46,8 +46,9 @@ public class DBFriendRepository implements FriendRepository{
     }
 
     @Override
-    public int delete(String friend_id){
-        int status =jdbcTemplate.update("delete from friends where friend_id = ?",friend_id);
+    public int delete(Friend friend){
+        int status =jdbcTemplate.update("delete from friends " +
+                "where user_id = ? and friend_id = ?",friend.getUser_id(),friend.getFriend_id());
         return status;
 
     }
