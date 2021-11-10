@@ -1,5 +1,4 @@
-#DROP TABLE IF EXISTS  yonseitalk.message, yonseitalk.chatroom, yonseitalk.friends, yonseitalk.yt_user, yonseitalk.location cascade;
-
+DROP DATABASE yonseitalk;
 
 CREATE DATABASE IF NOT EXISTS yonseitalk;
 
@@ -57,9 +56,9 @@ CREATE TABLE IF NOT EXISTS yonseitalk.chatroom(
     chatroom_id bigint NOT NULL UNIQUE AUTO_INCREMENT,
     user_1 varchar(255) NOT NULL,
     user_2 varchar(255) NOT NULL,
-    talk varchar(255) NOT NULL,
-    last_send_time timestamp NOT NULL,
-    last_send_user varchar(255) NOT NULL
+    talk varchar(255),
+    last_send_time timestamp,
+    last_send_user varchar(255)
 );
 
 ALTER TABLE yonseitalk.chatroom
@@ -78,15 +77,15 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
     message_id bigint NOT NULL AUTO_INCREMENT UNIQUE,
     chatroom_id bigint NOT NULL,
     sender_id varchar(255) NOT NULL,
-    send_time timestamp NOT NULL,
-    content varchar(255) NOT NULL,
-    rendezvous_location_flag boolean NOT NULL,
-    rendezvous_location varchar(255),
     receiver_id varchar(255) NOT NULL,
-    rendezvous_time_flag boolean,
-    rendezvous_time timestamp,
+    content varchar(255) NOT NULL,
+    send_time timestamp NOT NULL,
     read_time timestamp,
-    rendezvous_time_location_flag boolean NOT NULL
+    rendezvous_flag boolean NOT NULL,
+    rendezvous_location varchar(255),
+    rendezvous_time timestamp
+#     rendezvous_time_flag boolean,
+#    rendezvous_time_location_flag boolean NOT NULL
 );
 
 ALTER TABLE yonseitalk.message
@@ -105,14 +104,14 @@ ALTER TABLE yonseitalk.message
     ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id);
 
 ALTER TABLE yonseitalk.message
-    ALTER rendezvous_location_flag SET DEFAULT false;
+    ALTER rendezvous_flag SET DEFAULT false;
 
 -- location 테이블에 not null이어서 여기도 not null로 해야할듯..
 -- ALTER TABLE yonseitalk.message
 --     ALTER rendezvous_location SET DEFAULT NULL;
 
-ALTER TABLE yonseitalk.message
-    ALTER rendezvous_time_flag SET DEFAULT false;
+-- ALTER TABLE yonseitalk.message
+--    ALTER rendezvous_time_flag SET DEFAULT false;
 
 ALTER TABLE yonseitalk.message
     ALTER rendezvous_time SET DEFAULT 0;
@@ -120,6 +119,6 @@ ALTER TABLE yonseitalk.message
 ALTER TABLE yonseitalk.message
     ALTER read_time SET DEFAULT 0;
 
-ALTER TABLE yonseitalk.message
-    ALTER rendezvous_time_location_flag SET DEFAULT false;
+-- ALTER TABLE yonseitalk.message
+0--    ALTER rendezvous_time_location_flag SET DEFAULT false;
 
