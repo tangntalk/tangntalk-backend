@@ -45,7 +45,6 @@ class DBFriendRepositoryTest {
 
         Assertions.assertThat(findFriends.size()).isEqualTo(2);
 
-
     }
 
     @Test

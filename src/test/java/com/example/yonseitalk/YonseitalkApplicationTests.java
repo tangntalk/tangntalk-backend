@@ -3,6 +3,7 @@ package com.example.yonseitalk;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.DBUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@Transactional
 @AutoConfigureMockMvc
 class YonseitalkApplicationTests {
 
@@ -36,11 +36,12 @@ class YonseitalkApplicationTests {
 	private ObjectMapper objectMapper;
 
 	@Test
+	@Transactional
 	void contextLoads() {
 	}
 
-	@Test
-	void userInfo() throws Exception {
+	@BeforeEach
+	void setup(){
 		User user1= new User();
 		user1.setUser_id("flaxinger1");
 		user1.setName("yohan");
@@ -52,6 +53,10 @@ class YonseitalkApplicationTests {
 		user1.setConnection_status(true);
 
 		dbUserRepository.save(user1);
+	}
+	@Test
+	@Transactional
+	void userInfo() throws Exception {
 
 		mvc.perform(get("/users/flaxinger1"))
 				.andExpect(status().isOk())
@@ -61,25 +66,15 @@ class YonseitalkApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	void updateMessage() throws Exception {
-		User user1= new User();
-		user1.setUser_id("flaxinger1");
-		user1.setName("yohan");
-		user1.setPassword("mok");
-
-		user1.setStatus_message("Preswot");
-		user1.setType("1");
-		user1.setUser_location("공학관");
-		user1.setConnection_status(true);
-
-		dbUserRepository.save(user1);
 
 		Map<String, String> status = new HashMap<>();
 		status.put("status_message", "아! 프레스왓!");
 
 		mvc.perform(post("/users/flaxinger1/status")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(status)))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(status)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.success", is("true")));
 
@@ -89,25 +84,15 @@ class YonseitalkApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	void updateLocation() throws Exception {
-		User user1= new User();
-		user1.setUser_id("flaxinger1");
-		user1.setName("yohan");
-		user1.setPassword("mok");
-
-		user1.setStatus_message("Preswot");
-		user1.setType("1");
-		user1.setUser_location("공학관");
-		user1.setConnection_status(true);
-
-		dbUserRepository.save(user1);
 
 		Map<String, String> location = new HashMap<>();
 		location.put("location_name", "백양관");
 
 		mvc.perform(post("/users/flaxinger1/location")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(location)))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(location)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.success", is("true")));
 
@@ -117,3 +102,4 @@ class YonseitalkApplicationTests {
 	}
 
 }
+
