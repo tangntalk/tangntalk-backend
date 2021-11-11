@@ -45,7 +45,7 @@ public class UserInfoController {
 
         int status = userRepository.updateUserLocation(userId, location.get("location_name"));
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         if(status > 0)
             response.put("success", true);
         else
@@ -58,7 +58,7 @@ public class UserInfoController {
 
         int status = userRepository.updateStatusMessage(userId, statusMessage.get("status_message"));
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         if(status > 0)
             response.put("success", true);
         else
