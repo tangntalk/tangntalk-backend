@@ -70,6 +70,14 @@ public class DBUserRepository implements UserRepository {
         return status;
     }
 
+    @Override
+    public int updateUserConnectionStatus(String id, Boolean flag){
+        String UPDATE_QUERY = "update yt_user set connection_status = ? where user_id = ?";
+        int status =jdbcTemplate.update(UPDATE_QUERY,flag,id);
+
+        return status;
+    }
+
     private RowMapper<User> userRowMapper(){
         return new RowMapper<User>() {
             @Override

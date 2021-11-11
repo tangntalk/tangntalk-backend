@@ -42,7 +42,7 @@ public class LoginController {
             response.sendRedirect(redirect);
         }
     }
-    @PostMapping("/")
+    @PostMapping("/login")
     public void login(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         ServletInputStream inputStream = request.getInputStream();
@@ -58,6 +58,10 @@ public class LoginController {
             return;
         }
         log.info("loginFormat:{}",loginFormat);
+        //status change True
+        loginService.updateConnectionTrue(loginUser);
+
+
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginUser", loginUser);
@@ -70,17 +74,14 @@ public class LoginController {
     public void logout(HttpServletRequest request,HttpServletResponse response) throws IOException{
         HttpSession session = request.getSession(false);
         if (session != null) {
+            Object user = session.getAttribute("loginUser");
+            User loginUser= (User)user;
+            loginService.updateConnectionFalse(loginUser);
             session.invalidate();
         }
         String redirect="/";
         response.sendRedirect(redirect);
 
-    }
-
-    private void expireCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
     }
 
 }

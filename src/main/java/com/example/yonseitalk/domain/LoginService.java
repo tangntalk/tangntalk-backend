@@ -14,4 +14,12 @@ public class LoginService {
         return dbUserRepository.findById(loginId).filter(m->m.getPassword().equals(password)).orElse(null);
 
     }
+
+    public void updateConnectionTrue(User user){
+        dbUserRepository.updateUserConnectionStatus(user.getUser_id(),true);
+    }
+    public void updateConnectionFalse(User user){
+        dbUserRepository.updateUserConnectionStatus(user.getUser_id(),false);
+    }
+
 }
