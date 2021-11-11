@@ -31,10 +31,10 @@ public class UserInfoController {
         Map<String, Object> response = new HashMap<>();
 
         if(!user.isPresent()) {
-            response.put("success", "false");
+            response.put("success", false);
             response.put("code", new NotFoundException());
         } else{
-            response.put("success", "true");
+            response.put("success", true);
             userInfo.put("name", user.get().getName());
             userInfo.put("status_message", user.get().getStatus_message());
             userInfo.put("location_name", user.get().getUser_location());
