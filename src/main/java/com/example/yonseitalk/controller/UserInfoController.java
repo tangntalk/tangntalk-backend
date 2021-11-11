@@ -3,6 +3,7 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,10 @@ import java.util.Optional;
 
 @RequestMapping("/users")
 @RestController
+@RequiredArgsConstructor
 public class UserInfoController {
 
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserInfoController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
 
     @RequestMapping(value = "/{user_id}", method = RequestMethod.GET)
     public ResponseEntity<?> userInfo(@PathVariable("user_id") String userId){
@@ -50,9 +47,9 @@ public class UserInfoController {
 
         Map<String, String> response = new HashMap<>();
         if(status > 0)
-            response.put("success", "true");
+            response.put("success", true);
         else
-            response.put("success", "false");
+            response.put("success", false);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -63,9 +60,9 @@ public class UserInfoController {
 
         Map<String, String> response = new HashMap<>();
         if(status > 0)
-            response.put("success", "true");
+            response.put("success", true);
         else
-            response.put("success", "false");
+            response.put("success", false);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
