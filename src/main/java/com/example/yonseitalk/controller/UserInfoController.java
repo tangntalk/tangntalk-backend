@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RequestMapping("/users")
 @RestController
+@CrossOrigin("*")
 public class UserInfoController {
 
     private final UserRepository userRepository;

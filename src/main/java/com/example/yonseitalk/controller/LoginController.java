@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Controller
+@CrossOrigin("*")
 @RequestMapping
 @RequiredArgsConstructor
 public class LoginController {
