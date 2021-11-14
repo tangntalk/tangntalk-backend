@@ -92,4 +92,17 @@ class DBUserRepositoryTest {
         Assertions.assertThat(findUser.getUser_location()).isEqualTo(newLocation);
 
     }
+
+    @Transactional
+    @Test
+    void updateUserConnectionStatus() {
+        Boolean flag= false;
+        dbUserRepository.updateUserConnectionStatus("ji1",flag);
+
+        //then
+        User findUser=dbUserRepository.findById("ji1").get();
+        Assertions.assertThat(findUser.getConnection_status()).isEqualTo(flag);
+
+    }
+
 }

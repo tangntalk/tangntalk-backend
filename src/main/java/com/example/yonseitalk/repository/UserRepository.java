@@ -18,4 +18,6 @@ public interface UserRepository {
 
     int updateUserLocation(String id,String location);
 
+    int updateUserConnectionStatus(String id, Boolean flag);
+
 }
