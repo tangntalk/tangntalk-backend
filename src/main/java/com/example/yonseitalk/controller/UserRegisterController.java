@@ -42,6 +42,8 @@ public class UserRegisterController {
         user.setConnection_status(false);
         user.setStatus_message("");
 
+        log.info("User={}",user);
+
 
         Boolean isPresentUser= userRepository.findById(user.getUser_id()).isEmpty();
 
@@ -49,8 +51,8 @@ public class UserRegisterController {
             log.info("User={}", user);
             userRepository.save(user);
             //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
-            String redirect="/";
-            response.sendRedirect(redirect);
+            response.setStatus(201);
+
         }
         else{
             // status로 보내주기 401로 보내고 API명세에 반영해라.

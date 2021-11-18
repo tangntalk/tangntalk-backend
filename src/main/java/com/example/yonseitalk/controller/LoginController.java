@@ -67,8 +67,7 @@ public class LoginController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginUser", loginUser);
 
-        String redirect="/"+loginFormat.getUser_id();
-        response.sendRedirect(redirect);
+        response.setStatus(200);
     }
 
     @PostMapping("/logout")
@@ -80,8 +79,7 @@ public class LoginController {
             loginService.updateConnectionFalse(loginUser);
             session.invalidate();
         }
-        String redirect="/";
-        response.sendRedirect(redirect);
+        response.setStatus(200);
 
     }
 

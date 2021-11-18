@@ -67,4 +67,17 @@ public class UserInfoController {
             response.put("success", false);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{user_id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("user_id") String userId){
+
+        int status = userRepository.delete(userId);
+
+        Map<String, Object> response = new HashMap<>();
+        if(status > 0)
+            response.put("success", true);
+        else
+            response.put("success", false);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

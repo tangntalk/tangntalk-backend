@@ -48,10 +48,10 @@ CREATE TABLE IF NOT EXISTS yonseitalk.friends(
 );
 
 ALTER TABLE yonseitalk.friends
-    ADD CONSTRAINT friends_pk FOREIGN KEY (user_id) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT friends_pk FOREIGN KEY (user_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade ;
 
 ALTER TABLE yonseitalk.friends
-    ADD CONSTRAINT friends_fk FOREIGN KEY (friend_id) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT friends_fk FOREIGN KEY (friend_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 # chatroom table ------------------------------------
 CREATE TABLE IF NOT EXISTS yonseitalk.chatroom(
@@ -64,13 +64,13 @@ CREATE TABLE IF NOT EXISTS yonseitalk.chatroom(
 );
 
 ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT user_1_fk FOREIGN KEY (user_1) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT user_1_fk FOREIGN KEY (user_1) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT user_2_fk FOREIGN KEY (user_2) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT user_2_fk FOREIGN KEY (user_2) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 
 
@@ -97,10 +97,10 @@ ALTER TABLE yonseitalk.message
     ADD CONSTRAINT message_location_fk FOREIGN KEY (rendezvous_location) REFERENCES yonseitalk.location(name);
 
 ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id);
+    ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id);
@@ -122,5 +122,5 @@ ALTER TABLE yonseitalk.message
     ALTER read_time SET DEFAULT 0;
 
 -- ALTER TABLE yonseitalk.message
-0--    ALTER rendezvous_time_location_flag SET DEFAULT false;
+--    ALTER rendezvous_time_location_flag SET DEFAULT false;
 
