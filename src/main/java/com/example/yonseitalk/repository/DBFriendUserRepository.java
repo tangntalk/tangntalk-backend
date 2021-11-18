@@ -24,7 +24,7 @@ public class DBFriendUserRepository implements FriendUserRepository{
     public List<FriendUser> findAll(String id) {
         return jdbcTemplate.query("select yt_user.name,yt_user.user_id as user_id, " +
                 "yt_user.status_message," +
-                "yt_user.type,yt_user.connection_status,chatroom.chatroom_id as chatroom_id " +
+                "yt_user.type,yt_user.connection_status,yt_user.user_location as user_location,chatroom.chatroom_id as chatroom_id " +
                 "from yt_user join friends on yt_user.user_id=friends.friend_id " +
                 "left join chatroom  on friends.user_id in (chatroom.user_1,chatroom.user_2) and " +
                 "friends.friend_id in (chatroom.user_1,chatroom.user_2) " +
@@ -38,6 +38,7 @@ public class DBFriendUserRepository implements FriendUserRepository{
             friendUser.setStatus_message(rs.getString("status_message"));
             friendUser.setType(rs.getString("type"));
             friendUser.setConnection_status(rs.getBoolean("connection_status"));
+            friendUser.setUser_location(rs.getString("user_location"));
             String chatroomIdStr= rs.getString("chatroom_id");
             friendUser.setChatroomId(chatroomIdStr==null?null:Long.parseLong(chatroomIdStr));
             return friendUser;

@@ -11,5 +11,6 @@ public class FriendUser{
     private String status_message;
     private String type;
     private Boolean connection_status;
+    private String user_location;
     private Long chatroomId;
 }
