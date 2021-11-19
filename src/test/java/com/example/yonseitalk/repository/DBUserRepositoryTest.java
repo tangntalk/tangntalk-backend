@@ -66,6 +66,7 @@ class DBUserRepositoryTest {
 
         Assertions.assertThat(findUser.getUser_id()).isNull();
     }
+    //findByLocation test 추가하기
 
     @Transactional
     @Test

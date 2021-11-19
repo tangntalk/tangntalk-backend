@@ -30,6 +30,13 @@ public class DBChatroomRepository implements ChatroomRepository{
         List<Chatroom> result = jdbcTemplate.query("select * from chatroom where chatroom_id = ?", userRowMapper(), id);
         return result.stream().findAny();
     }
+
+    @Override
+    public Optional<Chatroom> findByPairUser(String user_id1,String user_id2){
+        List<Chatroom> result =jdbcTemplate.query("select * from chatroom where (user_1=? and user_2=?) or (user_1=? and user_2=?)",userRowMapper(),user_id1,user_id2,user_id2,user_id1);
+        return result.stream().findAny();
+    }// 테스트 코드 작성완료
+
     @Override
     public List<Chatroom> findByUser(String user_id){
         List<Chatroom> result = jdbcTemplate.query("select * from chatroom where user_1 = ? or user_2 = ?", userRowMapper(), user_id, user_id);
