@@ -10,6 +10,8 @@ public interface UserRepository {
 
     Optional<User> findById(String id);
 
+    List<User> findByLocation(String location);
+
     int save(User user); // 최초 가입 시 사용
 
     int delete(String id);

@@ -15,6 +15,9 @@ public interface ChatroomRepository {
 
     int delete(Long id);
 
+    //두개의 user_id로 특정 chatroom을 가져올 수 있는 findByPairUser
+    Optional<Chatroom> findByPairUser(String user_id1,String user_id2);
+
     // delete by user_id
     // 계정 회원 탈퇴시 사용
     int deleteAll(String user_id);

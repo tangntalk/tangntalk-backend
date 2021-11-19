@@ -29,7 +29,7 @@ public class DBChatroomRepositoryTest {
         user1.setName("yohanmok1");
         user1.setPassword("aaa");
         user1.setStatus_message("Talk");
-        user1.setType("1");
+        user1.setType("학생");
         user1.setUser_location("공학관");
         user1.setConnection_status(false);
         dbUserRepository.save(user1);
@@ -39,7 +39,7 @@ public class DBChatroomRepositoryTest {
         user2.setName("yohanmok2");
         user2.setPassword("aaa");
         user2.setStatus_message("Talk");
-        user2.setType("2");
+        user2.setType("학생");
         user2.setUser_location("공학관");
         user2.setConnection_status(false);
         dbUserRepository.save(user2);
@@ -73,6 +73,14 @@ public class DBChatroomRepositoryTest {
         Assertions.assertThat(chatroom.isPresent());
         Assertions.assertThat(chatroomList1.get(0).getChatroom_id()).isEqualTo(chatroomList2.get(0).getChatroom_id());
         Assertions.assertThat(chatroom.get().getUser_1()).isEqualTo(chatroomList2.get(0).getUser_1());
+    }
+
+    @Transactional
+    @Test
+    void findByPairUser(){
+        Optional<Chatroom> chatroomList1 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
+        Optional<Chatroom> chatroomList2 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
+        Assertions.assertThat(chatroomList1.get().getChatroom_id().equals(chatroomList2.get().getChatroom_id()));
     }
 
     @Transactional

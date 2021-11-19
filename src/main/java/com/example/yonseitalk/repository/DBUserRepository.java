@@ -34,6 +34,12 @@ public class DBUserRepository implements UserRepository {
     }
 
     @Override
+    public List<User> findByLocation(String location){
+        List<User> result=jdbcTemplate.query("select * from yt_user where user_location = ?",userRowMapper(),location);
+        return result;
+    }
+
+    @Override
     public int save(User user){
 //        String INSERT_QUERY = "insert into yt_user (user_id, name,password,user_time,status_message,type,connection_status,user_location) values (?, ?,?,?,?,?,?,?)";
 //        return jdbcTemplate.update(INSERT_QUERY, user.getUser_id(),user.getName(),user.getPassword(),user.getUser_time(),user.getStatus_message(),user.getType(),user.getConnection_status(),user.getUser_location());
