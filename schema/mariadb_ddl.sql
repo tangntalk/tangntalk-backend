@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS yonseitalk.yt_user(
     status_message varchar(255),
     type varchar(255) NOT NULL,
     connection_status boolean NOT NULL,
-    user_location varchar(255) NOT NULL
+    user_location varchar(255) NOT NULL DEFAULT '공학관'
 );
 
 ALTER TABLE yonseitalk.yt_user
