@@ -21,14 +21,12 @@ public class FriendListView extends DefaultResponse {
         innerUser.setName(friendUser.getName());
         innerUser.setStatus_message(friendUser.getStatus_message());
         innerUser.setType(friendUser.getType());
+        innerUser.setChatroomId(friendUser.getChatroomId());
+        innerUser.setUser_location(friendUser.getUser_location());
         if(friendUser.getConnection_status()){
-            innerUser.setChatroomId(friendUser.getChatroomId());
-            innerUser.setUser_location(friendUser.getUser_location());
             online.add(innerUser);
         }
         else{
-            innerUser.setChatroomId(null);
-            innerUser.setUser_location(null);
             offline.add(innerUser);
         }
 
