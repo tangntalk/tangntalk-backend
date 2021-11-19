@@ -41,6 +41,7 @@ public class UserRegisterController {
         // 여기에 추가적으로 디폴트 값들 채워 넣기
         user.setConnection_status(false);
         user.setStatus_message("");
+        user.setUser_location("공학관");
 
         log.info("User={}",user);
 
