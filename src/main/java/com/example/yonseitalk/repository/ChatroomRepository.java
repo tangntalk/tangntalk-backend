@@ -11,7 +11,7 @@ public interface ChatroomRepository {
 
     List<Chatroom> findByUser(String user_id);
 
-    int save(Chatroom chatroom);
+    Chatroom save(Chatroom chatroom);
 
     int delete(Long id);
 

@@ -46,7 +46,6 @@ public class DBChatroomRepositoryTest {
 
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroom_id(null);
-        chatroom.setTalk("HaLo!");
         chatroom.setUser_1("flaxinger1");
         chatroom.setUser_2("flaxinger2");
         dbChatroomRepository.save(chatroom);
@@ -73,14 +72,6 @@ public class DBChatroomRepositoryTest {
         Assertions.assertThat(chatroom.isPresent());
         Assertions.assertThat(chatroomList1.get(0).getChatroom_id()).isEqualTo(chatroomList2.get(0).getChatroom_id());
         Assertions.assertThat(chatroom.get().getUser_1()).isEqualTo(chatroomList2.get(0).getUser_1());
-    }
-
-    @Transactional
-    @Test
-    void findByPairUser(){
-        Optional<Chatroom> chatroomList1 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
-        Optional<Chatroom> chatroomList2 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
-        Assertions.assertThat(chatroomList1.get().getChatroom_id().equals(chatroomList2.get().getChatroom_id()));
     }
 
     @Transactional
