@@ -108,5 +108,26 @@ class DBMessageRepositoryTest {
         assertThat(messageList.size()).isEqualTo(3);
 
     }
+    @Test
+    void updateReadTimeTest(){
+        Message message = new Message();
+        message.setChatroom_id(chatroom_id);
+        message.setSender_id("flaxinger1");
+        message.setReceiver_id("flaxinger2");
+        message.setSend_time(new Timestamp(System.currentTimeMillis()));
+        message.setRendezvous_flag(false);
+        message.setContent("1");
+
+        Long message_id = messageRepository.save(message).getMessage_id();
+
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        currentTime.setNanos(0);
+        messageRepository.updateReadTime(message_id,currentTime);
+
+
+        Message findMessage = messageRepository.findById(message_id).orElseThrow();
+        assertThat(findMessage.getRead_time()).isEqualTo(currentTime);
+
+    }
 
 }

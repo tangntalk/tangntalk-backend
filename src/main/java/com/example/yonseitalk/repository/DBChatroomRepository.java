@@ -51,6 +51,12 @@ public class DBChatroomRepository implements ChatroomRepository{
         chatroom.setChatroom_id(key.longValue());
         return chatroom;
     }
+
+    @Override
+    public int updateLastMessage(Long chatroom_id, Long message_id) {
+        return jdbcTemplate.update("update chatroom set last_message_id = ? where chatroom_id = ?",message_id,chatroom_id);
+    }
+
     @Override
     public int delete(Long id){
         int status = jdbcTemplate.update("delete from chatroom where chatroom_id = ?", id);

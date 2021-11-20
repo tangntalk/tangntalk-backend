@@ -13,6 +13,8 @@ public interface ChatroomRepository {
 
     Chatroom save(Chatroom chatroom);
 
+    int updateLastMessage(Long chatroom_id, Long message_id);
+
     int delete(Long id);
 
     //두개의 user_id로 특정 chatroom을 가져올 수 있는 findByPairUser

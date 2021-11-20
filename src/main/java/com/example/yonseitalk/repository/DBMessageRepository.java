@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class DBMessageRepository implements MessageRepository{
     @Override
     public List<Message> findByChatroomId(Long chatroom_id) {
         return jdbcTemplate.query("select * from message where chatroom_id = ?", messageRowMapper(), chatroom_id);
+    }
+
+    @Override
+    public int updateReadTime(Long id,Timestamp timestamp) {
+        return jdbcTemplate.update("update message set read_time = ? where message_id = ?",timestamp,id);
     }
 
     private RowMapper<Message> messageRowMapper(){
