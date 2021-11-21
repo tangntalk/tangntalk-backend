@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/users")
 @RestController
 public class FriendController {
