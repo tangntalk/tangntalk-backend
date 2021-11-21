@@ -66,6 +66,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginUser", loginUser);
+        log.info("session: {}",session.getAttribute("loginUser"));
 
         response.setStatus(200);
     }
