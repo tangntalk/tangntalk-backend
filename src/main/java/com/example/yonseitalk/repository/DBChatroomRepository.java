@@ -43,23 +43,31 @@ public class DBChatroomRepository implements ChatroomRepository{
         return result;
     }
     @Override
-    public int save(Chatroom chatroom){
+    public Chatroom save(Chatroom chatroom){
 
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("chatroom");
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("chatroom").usingGeneratedKeyColumns("chatroom_id");
         SqlParameterSource param = new BeanPropertySqlParameterSource(chatroom);
-        return jdbcInsert.execute(param);
-    };
+        Number key = jdbcInsert.executeAndReturnKey(param);
+        chatroom.setChatroom_id(key.longValue());
+        return chatroom;
+    }
+
+    @Override
+    public int updateLastMessage(Long chatroom_id, Long message_id) {
+        return jdbcTemplate.update("update chatroom set last_message_id = ? where chatroom_id = ?",message_id,chatroom_id);
+    }
+
     @Override
     public int delete(Long id){
         int status = jdbcTemplate.update("delete from chatroom where chatroom_id = ?", id);
         return status;
-    };
+    }
 
     @Override
     public int deleteAll(String user_id){
         int status = jdbcTemplate.update("delete from chatroom where user_1 = ? or user_2 = ?", user_id, user_id);
         return status;
-    };
+    }
 
 
     private RowMapper<Chatroom> userRowMapper(){
@@ -70,10 +78,7 @@ public class DBChatroomRepository implements ChatroomRepository{
                 chatroom.setChatroom_id(rs.getLong("chatroom_id"));
                 chatroom.setUser_1(rs.getString("user_1"));
                 chatroom.setUser_2(rs.getString("user_2"));
-                chatroom.setTalk(rs.getString("talk"));
-                chatroom.setLast_send_time(rs.getTimestamp("last_send_time"));
-                chatroom.setLast_send_user(rs.getString("last_send_user"));
-
+                chatroom.setLast_message_id(rs.getLong("last_message_id"));
                 return chatroom;
             }
         };

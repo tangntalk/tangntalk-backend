@@ -1,9 +1,13 @@
 package com.example.yonseitalk.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Timestamp;
 
+@Getter
+@Setter
 public class Message {
-
     private Long message_id;
     private Long chatroom_id;
     private String sender_id;

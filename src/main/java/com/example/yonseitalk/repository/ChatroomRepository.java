@@ -11,7 +11,9 @@ public interface ChatroomRepository {
 
     List<Chatroom> findByUser(String user_id);
 
-    int save(Chatroom chatroom);
+    Chatroom save(Chatroom chatroom);
+
+    int updateLastMessage(Long chatroom_id, Long message_id);
 
     int delete(Long id);
 

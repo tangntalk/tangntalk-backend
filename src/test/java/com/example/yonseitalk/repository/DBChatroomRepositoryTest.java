@@ -1,6 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.domain.Chatroom;
+import com.example.yonseitalk.domain.Message;
 import com.example.yonseitalk.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,11 @@ public class DBChatroomRepositoryTest {
 
     @Autowired
     private DBUserRepository dbUserRepository;
+
+    @Autowired
+    private DBMessageRepository dbMessageRepository;
+
+    Long chatroom_id;
 
     @BeforeEach
     void setup(){
@@ -46,10 +52,9 @@ public class DBChatroomRepositoryTest {
 
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroom_id(null);
-        chatroom.setTalk("HaLo!");
         chatroom.setUser_1("flaxinger1");
         chatroom.setUser_2("flaxinger2");
-        dbChatroomRepository.save(chatroom);
+        chatroom_id = dbChatroomRepository.save(chatroom).getChatroom_id();
     }
 
 //    @Transactional
@@ -77,14 +82,6 @@ public class DBChatroomRepositoryTest {
 
     @Transactional
     @Test
-    void findByPairUser(){
-        Optional<Chatroom> chatroomList1 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
-        Optional<Chatroom> chatroomList2 = dbChatroomRepository.findByPairUser("flaxinger1","flaxinger2");
-        Assertions.assertThat(chatroomList1.get().getChatroom_id().equals(chatroomList2.get().getChatroom_id()));
-    }
-
-    @Transactional
-    @Test
     void delete() {
 
         List<Chatroom> chatroomList1 = dbChatroomRepository.findByUser("flaxinger1");
@@ -93,6 +90,23 @@ public class DBChatroomRepositoryTest {
         dbChatroomRepository.delete(chatroomList1.get(0).getChatroom_id());
         chatroomList1 = dbChatroomRepository.findByUser("flaxinger1");
         Assertions.assertThat(chatroomList1.size() == 0);
+    }
+
+    @Transactional
+    @Test
+    void updateLastMessage() {
+        Message message = new Message();
+        message.setChatroom_id(chatroom_id);
+        message.setSender_id("flaxinger1");
+        message.setReceiver_id("flaxinger2");
+        message.setSend_time(new Timestamp(System.currentTimeMillis()));
+        message.setRendezvous_flag(false);
+        message.setContent("1");
+        Long message_id = dbMessageRepository.save(message).getMessage_id();
+        dbChatroomRepository.updateLastMessage(chatroom_id,message_id);
+        List<Chatroom> chatroomList = dbChatroomRepository.findByUser("flaxinger1");
+        Assertions.assertThat(chatroomList.get(0).getLast_message_id()).isEqualTo(message_id);
+
     }
 
 }

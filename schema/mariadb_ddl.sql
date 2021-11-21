@@ -58,9 +58,7 @@ CREATE TABLE IF NOT EXISTS yonseitalk.chatroom(
     chatroom_id bigint NOT NULL UNIQUE AUTO_INCREMENT,
     user_1 varchar(255) NOT NULL,
     user_2 varchar(255) NOT NULL,
-    talk varchar(255),
-    last_send_time timestamp,
-    last_send_user varchar(255)
+    last_message_id bigint
 );
 
 ALTER TABLE yonseitalk.chatroom
@@ -69,9 +67,8 @@ ALTER TABLE yonseitalk.chatroom
 ALTER TABLE yonseitalk.chatroom
     ADD CONSTRAINT user_2_fk FOREIGN KEY (user_2) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
-
+# ALTER TABLE yonseitalk.chatroom
+#     ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 
 # message table ------------------------------------
@@ -124,3 +121,5 @@ ALTER TABLE yonseitalk.message
 -- ALTER TABLE yonseitalk.message
 --    ALTER rendezvous_time_location_flag SET DEFAULT false;
 
+ALTER TABLE yonseitalk.chatroom
+    ADD CONSTRAINT last_message_id_fk FOREIGN KEY (last_message_id) REFERENCES yonseitalk.message(message_id) ON DELETE SET NULL;
