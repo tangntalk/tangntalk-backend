@@ -1,5 +1,6 @@
 package com.example.yonseitalk.repository;
 
+import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.domain.Friend;
 import com.example.yonseitalk.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,11 @@ public class DBUserRepository implements UserRepository {
     public int save(User user){
 //        String INSERT_QUERY = "insert into yt_user (user_id, name,password,user_time,status_message,type,connection_status,user_location) values (?, ?,?,?,?,?,?,?)";
 //        return jdbcTemplate.update(INSERT_QUERY, user.getUser_id(),user.getName(),user.getPassword(),user.getUser_time(),user.getStatus_message(),user.getType(),user.getConnection_status(),user.getUser_location());
+        //암호화
+        String userPwd= AES128.getAES128_Encode(user.getPassword());
+        user.setPassword(userPwd);
 
+        //암호화 끝
         SimpleJdbcInsert jdbcInsert=new SimpleJdbcInsert(jdbcTemplate).withTableName("yt_user");
         SqlParameterSource param=new BeanPropertySqlParameterSource(user);
         return jdbcInsert.execute(param);

@@ -1,5 +1,6 @@
 package com.example.yonseitalk.domain;
 
+import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.repository.DBUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ public class LoginService {
 
     public User login(String loginId, String password){
 
-        return dbUserRepository.findById(loginId).filter(m->m.getPassword().equals(password)).orElse(null);
+        return dbUserRepository.findById(loginId).filter(m-> AES128.getAES128_Decode(m.getPassword()).equals(password)).orElse(null);
 
     }
 
