@@ -19,10 +19,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-
+@CrossOrigin("http://localhost:3000")
 @Slf4j
 @Controller
-@CrossOrigin("*")
 @RequestMapping
 @RequiredArgsConstructor
 public class LoginController {
