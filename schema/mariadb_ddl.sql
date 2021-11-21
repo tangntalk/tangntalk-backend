@@ -36,9 +36,6 @@ ALTER TABLE yonseitalk.yt_user
     ADD CONSTRAINT user_location_fk FOREIGN KEY (user_location) REFERENCES yonseitalk.location(name);
 
 ALTER TABLE yonseitalk.yt_user
-    ALTER user_location SET DEFAULT '공학관';
-
-ALTER TABLE yonseitalk.yt_user
     ADD CONSTRAINT type_check CHECK (type IN ('일반', '학생', '강사', '기업'));
 
 # friends table ------------------------------------
