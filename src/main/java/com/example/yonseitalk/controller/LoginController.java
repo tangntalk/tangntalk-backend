@@ -19,9 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@CrossOrigin("http://localhost:3000")
+
 @Slf4j
 @Controller
+@CrossOrigin("*")
 @RequestMapping
 @RequiredArgsConstructor
 public class LoginController {
@@ -65,7 +66,6 @@ public class LoginController {
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
         session.setAttribute("loginUser", loginUser);
-        log.info("session: {}",session.getAttribute("loginUser"));
 
         response.setStatus(200);
     }

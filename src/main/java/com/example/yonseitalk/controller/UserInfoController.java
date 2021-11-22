@@ -18,7 +18,7 @@ import java.util.*;
 @RequestMapping("/users")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 
 public class UserInfoController {
 

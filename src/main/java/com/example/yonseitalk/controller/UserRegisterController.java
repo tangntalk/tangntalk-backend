@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/register")
 public class UserRegisterController {
 
