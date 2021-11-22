@@ -39,7 +39,7 @@ public class LoginController {
         if (session != null) {
             Object user = session.getAttribute("loginUser");
             User loginUser= (User)user;
-            String redirect="/users/"+loginUser.getUser_id();
+            String redirect="/"+loginUser.getUser_id();
             response.sendRedirect(redirect);
         }
     }
