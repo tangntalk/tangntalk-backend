@@ -39,9 +39,15 @@ public class DBFriendRepository implements FriendRepository{
 
     @Override
     public int save(Friend friend){
-        SimpleJdbcInsert jdbcInsert=new SimpleJdbcInsert(jdbcTemplate).withTableName("friends");
-        SqlParameterSource param=new BeanPropertySqlParameterSource(friend);
-        return jdbcInsert.execute(param);
+
+
+        String INSERT_QUERY = "insert into yonseitalk.friends (user_id,friend_id) values (?,?)";
+        return jdbcTemplate.update(INSERT_QUERY, friend.getUser_id(),friend.getFriend_id());
+//
+
+//        SimpleJdbcInsert jdbcInsert=new SimpleJdbcInsert(jdbcTemplate).withTableName("friends");
+//        SqlParameterSource param=new BeanPropertySqlParameterSource(friend);
+//        return jdbcInsert.execute(param);
 
     }
 

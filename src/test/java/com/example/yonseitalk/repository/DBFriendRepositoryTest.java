@@ -82,7 +82,7 @@ class DBFriendRepositoryTest {
         user1.setPassword("ddda");
 
         user1.setStatus_message("hihi");
-        user1.setType("1");
+        user1.setType("학생");
         user1.setUser_location("공학관");
         user1.setConnection_status(true);
 
@@ -92,7 +92,7 @@ class DBFriendRepositoryTest {
         user2.setPassword("ddda");
 
         user2.setStatus_message("hihi");
-        user2.setType("1");
+        user2.setType("학생");
         user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
@@ -102,7 +102,7 @@ class DBFriendRepositoryTest {
         user3.setPassword("ddda");
 
         user3.setStatus_message("hihi");
-        user3.setType("1");
+        user3.setType("학생");
         user3.setUser_location("공학관");
         user3.setConnection_status(true);
 

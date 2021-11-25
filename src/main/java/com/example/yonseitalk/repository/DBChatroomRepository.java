@@ -3,17 +3,24 @@ package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.domain.Chatroom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,11 +52,26 @@ public class DBChatroomRepository implements ChatroomRepository{
     @Override
     public Chatroom save(Chatroom chatroom){
 
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("chatroom").usingGeneratedKeyColumns("chatroom_id");
-        SqlParameterSource param = new BeanPropertySqlParameterSource(chatroom);
-        Number key = jdbcInsert.executeAndReturnKey(param);
-        chatroom.setChatroom_id(key.longValue());
+        String INSERT_QUERY = "insert into yonseitalk.chatroom (user_1,user_2) values(?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        PreparedStatementCreator preparedStatementCreator = (con) -> {
+            PreparedStatement preparedStatement =con.prepareStatement(INSERT_QUERY, new String[]{"id"});
+            preparedStatement.setString(1,chatroom.getUser_1());
+            preparedStatement.setString(2,chatroom.getUser_2());
+//            preparedStatement.setLong(3,chatroom.getLast_message_id());
+            return preparedStatement;
+        };
+        jdbcTemplate.update(preparedStatementCreator,keyHolder);
+        chatroom.setChatroom_id(keyHolder.getKey().longValue());
         return chatroom;
+
+
+
+//        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("chatroom").usingGeneratedKeyColumns("chatroom_id");
+//        SqlParameterSource param = new BeanPropertySqlParameterSource(chatroom);
+//        Number key = jdbcInsert.executeAndReturnKey(param);
+//        chatroom.setChatroom_id(key.longValue());
+//        return chatroom;
     }
 
     @Override

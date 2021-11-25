@@ -67,6 +67,43 @@ public class DBChatroomRepositoryTest {
 
     @Transactional
     @Test
+    void save(){
+
+        User user1 = new User();
+        user1.setUser_id("flaxinger3");
+        user1.setName("yohanmok1");
+        user1.setPassword("aaa");
+        user1.setStatus_message("Talk");
+        user1.setType("학생");
+        user1.setUser_location("공학관");
+        user1.setConnection_status(false);
+        dbUserRepository.save(user1);
+
+        User user2 = new User();
+        user2.setUser_id("flaxinger4");
+        user2.setName("yohanmok2");
+        user2.setPassword("aaa");
+        user2.setStatus_message("Talk");
+        user2.setType("학생");
+        user2.setUser_location("공학관");
+        user2.setConnection_status(false);
+        dbUserRepository.save(user2);
+
+        Chatroom chatroom = new Chatroom();
+        chatroom.setChatroom_id(null);
+        chatroom.setUser_1("flaxinger3");
+        chatroom.setUser_2("flaxinger4");
+        chatroom_id = dbChatroomRepository.save(chatroom).getChatroom_id();
+
+        Optional<Chatroom> chatroom1 =dbChatroomRepository.findById(chatroom_id);
+        Assertions.assertThat(chatroom1.get().getUser_1()).isEqualTo("flaxinger3");
+
+
+
+    }
+
+    @Transactional
+    @Test
     void findByUserandfindById(){
 
         List<Chatroom> chatroomList1 = dbChatroomRepository.findByUser("flaxinger1");
