@@ -2,6 +2,8 @@ package com.example.yonseitalk.repository;
 
 
 import com.example.yonseitalk.domain.Chatroom;
+import com.example.yonseitalk.domain.ChatroomDetail;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,30 +19,29 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Repository
 public class DBChatroomRepository implements ChatroomRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public DBChatroomRepository(DataSource datasource) { jdbcTemplate = new JdbcTemplate(datasource); }
-
     @Override
     public Optional<Chatroom> findById(Long id) {
-        List<Chatroom> result = jdbcTemplate.query("select * from chatroom where chatroom_id = ?", userRowMapper(), id);
+        List<Chatroom> result = jdbcTemplate.query("select * from chatroom where chatroom_id = ?", chatroomRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
     public Optional<Chatroom> findByPairUser(String user_id1,String user_id2){
-        List<Chatroom> result =jdbcTemplate.query("select * from chatroom where (user_1=? and user_2=?) or (user_1=? and user_2=?)",userRowMapper(),user_id1,user_id2,user_id2,user_id1);
+        List<Chatroom> result =jdbcTemplate.query("select * from chatroom where (user_1=? and user_2=?) or (user_1=? and user_2=?)",chatroomRowMapper(),user_id1,user_id2,user_id2,user_id1);
         return result.stream().findAny();
     }// 테스트 코드 작성완료
 
     @Override
     public List<Chatroom> findByUser(String user_id){
-        List<Chatroom> result = jdbcTemplate.query("select * from chatroom where user_1 = ? or user_2 = ?", userRowMapper(), user_id, user_id);
+        List<Chatroom> result = jdbcTemplate.query("select * from chatroom where user_1 = ? or user_2 = ?", chatroomRowMapper(), user_id, user_id);
         return result;
+
     }
     @Override
     public Chatroom save(Chatroom chatroom){
@@ -63,14 +64,7 @@ public class DBChatroomRepository implements ChatroomRepository{
         return status;
     }
 
-    @Override
-    public int deleteAll(String user_id){
-        int status = jdbcTemplate.update("delete from chatroom where user_1 = ? or user_2 = ?", user_id, user_id);
-        return status;
-    }
-
-
-    private RowMapper<Chatroom> userRowMapper(){
+    private RowMapper<Chatroom> chatroomRowMapper(){
         return new RowMapper<Chatroom>() {
             @Override
             public Chatroom mapRow(ResultSet rs, int rowNum) throws SQLException {

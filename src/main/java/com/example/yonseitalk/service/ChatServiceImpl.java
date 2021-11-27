@@ -33,20 +33,19 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public List<ChatroomWrapper> findChatroom(String user_id) {
-        User user;
+
         List<ChatroomWrapper> chatroomWrapperList = new ArrayList<>();
-        if(userRepository.findById(user_id).isPresent()){
-            user = userRepository.findById(user_id).get();
-        }
-        else{
+        Optional<User> user = userRepository.findById(user_id);
+        if(!user.isPresent())
             return chatroomWrapperList;
-        }
+
+
         List<Chatroom> chatroomList = chatroomRepository.findByUser(user_id);
         chatroomList.forEach(chatroom -> {
             if(chatroom.getLast_message_id()!=0){
                 ChatroomWrapper chatroomWrapper = new ChatroomWrapper();
                 chatroomWrapper.setChatroom(chatroom);
-                Message message = readMessage(chatroom.getLast_message_id(),user);
+                Message message = readMessage(chatroom.getLast_message_id(),user.get());
                 chatroomWrapper.setLast_message(message);
                 chatroomWrapperList.add(chatroomWrapper);
             }
