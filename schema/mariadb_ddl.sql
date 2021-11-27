@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
     message_id bigint NOT NULL AUTO_INCREMENT UNIQUE,
     chatroom_id bigint NOT NULL,
     sender_id varchar(255) NOT NULL,
-    receiver_id varchar(255) NOT NULL,
+#     receiver_id varchar(255) NOT NULL,
     content varchar(255) NOT NULL,
     send_time timestamp NOT NULL,
     read_time timestamp,
@@ -93,8 +93,8 @@ ALTER TABLE yonseitalk.message
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+# ALTER TABLE yonseitalk.message
+#     ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id);

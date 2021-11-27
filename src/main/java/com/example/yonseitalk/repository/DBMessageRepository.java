@@ -54,7 +54,7 @@ public class DBMessageRepository implements MessageRepository{
             message.setMessage_id(rs.getLong("message_id"));
             message.setChatroom_id(rs.getLong("chatroom_id"));
             message.setSender_id(rs.getString("sender_id"));
-            message.setReceiver_id(rs.getString("receiver_id"));
+//            message.setReceiver_id(rs.getString("receiver_id"));
             message.setContent(rs.getString("content"));
             message.setSend_time(rs.getTimestamp("send_time"));
             message.setRead_time(rs.getTimestamp("read_time"));

@@ -29,7 +29,6 @@ public class FriendListView extends DefaultResponse {
         else{
             offline.add(innerUser);
         }
-
     }
     @Getter
     @Setter

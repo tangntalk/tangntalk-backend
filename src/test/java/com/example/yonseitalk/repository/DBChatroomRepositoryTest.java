@@ -135,7 +135,7 @@ public class DBChatroomRepositoryTest {
         Message message = new Message();
         message.setChatroom_id(chatroom_id);
         message.setSender_id("flaxinger1");
-        message.setReceiver_id("flaxinger2");
+//        message.setReceiver_id("flaxinger2");
         message.setSend_time(new Timestamp(System.currentTimeMillis()));
         message.setRendezvous_flag(false);
         message.setContent("1");

@@ -63,7 +63,7 @@ class DBMessageRepositoryTest {
         Message message = new Message();
         message.setChatroom_id(chatroom_id);
         message.setSender_id("flaxinger1");
-        message.setReceiver_id("flaxinger2");
+//        message.setReceiver_id("flaxinger2");
         message.setSend_time(new Timestamp(System.currentTimeMillis()));
         message.setRendezvous_flag(false);
         message.setContent("content");
@@ -79,7 +79,7 @@ class DBMessageRepositoryTest {
         Message message = new Message();
         message.setChatroom_id(chatroom_id);
         message.setSender_id("flaxinger1");
-        message.setReceiver_id("flaxinger2");
+//        message.setReceiver_id("flaxinger2");
         message.setSend_time(new Timestamp(System.currentTimeMillis()));
         message.setRendezvous_flag(false);
         message.setContent("1");
@@ -87,7 +87,7 @@ class DBMessageRepositoryTest {
         Message message2 = new Message();
         message2.setChatroom_id(chatroom_id);
         message2.setSender_id("flaxinger1");
-        message2.setReceiver_id("flaxinger2");
+//        message2.setReceiver_id("flaxinger2");
         message2.setSend_time(new Timestamp(System.currentTimeMillis()));
         message2.setRendezvous_flag(false);
         message2.setContent("2");
@@ -95,7 +95,7 @@ class DBMessageRepositoryTest {
         Message message3 = new Message();
         message3.setChatroom_id(chatroom_id);
         message3.setSender_id("flaxinger1");
-        message3.setReceiver_id("flaxinger2");
+//        message3.setReceiver_id("flaxinger2");
         message3.setSend_time(new Timestamp(System.currentTimeMillis()));
         message3.setRendezvous_flag(false);
         message3.setContent("3");
@@ -113,7 +113,7 @@ class DBMessageRepositoryTest {
         Message message = new Message();
         message.setChatroom_id(chatroom_id);
         message.setSender_id("flaxinger1");
-        message.setReceiver_id("flaxinger2");
+//        message.setReceiver_id("flaxinger2");
         message.setSend_time(new Timestamp(System.currentTimeMillis()));
         message.setRendezvous_flag(false);
         message.setContent("1");
