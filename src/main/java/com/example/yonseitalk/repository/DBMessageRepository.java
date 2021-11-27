@@ -5,12 +5,16 @@ import com.example.yonseitalk.domain.Message;
 import com.example.yonseitalk.domain.SearchUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +34,32 @@ public class DBMessageRepository implements MessageRepository{
 
     @Override
     public Message save(Message message) {
-        //추후 insert 문으로 바꿀 예정
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("message").usingGeneratedKeyColumns("message_id");
-        SqlParameterSource param = new BeanPropertySqlParameterSource(message);
-        Number key = jdbcInsert.executeAndReturnKey(param);
-        message.setMessage_id(key.longValue());
+
+
+        String INSERT_QUERY = "insert into yonseitalk.message (chatroom_id,sender_id,content,send_time,rendezvous_flag,rendezvous_location,rendezvous_time) values(?,?,?,?,?,?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        PreparedStatementCreator preparedStatementCreator = (con) -> {
+            PreparedStatement preparedStatement =con.prepareStatement(INSERT_QUERY, new String[]{"id"});
+            preparedStatement.setLong(1,message.getChatroom_id());
+            preparedStatement.setString(2,message.getSender_id());
+            preparedStatement.setString(3,message.getContent());
+            preparedStatement.setTimestamp(4,message.getSend_time());
+            preparedStatement.setBoolean(5,message.getRendezvous_flag());
+            preparedStatement.setString(6,message.getRendezvous_location());
+            preparedStatement.setTimestamp(7,message.getRendezvous_time());
+            return preparedStatement;
+        };
+        jdbcTemplate.update(preparedStatementCreator,keyHolder);
+        message.setMessage_id(keyHolder.getKey().longValue());
         return message;
+
+
+        //추후 insert 문으로 바꿀 예정
+//        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("message").usingGeneratedKeyColumns("message_id");
+//        SqlParameterSource param = new BeanPropertySqlParameterSource(message);
+//        Number key = jdbcInsert.executeAndReturnKey(param);
+//        message.setMessage_id(key.longValue());
+//        return message;
     }
 
     @Override
