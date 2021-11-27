@@ -22,5 +22,5 @@ public interface ChatroomRepository {
 
     // delete by user_id
     // 계정 회원 탈퇴시 사용
-    int deleteAll(String user_id);
+//    int deleteAll(String user_id);
 }

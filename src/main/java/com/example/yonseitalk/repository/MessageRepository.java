@@ -17,6 +17,4 @@ public interface MessageRepository {
 
     int updateReadTime(Long id, Timestamp timestamp);
 
-
-
 }

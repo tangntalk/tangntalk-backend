@@ -40,7 +40,7 @@ public class DBMessageRepository implements MessageRepository{
 
     @Override
     public List<Message> findByChatroomId(Long chatroom_id) {
-        return jdbcTemplate.query("select * from message where chatroom_id = ?", messageRowMapper(), chatroom_id);
+        return jdbcTemplate.query("select * from message where chatroom_id = ? order by send_time", messageRowMapper(), chatroom_id);
     }
 
     @Override

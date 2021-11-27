@@ -1,5 +1,6 @@
 package com.example.yonseitalk.service;
 
+import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.domain.Chatroom;
 import com.example.yonseitalk.domain.ChatroomWrapper;
 import com.example.yonseitalk.domain.Message;
@@ -32,19 +33,26 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public List<ChatroomWrapper> findChatroom(String user_id) {
-        User user = userRepository.findById(user_id).get();
-        List<Chatroom> chatroomList = chatroomRepository.findByUser(user_id);
+
         List<ChatroomWrapper> chatroomWrapperList = new ArrayList<>();
+        Optional<User> user = userRepository.findById(user_id);
+        if(!user.isPresent())
+            return chatroomWrapperList;
+
+
+        List<Chatroom> chatroomList = chatroomRepository.findByUser(user_id);
         chatroomList.forEach(chatroom -> {
-            if(chatroom.getLast_message_id()!=null){
+            if(chatroom.getLast_message_id()!=0){
                 ChatroomWrapper chatroomWrapper = new ChatroomWrapper();
                 chatroomWrapper.setChatroom(chatroom);
-                Message message = readMessage(chatroom.getLast_message_id(),user);
+                Message message = readMessage(chatroom.getLast_message_id(),user.get());
                 chatroomWrapper.setLast_message(message);
                 chatroomWrapperList.add(chatroomWrapper);
             }
         });
-        chatroomWrapperList.sort(Comparator.comparing(chatroomWrapper -> chatroomWrapper.getLast_message().getSend_time()));
+        if (chatroomWrapperList.size()>=2){
+            chatroomWrapperList.sort(Comparator.comparing(chatroomWrapper -> chatroomWrapper.getLast_message().getSend_time(),Comparator.reverseOrder()));
+        }
         return chatroomWrapperList;
     }
 
@@ -67,7 +75,7 @@ public class ChatServiceImpl implements ChatService{
     public Message readMessage(Long message_id, User user) {
         Optional<Message> optionalMessage = messageRepository.findById(message_id);
         if(optionalMessage.isPresent()){
-            Message message = new Message();
+            Message message = optionalMessage.get();
             message.setContent(transformContent(message, user));
             return message;
         }
@@ -77,8 +85,9 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public String transformContent(Message message, User user){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        if(message.getRendezvous_flag() && message.getReceiver_id().equals(user.getUser_id())){
-            if(!message.getRendezvous_location().equals(user.getUser_location()) || currentTime.after(message.getRendezvous_time())){
+        message.setContent(AES128.getAES128_Decode(message.getContent()));
+        if(message.getRendezvous_flag() && message.getReceiver_id().equals(user.getUser_id())) {
+            if (!message.getRendezvous_location().equals(user.getUser_location()) || currentTime.after(message.getRendezvous_time())) {
                 message.setContent("hidden message");
             }
         }
@@ -87,7 +96,10 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public Long sendMessage(String user_id, Long chatroom_id, String content, String rendezvous_location, Timestamp rendezvous_time) {
-        Chatroom chatroom = chatroomRepository.findById(chatroom_id).get();
+        Chatroom chatroom = chatroomRepository.findById(chatroom_id).orElse(null);
+        if(chatroom ==null){
+            return (long)-1;
+        }
         Message message = new Message();
         message.setChatroom_id(chatroom_id);
         message.setSender_id(user_id);
@@ -97,7 +109,11 @@ public class ChatServiceImpl implements ChatService{
         else{
             message.setReceiver_id(chatroom.getUser_1());
         }
-        message.setContent(content);
+        User receiver = userRepository.findById(message.getReceiver_id()).orElse(null);
+        if (receiver== null || !receiver.getConnection_status()){
+            return (long)-1;
+        }
+        message.setContent(AES128.getAES128_Encode(content));
         message.setSend_time(new Timestamp(System.currentTimeMillis()));
         if (rendezvous_location!=null && rendezvous_time!=null){
             message.setRendezvous_flag(true);
