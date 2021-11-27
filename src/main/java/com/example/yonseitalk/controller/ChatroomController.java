@@ -3,13 +3,13 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.domain.ChatroomDetail;
 import com.example.yonseitalk.domain.Message;
 import com.example.yonseitalk.service.ChatService;
-import com.example.yonseitalk.view.ChatroomView;
+import com.example.yonseitalk.view.chatroom.ChatroomView;
+import com.example.yonseitalk.view.chatroom.MessageListView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @RequestMapping("/users")
@@ -25,7 +25,7 @@ public class ChatroomController {
         Long status = chatService.addChatroom(userId, body.get("opponent_id"));
 
         Map<String, Long> response = new HashMap<>();
-        if(status >-1)
+        if(status >-1L)
             response.put("chatroom_id", status);
         else
             response.put("success", -1L);
@@ -33,15 +33,29 @@ public class ChatroomController {
     }
 
     @GetMapping(value = "/{user_id}/chatrooms")
-    public ResponseEntity<?> getChatroomList(@PathVariable("user_id") String userId){
-        List<ChatroomView> chatroomViews = chatService.findChatroom(userId);
-        return new ResponseEntity<>(chatroomViews, HttpStatus.OK);
+    public ChatroomView getChatroomList(@PathVariable("user_id") String userId){
+        List<ChatroomDetail> chatroomDetails = chatService.findChatroom(userId);
+        ChatroomView chatroomView = new ChatroomView();
+        if(!chatroomDetails.isEmpty()){
+            chatroomDetails.forEach(chatroomDetail -> {
+               chatroomView.addSingleChatroom(chatroomDetail, userId);
+            });
+        }
+        chatroomView.setSuccess(true);
+        return chatroomView;
     }
 
     @GetMapping(value = "/{user_id}/chatrooms/{chatroom_id}")
-    public ResponseEntity<?> getMessages(@PathVariable("user_id") String userId, @PathVariable("chatroom_id") Long chatroomId){
-        List<Message> messages = chatService.messageInquiry(chatroomId, userId);
-        return new ResponseEntity<>(messages, HttpStatus.OK);
+    public MessageListView getMessages(@PathVariable("user_id") String userId, @PathVariable("chatroom_id") Long chatroomId){
+        List<Message> messageList = chatService.messageInquiry(chatroomId, userId);
+        MessageListView messageListView = new MessageListView();
+        if(!messageList.isEmpty()) {
+            for(Message m: messageList)
+                messageListView.addSingleMessage(m);
+
+        }
+        messageListView.setSuccess(true);
+        return messageListView;
     }
 
     @PostMapping(value = "/{user_id}/chatrooms/{chatroom_id}")

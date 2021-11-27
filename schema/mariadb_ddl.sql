@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
 #     receiver_id varchar(255) NOT NULL,
     content varchar(255) NOT NULL,
     send_time timestamp NOT NULL,
-    read_time timestamp,
+    read_time timestamp NULL,
     rendezvous_flag boolean NOT NULL,
     rendezvous_location varchar(255),
     rendezvous_time timestamp
