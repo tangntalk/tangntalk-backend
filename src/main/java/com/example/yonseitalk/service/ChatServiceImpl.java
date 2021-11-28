@@ -42,23 +42,6 @@ public class ChatServiceImpl implements ChatService{
             return new ArrayList<>();
 
         List<ChatroomDetail> chatroomDetailList = chatroomDetailRepository.findChatroomListbyUser(user_id);
-//        List<ChatroomView> chatroomViews = new ArrayList<>();
-
-//        chatroomDetailList.forEach(chatroom -> {
-//            if(chatroom.getContent()!=null){
-//                transformContent(chatroom, user.get());
-//            }
-//
-//            chatroomViews.add(ChatroomView.builder()
-//                            .chatroom_id(chatroom.getChatroom_id())
-//                            .last_message(chatroom.getContent())
-//                            .last_send_time(chatroom.getSend_time())
-//                            .last_message_from(chatroom.getSender_id())
-//                            .opponent_name((String.valueOf(chatroom.getUser_1()).equals(user_id)) ? chatroom.getUser_2() : chatroom.getUser_1())
-//                            .message_location(chatroom.getRendezvous_location())
-//                            .rendezvous_time(chatroom.getRendezvous_time())
-//                    .build());
-//        });
         return chatroomDetailList;
     }
 

@@ -2,6 +2,7 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.domain.ChatroomDetail;
 import com.example.yonseitalk.domain.Message;
+import com.example.yonseitalk.repository.UserRepository;
 import com.example.yonseitalk.service.ChatService;
 import com.example.yonseitalk.view.chatroom.ChatroomView;
 import com.example.yonseitalk.view.chatroom.MessageListView;
@@ -19,6 +20,7 @@ import java.util.*;
 public class ChatroomController {
 
     private final ChatService chatService;
+    private final UserRepository userRepository;
 
     @PostMapping(value = "/{user_id}/chatrooms")
     public ResponseEntity<?> newChatroom(@PathVariable("user_id") String userId, @RequestBody Map<String, String> body){
@@ -38,7 +40,10 @@ public class ChatroomController {
         ChatroomView chatroomView = new ChatroomView();
         if(!chatroomDetails.isEmpty()){
             chatroomDetails.forEach(chatroomDetail -> {
-               chatroomView.addSingleChatroom(chatroomDetail, userId);
+                String opponentId = (chatroomDetail.getUser_1()==userId)? chatroomDetail.getUser_2() : chatroomDetail.getUser_1();
+                chatroomDetail.setUser_1(userRepository.findById(chatroomDetail.getUser_1()).get().getName());
+                chatroomDetail.setUser_2(userRepository.findById(chatroomDetail.getUser_2()).get().getName());
+               chatroomView.addSingleChatroom(chatroomDetail, userRepository.findById(userId).get().getName(), opponentId);
             });
         }
         chatroomView.setSuccess(true);

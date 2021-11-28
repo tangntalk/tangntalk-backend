@@ -19,9 +19,12 @@ public class DBChatroomDetailRepository implements ChatroomDetailRepository{
 
     @Override
     public List<ChatroomDetail> findChatroomListbyUser(String user_id) {
-        List<ChatroomDetail> result = jdbcTemplate.query("select chatroom.chatroom_id, user_1, user_2, sender_id, content, send_time, rendezvous_flag, rendezvous_location, rendezvous_time" +
-                " from chatroom left join message m on chatroom.last_message_id = m.message_id " +
-                "and (user_1 = ? or user_2 = ?) order by send_time desc ", chatroomDetailRowMapper(), user_id, user_id);
+        List<ChatroomDetail> result = jdbcTemplate.query("select chatroom.chatroom_id, user_1, user_2, sender_id, content, send_time, rendezvous_flag, rendezvous_location, rendezvous_time, connection_status\n" +
+                "from (select * from chatroom, yt_user where (user_1=? or user_2 = ?) and\n" +
+                "((user_1 != ? and user_1= user_id) or\n" +
+                "(user_2 != ? and user_2 = user_id))) as chatroom\n" +
+                "left join message m on chatroom.last_message_id = m.message_id\n" +
+                "order by send_time desc;", chatroomDetailRowMapper(), user_id, user_id, user_id, user_id);
         return result;
     }
 
@@ -34,7 +37,7 @@ public class DBChatroomDetailRepository implements ChatroomDetailRepository{
                 chatroom.setUser_1(rs.getString("user_1"));
                 chatroom.setUser_2(rs.getString("user_2"));
 //                chatroom.setLast_message_id(rs.getLong("last_message_id"));
-
+                chatroom.setConnection_status(rs.getBoolean("connection_status"));
                 chatroom.setSender_id(rs.getString("sender_id"));
                 chatroom.setContent(rs.getString("content"));
                 chatroom.setSend_time(rs.getTimestamp("send_time"));

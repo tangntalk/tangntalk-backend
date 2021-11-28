@@ -20,4 +20,5 @@ public class ChatroomDetail {
     private Boolean rendezvous_flag;
     private String rendezvous_location;
     private Timestamp rendezvous_time;
+    private Boolean connection_status;
 }

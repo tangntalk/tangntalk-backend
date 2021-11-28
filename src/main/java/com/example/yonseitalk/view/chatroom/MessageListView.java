@@ -24,7 +24,7 @@ public class MessageListView extends DefaultResponse {
                 .sender_id(message.getSender_id())
                 .content(message.getContent())
                 .send_time(String.valueOf(message.getSend_time()))
-                .read_time((message.getRead_time() == null) ? null : String.valueOf(message.getRead_time()))
+                .read_time((message.getRead_time() == null) ? "읽지 않음" : "읽음")
                 .rendezvous_flag(message.getRendezvous_flag())
                 .rendezvous_location(message.getRendezvous_location())
                 .rendezvous_time((message.getRendezvous_time() == null) ? null : String.valueOf(message.getRendezvous_time()))
