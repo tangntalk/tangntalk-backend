@@ -4,9 +4,12 @@ import com.example.yonseitalk.domain.LoginService;
 import com.example.yonseitalk.domain.LoginFormat;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.DBUserRepository;
+import com.example.yonseitalk.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Slf4j
@@ -28,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 public class LoginController {
     private final LoginService loginService;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/")
     @ResponseBody
@@ -44,7 +50,9 @@ public class LoginController {
         }
     }
     @PostMapping("/login")
-    public void login(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> login(HttpServletRequest request) throws IOException {
+
+        Map<String, Object> response = new HashMap<>();
 
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
@@ -55,19 +63,18 @@ public class LoginController {
         User loginUser=loginService.login(loginFormat.getUser_id(),loginFormat.getPassword());
 
         if(loginUser==null){
-            response.sendError(401);
-            return;
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
         log.info("loginFormat:{}",loginFormat);
         //status change True
         loginService.updateConnectionTrue(loginUser);
 
 
-        HttpSession session = request.getSession();
-        //세션에 로그인 회원 정보 보관
-        session.setAttribute("loginUser", loginUser);
+        String token="";
+        token = jwtUtil.generateToken(loginUser);
+        response.put("jwt",token);
 
-        response.setStatus(200);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/logout")
