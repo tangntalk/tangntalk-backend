@@ -21,7 +21,7 @@ public class DBChatroomDetailRepository implements ChatroomDetailRepository{
     public List<ChatroomDetail> findChatroomListbyUser(String user_id) {
         List<ChatroomDetail> result = jdbcTemplate.query("select chatroom.chatroom_id, user_1, user_2, sender_id, content, send_time, rendezvous_flag, rendezvous_location, rendezvous_time, connection_status\n" +
                 "from (select * from chatroom, yt_user where (user_1=? or user_2 = ?) and\n" +
-                "((user_1 != ? and user_1= user_id) or\n" +
+                "((user_1 != ? and user_1 = user_id) or\n" +
                 "(user_2 != ? and user_2 = user_id))) as chatroom\n" +
                 "left join message m on chatroom.last_message_id = m.message_id\n" +
                 "order by send_time desc;", chatroomDetailRowMapper(), user_id, user_id, user_id, user_id);

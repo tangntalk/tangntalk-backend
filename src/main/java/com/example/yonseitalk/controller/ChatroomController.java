@@ -40,7 +40,7 @@ public class ChatroomController {
         ChatroomView chatroomView = new ChatroomView();
         if(!chatroomDetails.isEmpty()){
             chatroomDetails.forEach(chatroomDetail -> {
-                String opponentId = (chatroomDetail.getUser_1()==userId)? chatroomDetail.getUser_2() : chatroomDetail.getUser_1();
+                String opponentId = (chatroomDetail.getUser_1().equals(userId))? chatroomDetail.getUser_2() : chatroomDetail.getUser_1();
                 chatroomDetail.setUser_1(userRepository.findById(chatroomDetail.getUser_1()).get().getName());
                 chatroomDetail.setUser_2(userRepository.findById(chatroomDetail.getUser_2()).get().getName());
                chatroomView.addSingleChatroom(chatroomDetail, userRepository.findById(userId).get().getName(), opponentId);
@@ -57,7 +57,6 @@ public class ChatroomController {
         if(!messageList.isEmpty()) {
             for(Message m: messageList)
                 messageListView.addSingleMessage(m);
-
         }
         messageListView.setSuccess(true);
         return messageListView;
