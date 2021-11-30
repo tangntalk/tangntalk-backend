@@ -22,6 +22,11 @@ public class ChatServiceImpl implements ChatService{
 
 
     @Override
+    public Long getMessageCount(Long chatroom_id){
+        if(chatroom_id<0) return 0L;
+        return messageRepository.countMessages(chatroom_id);
+    }
+    @Override
     public Long addChatroom(String user_1_id, String user_2_id) {
         Chatroom chatroom = new Chatroom();
 
@@ -40,8 +45,8 @@ public class ChatServiceImpl implements ChatService{
         Optional<User> user = userRepository.findById(user_id);
         if(!user.isPresent())
             return new ArrayList<>();
-
         List<ChatroomDetail> chatroomDetailList = chatroomDetailRepository.findChatroomListbyUser(user_id);
+        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail,user.get())));
         return chatroomDetailList;
     }
 

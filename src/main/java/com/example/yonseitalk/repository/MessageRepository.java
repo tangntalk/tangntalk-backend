@@ -17,4 +17,5 @@ public interface MessageRepository {
 
     int updateReadTime(Long id, Timestamp timestamp);
 
+    Long countMessages(Long chatroom_id);
 }

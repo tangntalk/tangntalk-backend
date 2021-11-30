@@ -68,6 +68,11 @@ public class DBMessageRepository implements MessageRepository{
     }
 
     @Override
+    public Long countMessages(Long chatroom_id){
+        return jdbcTemplate.queryForObject("select count(*) from message where chatroom_id = ?", Long.class,  chatroom_id);
+    }
+
+    @Override
     public int updateReadTime(Long id,Timestamp timestamp) {
         return jdbcTemplate.update("update message set read_time = ? where message_id = ?",timestamp,id);
     }

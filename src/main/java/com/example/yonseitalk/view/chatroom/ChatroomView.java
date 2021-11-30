@@ -21,7 +21,7 @@ public class ChatroomView extends DefaultResponse{
     public void addSingleChatroom(ChatroomDetail chatroomDetail, String userName, String opponentId){
         chatrooms.add(SingleChatroom.builder()
                 .chatroom_id(chatroomDetail.getChatroom_id())
-                .last_message(AES128.getAES128_Decode(chatroomDetail.getContent()))
+                .last_message(chatroomDetail.getContent())
                 .last_send_time(String.valueOf(chatroomDetail.getSend_time()))
                 .last_message_from(chatroomDetail.getSender_id())
                 .opponent_name((String.valueOf(chatroomDetail.getUser_1()).equals(userName)) ? chatroomDetail.getUser_2() : chatroomDetail.getUser_1())
