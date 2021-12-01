@@ -73,13 +73,15 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
     message_id bigint NOT NULL AUTO_INCREMENT UNIQUE,
     chatroom_id bigint NOT NULL,
     sender_id varchar(255) NOT NULL,
-    receiver_id varchar(255) NOT NULL,
+#     receiver_id varchar(255) NOT NULL,
     content varchar(255) NOT NULL,
-    send_time timestamp NOT NULL,
-    read_time timestamp,
+#     not null이라고 하면 current_timestamp constraint를 추가하는데,
+#     이러면 update시 current_timestamp를 null로 계속 준다. 따라서 null value를 허용하도록 바꿈
+    send_time timestamp NULL,
+    read_time timestamp NULL ,
     rendezvous_flag boolean NOT NULL,
     rendezvous_location varchar(255),
-    rendezvous_time timestamp
+    rendezvous_time timestamp NULL
 #     rendezvous_time_flag boolean,
 #    rendezvous_time_location_flag boolean NOT NULL
 );
@@ -93,8 +95,8 @@ ALTER TABLE yonseitalk.message
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+# ALTER TABLE yonseitalk.message
+#     ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
 
 ALTER TABLE yonseitalk.message
     ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id);

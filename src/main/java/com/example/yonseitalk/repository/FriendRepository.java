@@ -16,5 +16,7 @@ public interface FriendRepository {
 
     int delete(Friend friend);
 
+    boolean isFriend(String userId, String friendId);
+
 
 }

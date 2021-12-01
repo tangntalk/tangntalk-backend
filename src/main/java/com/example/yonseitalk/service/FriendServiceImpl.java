@@ -40,4 +40,9 @@ public class FriendServiceImpl implements FriendService{
         friend.setFriend_id(friendId);
         return friendRepository.delete(friend);
     }
+
+    @Override
+    public boolean isFriend(String userId, String friendId){
+        return friendRepository.isFriend(userId, friendId);
+    }
 }
