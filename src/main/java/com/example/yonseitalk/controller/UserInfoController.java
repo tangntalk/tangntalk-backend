@@ -85,8 +85,8 @@ public class UserInfoController {
     }
 
     //nearby
-    @GetMapping(value = "/{user_id}/nearby")
-    public ResponseEntity<?> nearbyUser(@PathVariable("user_id") String userId){
+    @GetMapping(value = "/{user_id}/nearby/{target_location}")
+    public ResponseEntity<?> nearbyUser(@PathVariable("user_id") String userId,@PathVariable("target_location") String target_location){
 
         Map<String, Object> response = new HashMap<>();
 
@@ -107,7 +107,7 @@ public class UserInfoController {
         ArrayList<nearbyUser> offlineUser =new ArrayList<>();
 
         //ArrayList<User>
-        List<User> nearbyPeople= userRepository.findByLocation(location);
+        List<User> nearbyPeople= userRepository.findByLocation(target_location);
 
         for(User user2: nearbyPeople){
             if(user2.getUser_id().equals(user.get().getUser_id())){
