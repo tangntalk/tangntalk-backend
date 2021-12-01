@@ -6,8 +6,9 @@ import com.example.yonseitalk.domain.SearchUser;
 import com.example.yonseitalk.service.FriendService;
 import com.example.yonseitalk.service.SearchService;
 import com.example.yonseitalk.view.DefaultResponse;
-import com.example.yonseitalk.view.FriendListView;
-import com.example.yonseitalk.view.SearchFriendView;
+import com.example.yonseitalk.view.friend.FriendCheckView;
+import com.example.yonseitalk.view.friend.FriendListView;
+import com.example.yonseitalk.view.friend.SearchFriendView;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,7 +64,15 @@ public class FriendController {
         return defaultResponse;
     }
 
+    @GetMapping("/{user_id}/friends/{friend_id}")
+    public DefaultResponse isFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
+        boolean isFriend = friendService.isFriend(userId,friendId);
+        FriendCheckView friendCheckView = new FriendCheckView();
+        friendCheckView.setSuccess(true);
+        friendCheckView.set_friend(isFriend);
 
+        return friendCheckView;
+    }
 
 }
 

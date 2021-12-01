@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DBFriendRepository implements FriendRepository{
@@ -57,6 +58,12 @@ public class DBFriendRepository implements FriendRepository{
                 "where user_id = ? and friend_id = ?",friend.getUser_id(),friend.getFriend_id());
         return status;
 
+    }
+
+    @Override
+    public boolean isFriend(String userId, String friendId){
+        List<Friend> result = jdbcTemplate.query("select * from friends where user_id = ? and friend_id = ?", friendRowMapper(), userId, friendId);
+        return !result.isEmpty();
     }
 
     private RowMapper<Friend> friendRowMapper(){

@@ -1,7 +1,8 @@
-package com.example.yonseitalk.view;
+package com.example.yonseitalk.view.friend;
 
 
 import com.example.yonseitalk.domain.FriendUser;
+import com.example.yonseitalk.view.DefaultResponse;
 import lombok.Getter;
 import lombok.Setter;
 

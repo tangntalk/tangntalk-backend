@@ -11,4 +11,5 @@ public interface FriendService {
     List<FriendUser> FindFriends(String userId);
     int addFriend(String userId, String friendId);
     int delFriend(String userId, String friendId);
+    boolean isFriend(String userId, String friendId);
 }
