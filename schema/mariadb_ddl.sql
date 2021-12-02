@@ -13,7 +13,7 @@ ALTER TABLE yonseitalk.location
 INSERT IGNORE INTO yonseitalk.location VALUES ('공학관');
 INSERT IGNORE INTO yonseitalk.location VALUES ('백양관');
 INSERT IGNORE INTO yonseitalk.location VALUES ('학생회관');
-INSERT IGNORE INTO yonseitalk.location VALUES ('언더우드관');
+INSERT IGNORE INTO yonseitalk.location VALUES ('신촌역');
 
 
 
