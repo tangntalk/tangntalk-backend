@@ -5,4 +5,4 @@ spring:
     password: final02
 
 server:
-  port: 8021
+  port: 8201
