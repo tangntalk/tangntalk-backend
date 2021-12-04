@@ -1,39 +1,21 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/step2
-PROJECT_NAME=freelec-springboot2-webservice
+PROJECT_REPOSITORY=/home/team02/2.yhmok/yonseitalk/backend
+PROJECT_NAME=yonseitalk-0.0.1-SNAPSHOT.jar
+CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
 
-echo "> Build 파일 복사"
-
-cp $REPOSITORY/zip/*.jar $REPOSITORY/
-
-echo "> 현재 구동중인 애플리케이션 pid 확인"
-
-CURRENT_PID=$(pgrep -fl freelec-springboot2-webservice | grep jar | awk '{print $1}')
-
-echo "현재 구동중인 어플리케이션 pid: $CURRENT_PID"
-
-if [ -z "$CURRENT_PID" ]; then
-    echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
-else
-    echo "> kill -15 $CURRENT_PID"
-    kill -15 $CURRENT_PID
-    sleep 5
+if [ ! -z "$CURRENT_PID" ]; then
+        echo "현재 실행중인 인스턴스가 있습니다. 중단 후 재실행합니다."
+        kill -15 $CURRENT_PID
+        sleep 3
 fi
 
-echo "> 새 어플리케이션 배포"
+echo "CURRENT PID: "$CURRENT_PID
+echo "> 빌드 중"
+cd $PROJECT_REPOSITORY
+$PROJECT_REPOSITORY/mvnw clean package -DskipTests
 
-JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
-
-echo "> JAR Name: $JAR_NAME"
-
-echo "> $JAR_NAME 에 실행권한 추가"
-
-chmod +x $JAR_NAME
-
-echo "> $JAR_NAME 실행"
-
-nohup java -jar \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-    -Dspring.profiles.active=real \
-    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+nohup java -jar $PROJECT_REPOSITORY/target/yonseitalk-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
+CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
+echo "> 정상적으로 배포되었습니다."
+echo "CURRENT PID: "${CURRENT_PID}
