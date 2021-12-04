@@ -46,7 +46,7 @@ public class DBUserRepository implements UserRepository {
         String userPwd= AES128.getAES128_Encode(user.getPassword());
         user.setPassword(userPwd);
 
-        String INSERT_QUERY = "insert into yonseitalk.yt_user (user_id, name,password,status_message,type,connection_status,user_location) values (?,?,?,?,?,?,?)";
+        String INSERT_QUERY = "insert into yt_user (user_id, name,password,status_message,type,connection_status,user_location) values (?,?,?,?,?,?,?)";
         return jdbcTemplate.update(INSERT_QUERY, user.getUser_id(),user.getName(),user.getPassword(),user.getStatus_message(),user.getType(),user.getConnection_status(),user.getUser_location());
 //        //암호화
 //        String userPwd= AES128.getAES128_Encode(user.getPassword());
