@@ -14,7 +14,7 @@ echo "CURRENT PID: "$CURRENT_PID
 echo "> 빌드 중"
 
 cd $PROJECT_REPOSITORY
-mvn -N io.takari:maven:wrapper
+$PROJECT_REPOSITORY/mvnw -N io.takari:maven:wrapper
 $PROJECT_REPOSITORY/mvnw clean package -DskipTests
 
 nohup java -jar $PROJECT_REPOSITORY/target/yonseitalk-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &
