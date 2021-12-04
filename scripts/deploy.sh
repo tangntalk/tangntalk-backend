@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_REPOSITORY=/home/team02/2.yhmok/yonseitalk/backend
+PROJECT_REPOSITORY=/home/team02/2.yonseitalk-deploy/backend
 PROJECT_NAME=yonseitalk-0.0.1-SNAPSHOT.jar
 CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
 
