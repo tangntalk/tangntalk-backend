@@ -77,15 +77,13 @@ public class LoginController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
-    public void logout(HttpServletRequest request,HttpServletResponse response) throws IOException{
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            Object user = session.getAttribute("loginUser");
-            User loginUser= (User)user;
-            loginService.updateConnectionFalse(loginUser);
-            session.invalidate();
-        }
+    @PostMapping("/{user_id}/logout")
+    public void logout(@PathVariable("user_id") String userId,HttpServletRequest request,HttpServletResponse response) throws IOException{
+
+        User logoutUser = new User();
+        logoutUser.setUser_id(userId);
+        loginService.updateConnectionFalse(logoutUser);
+
         response.setStatus(200);
 
     }
