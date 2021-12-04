@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    urljdbc: mariadb://localhost:3306/database02
+    username: team02
+    password: final02
+
+server:
+  port: 8021

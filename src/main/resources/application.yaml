@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name:
+      org.mariadb.jdbc.Driver
+  profiles:
+    active:
+      develop
+  jackson:
+    property-naming-strategy: SNAKE_CASE
