@@ -53,7 +53,7 @@ public class DBChatroomRepository implements ChatroomRepository{
     @Override
     public Chatroom save(Chatroom chatroom){
 
-        String INSERT_QUERY = "insert into yonseitalk.chatroom (user_1,user_2) values(?,?)";
+        String INSERT_QUERY = "insert into chatroom (user_1,user_2) values(?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         PreparedStatementCreator preparedStatementCreator = (con) -> {
             PreparedStatement preparedStatement =con.prepareStatement(INSERT_QUERY, new String[]{"id"});

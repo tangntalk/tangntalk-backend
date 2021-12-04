@@ -42,7 +42,7 @@ public class DBFriendRepository implements FriendRepository{
     public int save(Friend friend){
 
 
-        String INSERT_QUERY = "insert into yonseitalk.friends (user_id,friend_id) values (?,?)";
+        String INSERT_QUERY = "insert into friends (user_id,friend_id) values (?,?)";
         return jdbcTemplate.update(INSERT_QUERY, friend.getUser_id(),friend.getFriend_id());
 //
 

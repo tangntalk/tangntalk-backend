@@ -36,7 +36,7 @@ public class DBMessageRepository implements MessageRepository{
     public Message save(Message message) {
 
 
-        String INSERT_QUERY = "insert into yonseitalk.message (chatroom_id,sender_id,content,send_time,rendezvous_flag,rendezvous_location,rendezvous_time) values(?,?,?,?,?,?,?)";
+        String INSERT_QUERY = "insert into message (chatroom_id,sender_id,content,send_time,rendezvous_flag,rendezvous_location,rendezvous_time) values(?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         PreparedStatementCreator preparedStatementCreator = (con) -> {
             PreparedStatement preparedStatement =con.prepareStatement(INSERT_QUERY, new String[]{"id"});
