@@ -4,6 +4,5 @@ spring:
       org.mariadb.jdbc.Driver
   profiles:
     active: develop
-#    active: deploy
   jackson:
     property-naming-strategy: SNAKE_CASE
