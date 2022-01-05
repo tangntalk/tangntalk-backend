@@ -30,6 +30,9 @@ public class User {
     @Column(nullable=false, name = "password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     @Column(name = "status_message")
     private String status_message;
 
