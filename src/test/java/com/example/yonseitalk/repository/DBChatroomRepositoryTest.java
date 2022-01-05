@@ -21,7 +21,7 @@ public class DBChatroomRepositoryTest {
     private DBChatroomRepository dbChatroomRepository;
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private DBMessageRepository dbMessageRepository;
@@ -38,7 +38,7 @@ public class DBChatroomRepositoryTest {
         user1.setType("학생");
         user1.setUser_location("공학관");
         user1.setConnection_status(false);
-        dbUserRepository.save(user1);
+        userRepository.save(user1);
 
         User user2 = new User();
         user2.setUser_id("flaxinger2");
@@ -48,7 +48,7 @@ public class DBChatroomRepositoryTest {
         user2.setType("학생");
         user2.setUser_location("공학관");
         user2.setConnection_status(false);
-        dbUserRepository.save(user2);
+        userRepository.save(user2);
 
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroom_id(null);
@@ -77,7 +77,7 @@ public class DBChatroomRepositoryTest {
         user1.setType("학생");
         user1.setUser_location("공학관");
         user1.setConnection_status(false);
-        dbUserRepository.save(user1);
+        userRepository.save(user1);
 
         User user2 = new User();
         user2.setUser_id("flaxinger4");
@@ -87,7 +87,7 @@ public class DBChatroomRepositoryTest {
         user2.setType("학생");
         user2.setUser_location("공학관");
         user2.setConnection_status(false);
-        dbUserRepository.save(user2);
+        userRepository.save(user2);
 
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroom_id(null);

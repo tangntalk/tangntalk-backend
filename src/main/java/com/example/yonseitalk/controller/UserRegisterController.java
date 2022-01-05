@@ -1,5 +1,6 @@
 package com.example.yonseitalk.controller;
 
+import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class UserRegisterController {
 
     @Autowired
-    private DBUserRepository userRepository;
+    private UserRepository userRepository;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("")
@@ -42,7 +43,7 @@ public class UserRegisterController {
         user.setConnection_status(false);
         user.setStatus_message("");
         user.setUser_location("공학관");
-
+        user.setPassword(AES128.getAES128_Encode(user.getPassword()));
         log.info("User={}",user);
 
 

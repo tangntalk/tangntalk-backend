@@ -3,7 +3,6 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.domain.LoginService;
 import com.example.yonseitalk.domain.LoginFormat;
 import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.repository.DBUserRepository;
 import com.example.yonseitalk.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

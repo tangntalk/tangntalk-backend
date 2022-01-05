@@ -23,7 +23,7 @@ class DBFriendRepositoryTest {
     private DBFriendRepository dbFriendRepository;
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
 
     @Test
@@ -121,9 +121,9 @@ class DBFriendRepositoryTest {
         friend3.setUser_id("pp");
 
         //when
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
-        dbUserRepository.save(user3);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
 
 
         dbFriendRepository.save(friend1);

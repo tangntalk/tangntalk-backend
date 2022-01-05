@@ -1,7 +1,7 @@
 package com.example.yonseitalk;
 
 import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.repository.DBUserRepository;
+import com.example.yonseitalk.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class YonseitalkApplicationTests {
 
 	@Autowired
-	private DBUserRepository dbUserRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private MockMvc mvc;
@@ -52,7 +52,7 @@ class YonseitalkApplicationTests {
 		user1.setUser_location("공학관");
 		user1.setConnection_status(true);
 
-		dbUserRepository.save(user1);
+		userRepository.save(user1);
 	}
 	@Test
 	@Transactional

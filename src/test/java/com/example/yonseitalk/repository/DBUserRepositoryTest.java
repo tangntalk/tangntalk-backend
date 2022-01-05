@@ -19,7 +19,7 @@ import java.util.Optional;
 class DBUserRepositoryTest {
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setup(){
@@ -34,14 +34,14 @@ class DBUserRepositoryTest {
         user1.setConnection_status(true);
 
         //when
-        dbUserRepository.save(user1);
+        userRepository.save(user1);
     }
 
     @Transactional
     @Test
     void findById() {
         //then
-        User findUser=dbUserRepository.findById("ji1").get();
+        User findUser=userRepository.findById("ji1").get();
         Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
     }
 
@@ -50,7 +50,7 @@ class DBUserRepositoryTest {
     void save() {
 
         //then
-        User findUser=dbUserRepository.findById("ji1").get();
+        User findUser=userRepository.findById("ji1").get();
 
         Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
     }
@@ -59,10 +59,10 @@ class DBUserRepositoryTest {
     @Test
     void delete() {
 
-        dbUserRepository.delete("ji1");
+        userRepository.deleteById("ji1");
 
         //then
-        User findUser=dbUserRepository.findById("ji1").orElse(new User());
+        User findUser=userRepository.findById("ji1").orElse(new User());
 
         Assertions.assertThat(findUser.getUser_id()).isNull();
     }
@@ -73,10 +73,10 @@ class DBUserRepositoryTest {
     void updateStatusMessage() {
 
         String newMsg = "happy";
-        dbUserRepository.updateStatusMessage("ji1",newMsg);
+        userRepository.updateStatusMessage("ji1",newMsg);
 
         //then
-        User findUser=dbUserRepository.findById("ji1").get();
+        User findUser=userRepository.findById("ji1").get();
         Assertions.assertThat(findUser.getStatus_message()).isEqualTo(newMsg);
 
     }
@@ -86,10 +86,10 @@ class DBUserRepositoryTest {
     void updateUserLocation() {
 
         String newLocation = "학생회관";
-        dbUserRepository.updateUserLocation("ji1",newLocation);
+        userRepository.updateUserLocation("ji1",newLocation);
 
         //then
-        User findUser=dbUserRepository.findById("ji1").get();
+        User findUser=userRepository.findById("ji1").get();
         Assertions.assertThat(findUser.getUser_location()).isEqualTo(newLocation);
 
     }
@@ -98,10 +98,10 @@ class DBUserRepositoryTest {
     @Test
     void updateUserConnectionStatus() {
         Boolean flag= false;
-        dbUserRepository.updateUserConnectionStatus("ji1",flag);
+        userRepository.updateUserConnectionStatus("ji1",flag);
 
         //then
-        User findUser=dbUserRepository.findById("ji1").get();
+        User findUser=userRepository.findById("ji1").get();
         Assertions.assertThat(findUser.getConnection_status()).isEqualTo(flag);
 
     }

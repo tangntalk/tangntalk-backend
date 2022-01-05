@@ -4,7 +4,7 @@ import com.example.yonseitalk.domain.Friend;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.DBFriendRepository;
 import com.example.yonseitalk.repository.DBFriendUserRepository;
-import com.example.yonseitalk.repository.DBUserRepository;
+import com.example.yonseitalk.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class FriendControllerTest {
     private DBFriendRepository dbFriendRepository;
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
 
     @Test
@@ -77,9 +77,9 @@ class FriendControllerTest {
         friend2.setFriend_id("pp");
         friend2.setUser_id("tt");
 
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
-        dbUserRepository.save(user3);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
 
         dbFriendRepository.save(friend1);
         dbFriendRepository.save(friend2);
@@ -158,10 +158,10 @@ class FriendControllerTest {
         friend6.setUser_id("ccdd");
         friend6.setFriend_id("ddee");
 
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
-        dbUserRepository.save(user3);
-        dbUserRepository.save(user4);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
 
         dbFriendRepository.save(friend1);
         dbFriendRepository.save(friend2);
@@ -197,8 +197,8 @@ class FriendControllerTest {
         user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
+        userRepository.save(user1);
+        userRepository.save(user2);
 
         //when
         ResultActions resultActions = this.mockMvc.perform(post("/users/"+user1.getUser_id() +"/friends")
@@ -232,8 +232,8 @@ class FriendControllerTest {
         user2.setUser_location("공학관");
         user2.setConnection_status(true);
 
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
+        userRepository.save(user1);
+        userRepository.save(user2);
 
         Friend friend1=new Friend();
         friend1.setUser_id("aabb");

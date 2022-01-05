@@ -19,7 +19,7 @@ class DBSearchUserRepositoryTest {
     private DBFriendRepository dbFriendRepository;
 
     @Autowired
-    private DBUserRepository dbUserRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private DBSearchUserRepository dbSearchUserRepository;
@@ -94,10 +94,10 @@ class DBSearchUserRepositoryTest {
 
 
         //when
-        dbUserRepository.save(user1);
-        dbUserRepository.save(user2);
-        dbUserRepository.save(user3);
-        dbUserRepository.save(user4);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
 
 
 
