@@ -1,6 +1,6 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.domain.LoginService;
+import com.example.yonseitalk.service.LoginService;
 import com.example.yonseitalk.domain.LoginFormat;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.util.JwtUtil;
@@ -14,7 +14,6 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

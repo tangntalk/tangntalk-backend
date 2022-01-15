@@ -3,11 +3,16 @@ package com.example.yonseitalk.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 @Getter
@@ -15,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @Table(name = "yt_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(nullable=false, name = "user_id")
@@ -56,5 +61,40 @@ public class User {
                 ", user_location='" + user_location + '\'' +
                 ", connection_status=" + connection_status +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+        for(String role : role.split(",")){
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return user_id;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

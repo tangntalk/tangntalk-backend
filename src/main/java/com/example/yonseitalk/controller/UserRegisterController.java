@@ -1,6 +1,7 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.AES128;
+import com.example.yonseitalk.domain.Role;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,7 @@ public class UserRegisterController {
         user.setStatus_message("");
         user.setUser_location("공학관");
         user.setPassword(AES128.getAES128_Encode(user.getPassword()));
+        user.setRole(Role.USER.getValue());
         log.info("User={}",user);
 
 
