@@ -1,6 +1,7 @@
-package com.example.yonseitalk.domain;
+package com.example.yonseitalk.service;
 
 import com.example.yonseitalk.AES128;
+import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

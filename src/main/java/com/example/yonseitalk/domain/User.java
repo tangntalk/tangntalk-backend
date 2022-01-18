@@ -3,6 +3,7 @@ package com.example.yonseitalk.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @Table(name = "yt_user")
+@ToString
 public class User {
 
     @Id
@@ -45,16 +47,4 @@ public class User {
     @Column(nullable=false, name = "connection_status")
     private Boolean connection_status;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", password='" + password + '\'' +
-                ", status_message='" + status_message + '\'' +
-                ", type='" + type + '\'' +
-                ", user_location='" + user_location + '\'' +
-                ", connection_status=" + connection_status +
-                '}';
-    }
 }
