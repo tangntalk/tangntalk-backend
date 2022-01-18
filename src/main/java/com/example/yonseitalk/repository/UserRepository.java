@@ -16,16 +16,4 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("SELECT u FROM User u WHERE u.user_location = ?1")
     List<User> findByLocation(String location);
 
-    @Modifying
-    @Query("UPDATE User u SET u.status_message = ?2 WHERE u.user_id = ?1")
-    int updateStatusMessage(String id,String msg);
-
-    @Modifying
-    @Query("UPDATE User u SET u.user_location = ?2 WHERE u.user_id = ?1")
-    int updateUserLocation(String id,String location);
-
-    @Modifying
-    @Query("UPDATE User u SET u.connection_status = ?2 WHERE u.user_id = ?1")
-    int updateUserConnectionStatus(String id, Boolean flag);
-
 }

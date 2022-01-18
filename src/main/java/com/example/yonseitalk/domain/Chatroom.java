@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
-@Entity
 public class Chatroom {
     private Long chatroom_id;
     private String user_1;

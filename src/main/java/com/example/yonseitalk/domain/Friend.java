@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @ToString
-@Entity
 public class Friend {
     private String user_id;
     private String friend_id;
