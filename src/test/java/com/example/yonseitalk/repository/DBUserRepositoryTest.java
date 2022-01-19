@@ -1,6 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.domain.User;
+import com.example.yonseitalk.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import java.util.Optional;
 class DBUserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @BeforeEach
     void setup(){
@@ -34,14 +35,14 @@ class DBUserRepositoryTest {
         user1.setConnection_status(true);
 
         //when
-        userRepository.save(user1);
+        userService.save(user1);
     }
 
     @Transactional
     @Test
     void findById() {
         //then
-        User findUser=userRepository.findById("ji1").get();
+        User findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
     }
 
@@ -50,7 +51,7 @@ class DBUserRepositoryTest {
     void save() {
 
         //then
-        User findUser=userRepository.findById("ji1").get();
+        User findUser=userService.findById("ji1").get();
 
         Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
     }
@@ -59,10 +60,10 @@ class DBUserRepositoryTest {
     @Test
     void delete() {
 
-        userRepository.deleteById("ji1");
+        userService.deleteById("ji1");
 
         //then
-        User findUser=userRepository.findById("ji1").orElse(new User());
+        User findUser=userService.findById("ji1").orElse(new User());
 
         Assertions.assertThat(findUser.getUser_id()).isNull();
     }
@@ -73,10 +74,10 @@ class DBUserRepositoryTest {
     void updateStatusMessage() {
 
         String newMsg = "happy";
-        userRepository.updateStatusMessage("ji1",newMsg);
+        userService.updateStatusMessage("ji1",newMsg);
 
         //then
-        User findUser=userRepository.findById("ji1").get();
+        User findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getStatus_message()).isEqualTo(newMsg);
 
     }
@@ -86,10 +87,10 @@ class DBUserRepositoryTest {
     void updateUserLocation() {
 
         String newLocation = "학생회관";
-        userRepository.updateUserLocation("ji1",newLocation);
+        userService.updateUserLocation("ji1",newLocation);
 
         //then
-        User findUser=userRepository.findById("ji1").get();
+        User findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getUser_location()).isEqualTo(newLocation);
 
     }
@@ -98,10 +99,10 @@ class DBUserRepositoryTest {
     @Test
     void updateUserConnectionStatus() {
         Boolean flag= false;
-        userRepository.updateUserConnectionStatus("ji1",flag);
+        userService.updateUserConnectionStatus("ji1",flag);
 
         //then
-        User findUser=userRepository.findById("ji1").get();
+        User findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getConnection_status()).isEqualTo(flag);
 
     }

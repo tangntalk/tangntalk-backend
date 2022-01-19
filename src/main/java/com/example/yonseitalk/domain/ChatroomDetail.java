@@ -2,11 +2,14 @@ package com.example.yonseitalk.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.Entity;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@ToString
 public class ChatroomDetail {
     private Long chatroom_id;
     private String user_1;

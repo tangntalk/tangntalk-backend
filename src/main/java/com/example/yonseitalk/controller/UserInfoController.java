@@ -6,6 +6,7 @@ import com.example.yonseitalk.domain.nearbyUser;
 import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.repository.ChatroomRepository;
 import com.example.yonseitalk.repository.UserRepository;
+import com.example.yonseitalk.service.UserService;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ import java.util.*;
 
 public class UserInfoController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ChatroomRepository chatroomRepository;
 
     @RequestMapping(value = "/{user_id}", method = RequestMethod.GET)
     public ResponseEntity<?> userInfo(@PathVariable("user_id") String userId){
 
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> user = userService.findById(userId);
         Map<String, String> userInfo = new HashMap<>();
         Map<String, Object> response = new HashMap<>();
 
@@ -48,7 +49,7 @@ public class UserInfoController {
     @PostMapping(value = "/{user_id}/location")
     public ResponseEntity<?> updateLocation(@PathVariable("user_id") String userId, @RequestBody Map<String, String> location){
 
-        int status = userRepository.updateUserLocation(userId, location.get("location_name"));
+        int status = userService.updateUserLocation(userId, location.get("location_name"));
 
         Map<String, Object> response = new HashMap<>();
         if(status > 0)
@@ -61,7 +62,7 @@ public class UserInfoController {
     @PostMapping(value = "/{user_id}/status")
     public ResponseEntity<?> updateMessage(@PathVariable("user_id") String userId, @RequestBody Map<String, String> statusMessage){
 
-        int status = userRepository.updateStatusMessage(userId, statusMessage.get("status_message"));
+        int status = userService.updateStatusMessage(userId, statusMessage.get("status_message"));
 
         Map<String, Object> response = new HashMap<>();
         if(status > 0)
@@ -74,7 +75,7 @@ public class UserInfoController {
     @DeleteMapping(value = "/{user_id}")
     public ResponseEntity<?> deleteUser(@PathVariable("user_id") String userId){
 
-        userRepository.deleteById(userId);
+        userService.deleteById(userId);
 
         Map<String, Object> response = new HashMap<>();
 //        if(status > 0)
@@ -90,7 +91,7 @@ public class UserInfoController {
 
         Map<String, Object> response = new HashMap<>();
 
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> user = userService.findById(userId);
 
 
         if(!user.isPresent()) {
@@ -107,7 +108,7 @@ public class UserInfoController {
         ArrayList<nearbyUser> offlineUser =new ArrayList<>();
 
         //ArrayList<User>
-        List<User> nearbyPeople= userRepository.findByLocation(target_location);
+        List<User> nearbyPeople= userService.findByLocation(target_location);
 
         for(User user2: nearbyPeople){
             if(user2.getUser_id().equals(user.get().getUser_id())){

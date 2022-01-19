@@ -3,11 +3,13 @@ package com.example.yonseitalk.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@ToString
 public class Message {
     private Long message_id;
     private Long chatroom_id;
