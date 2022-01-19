@@ -3,7 +3,10 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.domain.Role;
 import com.example.yonseitalk.domain.User;
+import com.example.yonseitalk.domain.user.UserRegisterRequest;
 import com.example.yonseitalk.repository.*;
+import com.example.yonseitalk.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StreamUtils;
@@ -20,13 +23,12 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/register")
 public class UserRegisterController {
-
-    @Autowired
-    private UserRepository userRepository;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("")
     public void enterRegister(){
@@ -34,34 +36,18 @@ public class UserRegisterController {
     }
 
     @PostMapping("")
-    public void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void register(@RequestBody UserRegisterRequest userRegisterRequest , HttpServletResponse response) throws IOException {
 
-        ServletInputStream inputStream = request.getInputStream();
-        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-
-        User user = objectMapper.readValue(messageBody, User.class);
-        // 여기에 추가적으로 디폴트 값들 채워 넣기
-        user.setConnection_status(false);
-        user.setStatus_message("");
-        user.setUser_location("공학관");
-        user.setPassword(AES128.getAES128_Encode(user.getPassword()));
-        user.setRole(Role.USER.getValue());
-        log.info("User={}",user);
-
-
-        Boolean isPresentUser= userRepository.findById(user.getUser_id()).isEmpty();
-
-        if(isPresentUser){
+        if(userRepository.findById(userRegisterRequest.getUser_id()).isEmpty()){
+            User user = userService.save(userRegisterRequest);
             log.info("User={}", user);
-            userRepository.save(user);
             //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
             response.setStatus(201);
-
         }
         else{
-            // status로 보내주기 401로 보내고 API명세에 반영해라.
-            response.sendError(401);
+            response.setStatus(401);
         }
 
     }
+
 }

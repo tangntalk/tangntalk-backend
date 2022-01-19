@@ -1,6 +1,9 @@
 package com.example.yonseitalk.service;
 
+import com.example.yonseitalk.AES128;
+import com.example.yonseitalk.domain.Role;
 import com.example.yonseitalk.domain.User;
+import com.example.yonseitalk.domain.user.UserRegisterRequest;
 import com.example.yonseitalk.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -19,6 +22,19 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void save(User user){
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User save(UserRegisterRequest userRegisterRequest) {
+        userRegisterRequest.setPassword(AES128.getAES128_Encode(userRegisterRequest.getPassword()));
+        User user = userRegisterRequest.toEntity();
+        user.setConnection_status(false);
+        user.setStatus_message("");
+        user.setUser_location("공학관");
+        user.setRole(Role.USER.getValue());
+        userRepository.save(user);
+        return user;
     }
 
     @Transactional

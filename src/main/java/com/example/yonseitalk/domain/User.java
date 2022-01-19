@@ -47,4 +47,10 @@ public class User {
     @Column(nullable = false, name = "connection_status")
     private Boolean connection_status;
 
+    public User(String user_id, String name, String password, String type) {
+        this.user_id = user_id;
+        this.name = name;
+        this.password = password;
+        this.type = type;
+    }
 }

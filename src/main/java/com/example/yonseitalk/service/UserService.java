@@ -1,6 +1,7 @@
 package com.example.yonseitalk.service;
 
 import com.example.yonseitalk.domain.User;
+import com.example.yonseitalk.domain.user.UserRegisterRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,8 @@ import java.util.Optional;
 public interface UserService {
 
     public void save(User user);
+
+    public User save(UserRegisterRequest userRegisterRequest);
 
     public Optional<User> findById(String id);
 
