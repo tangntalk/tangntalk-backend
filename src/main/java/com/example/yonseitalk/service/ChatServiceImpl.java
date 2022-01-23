@@ -72,8 +72,8 @@ public class ChatServiceImpl implements ChatService{
     public String transformContent(Message message, User user){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         message.setContent(AES128.getAES128_Decode(message.getContent()));
-        if(message.getRendezvous_flag() && !message.getSender_id().equals(user.getUser_id())) {
-            if (!message.getRendezvous_location().equals(user.getUser_location()) || currentTime.after(message.getRendezvous_time())) {
+        if(message.getRendezvous_flag() && !message.getSender_id().equals(user.getUserId())) {
+            if (!message.getRendezvous_location().equals(user.getUserLocation()) || currentTime.after(message.getRendezvous_time())) {
                 message.setContent("hidden message");
             }
         }
@@ -84,8 +84,8 @@ public class ChatServiceImpl implements ChatService{
     public String transformContent(ChatroomDetail chatroomDetail, User user){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         chatroomDetail.setContent(AES128.getAES128_Decode(chatroomDetail.getContent()));
-        if(chatroomDetail.getRendezvous_flag() && !chatroomDetail.getSender_id().equals(user.getUser_id())) {
-            if (!chatroomDetail.getRendezvous_location().equals(user.getUser_location()) || currentTime.after(chatroomDetail.getRendezvous_time())) {
+        if(chatroomDetail.getRendezvous_flag() && !chatroomDetail.getSender_id().equals(user.getUserId())) {
+            if (!chatroomDetail.getRendezvous_location().equals(user.getUserLocation()) || currentTime.after(chatroomDetail.getRendezvous_time())) {
                 chatroomDetail.setContent("hidden message");
             }
         }
@@ -108,7 +108,7 @@ public class ChatServiceImpl implements ChatService{
         if (!rendezvous_time.equals(-1L)){
             message.setRendezvous_flag(true);
             message.setRendezvous_time(new Timestamp(message.getSend_time().getTime() + (rendezvous_time * 60000L)));  // 60000 ms = 1 min
-            message.setRendezvous_location(user.get().getUser_location());
+            message.setRendezvous_location(user.get().getUserLocation());
         }
         else{
             message.setRendezvous_flag(false);

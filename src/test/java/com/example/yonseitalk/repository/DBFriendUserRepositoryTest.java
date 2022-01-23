@@ -33,32 +33,36 @@ class DBFriendUserRepositoryTest {
 
         //given
 
-        User user1= new User();
-        user1.setUser_id("tt");
-        user1.setName("jihoon");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("학생");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user1 = User.builder()
+                .userId("tt")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("nam");
-        user2.setName("jihoon");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("일반");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("nam")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("일반")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user3= new User();
-        user3.setUser_id("pp");
-        user3.setName("jihoon");
-        user3.setPassword("ddda");
-        user3.setStatus_message("hihi");
-        user3.setType("강사");
-        user3.setUser_location("공학관");
-        user3.setConnection_status(false);
+        User user3 = User.builder()
+                .userId("pp")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("강사")
+                .userLocation("공학관")
+                .connectionStatus(false)
+                .build();
+
 
         Friend friend1=new Friend();
         friend1.setFriend_id("nam");
@@ -79,7 +83,7 @@ class DBFriendUserRepositoryTest {
         dbFriendRepository.save(friend2);
 
         //then
-        List<FriendUser> friends = dbFriendUserRepository.findAll(user1.getUser_id());
+        List<FriendUser> friends = dbFriendUserRepository.findAll(user1.getUserId());
         assertThat(friends.size()).isEqualTo(2);
         assertThat(friends.stream().map(FriendUser::getUser_id)).contains("pp");
         assertThat(friends.stream().map(FriendUser::getUser_id)).contains("nam");

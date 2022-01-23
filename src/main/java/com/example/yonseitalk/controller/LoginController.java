@@ -43,7 +43,7 @@ public class LoginController {
         if (session != null) {
             Object user = session.getAttribute("loginUser");
             User loginUser= (User)user;
-            String redirect="/"+loginUser.getUser_id();
+            String redirect="/"+loginUser.getUserId();
             response.sendRedirect(redirect);
         }
     }
@@ -65,8 +65,7 @@ public class LoginController {
         }
         log.info("loginFormat:{}",loginFormat);
         //status change True
-        loginService.updateConnectionTrue(loginUser);
-
+        loginService.updateConnectionTrue(loginUser.getUserId());
 
         String token="";
         token = jwtUtil.generateToken(loginUser);
@@ -78,10 +77,8 @@ public class LoginController {
     @PostMapping("/{user_id}/logout")
     public void logout(@PathVariable("user_id") String userId,HttpServletRequest request,HttpServletResponse response) throws IOException{
 
-        User logoutUser = new User();
-        logoutUser.setUser_id(userId);
-        loginService.updateConnectionFalse(logoutUser);
 
+        loginService.updateConnectionFalse(userId);
         response.setStatus(200);
 
     }

@@ -15,8 +15,7 @@ public class SecurityTestController {
 
     @GetMapping("/permit-all")
     public User getTestPermitAll(){
-        User testUser=new User();
-        testUser.setUser_id("test-permit-all");
+        User testUser = User.builder().name("test-permit-all").build();
         return testUser;
     }
 }

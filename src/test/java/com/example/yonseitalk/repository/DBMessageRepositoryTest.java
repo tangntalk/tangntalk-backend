@@ -31,24 +31,29 @@ class DBMessageRepositoryTest {
 
     @BeforeEach
     void setUp(){
-        User user1 = new User();
-        user1.setUser_id("flaxinger1");
-        user1.setName("yohanmok1");
-        user1.setPassword("aaa");
-        user1.setStatus_message("Talk");
-        user1.setType("학생");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(false);
-        userRepository.save(user1);
 
-        User user2 = new User();
-        user2.setUser_id("flaxinger2");
-        user2.setName("yohanmok2");
-        user2.setPassword("aaa");
-        user2.setStatus_message("Talk");
-        user2.setType("학생");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(false);
+        User user1 = User.builder()
+                .userId("flaxinger1")
+                .name("yohanmok1")
+                .password("aaa")
+                .statusMessage("Talk")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
+
+        User user2 = User.builder()
+                .userId("flaxinger2")
+                .name("yohanmok2")
+                .password("aaa")
+                .statusMessage("Talk")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(false)
+                .build();
+
+
+        userRepository.save(user1);
         userRepository.save(user2);
 
         Chatroom chatroom = new Chatroom();

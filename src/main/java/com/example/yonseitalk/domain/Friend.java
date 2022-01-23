@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 @Setter
 @ToString
 public class Friend {
+
     private String user_id;
     private String friend_id;
 }

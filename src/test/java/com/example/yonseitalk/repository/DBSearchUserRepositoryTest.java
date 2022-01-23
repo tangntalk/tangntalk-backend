@@ -28,42 +28,45 @@ class DBSearchUserRepositoryTest {
     void searchTest() {
 
         //given
+        User user1 = User.builder()
+                .userId("aabb")
+                .name("zffgg")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user1= new User();
-        user1.setUser_id("aabb");
-        user1.setName("zffgg");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("bbcc")
+                .name("zghh")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("bbcc");
-        user2.setName("zghh");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("1");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
+        User user3 = User.builder()
+                .userId("ccdd")
+                .name("zhhii")
+                .password("dda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user3= new User();
-        user3.setUser_id("ccdd");
-        user3.setName("zhhii");
-        user3.setPassword("ddda");
-        user3.setStatus_message("hihi");
-        user3.setType("1");
-        user3.setUser_location("공학관");
-        user3.setConnection_status(true);
-
-        User user4= new User();
-        user4.setUser_id("ddee");
-        user4.setName("iijj");
-        user4.setPassword("ddda");
-        user4.setStatus_message("hihi");
-        user4.setType("1");
-        user4.setUser_location("공학관");
-        user4.setConnection_status(true);
+        User user4 = User.builder()
+                .userId("ddee")
+                .name("iijj")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
 
         Friend friend1=new Friend();
@@ -109,7 +112,7 @@ class DBSearchUserRepositoryTest {
         dbFriendRepository.save(friend6);
 
         //then
-        List<SearchUser> friends = dbSearchUserRepository.search(user2.getUser_id(),"z");
+        List<SearchUser> friends = dbSearchUserRepository.search(user2.getUserId(),"z");
         Assertions.assertThat(friends.size()).isEqualTo(2);
         for (SearchUser friend : friends) {
             System.out.println(friend);

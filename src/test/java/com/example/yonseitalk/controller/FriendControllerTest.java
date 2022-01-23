@@ -40,33 +40,35 @@ class FriendControllerTest {
     void friendListTest() throws Exception{
 
         //given
+        User user1 = User.builder()
+                .userId("tt")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user1= new User();
-        user1.setUser_id("tt");
-        user1.setName("jihoon");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("학생");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("nam")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("일반")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("nam");
-        user2.setName("jihoon");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("일반");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
-
-        User user3= new User();
-        user3.setUser_id("pp");
-        user3.setName("jihoon");
-        user3.setPassword("ddda");
-        user3.setStatus_message("hihi");
-        user3.setType("강사");
-        user3.setUser_location("공학관");
-        user3.setConnection_status(false);
+        User user3 = User.builder()
+                .userId("pp")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("강사")
+                .userLocation("공학관")
+                .connectionStatus(false)
+                .build();
 
         Friend friend1=new Friend();
         friend1.setFriend_id("nam");
@@ -85,7 +87,7 @@ class FriendControllerTest {
         dbFriendRepository.save(friend2);
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(get("/users/"+user1.getUser_id()+"/friends"))
+        ResultActions resultActions = this.mockMvc.perform(get("/users/"+user1.getUserId()+"/friends"))
                 .andDo(print());
 
         //then
@@ -96,42 +98,45 @@ class FriendControllerTest {
     @Test
     void searchUserTest() throws Exception{
         //given
+        User user1 = User.builder()
+                .userId("aabb")
+                .name("zffgg")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user1= new User();
-        user1.setUser_id("aabb");
-        user1.setName("zffgg");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("bbcc")
+                .name("zghh")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("bbcc");
-        user2.setName("zghh");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("1");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
+        User user3 = User.builder()
+                .userId("ccdd")
+                .name("zhhii")
+                .password("dda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user3= new User();
-        user3.setUser_id("ccdd");
-        user3.setName("zhhii");
-        user3.setPassword("ddda");
-        user3.setStatus_message("hihi");
-        user3.setType("1");
-        user3.setUser_location("공학관");
-        user3.setConnection_status(true);
-
-        User user4= new User();
-        user4.setUser_id("ddee");
-        user4.setName("iijj");
-        user4.setPassword("ddda");
-        user4.setStatus_message("hihi");
-        user4.setType("1");
-        user4.setUser_location("공학관");
-        user4.setConnection_status(true);
+        User user4 = User.builder()
+                .userId("ddee")
+                .name("iijj")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
 
         Friend friend1=new Friend();
@@ -171,7 +176,7 @@ class FriendControllerTest {
         dbFriendRepository.save(friend6);
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(get("/users/"+user2.getUser_id()
+        ResultActions resultActions = this.mockMvc.perform(get("/users/"+user2.getUserId()
                 +"/friends/search?query=z")).andDo(print());
     }
 
@@ -179,33 +184,35 @@ class FriendControllerTest {
     void addFriendTest() throws Exception{
 
         //given
-        User user1= new User();
-        user1.setUser_id("aabb");
-        user1.setName("zffgg");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user1 = User.builder()
+                .userId("aabb")
+                .name("zffgg")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("bbcc");
-        user2.setName("zghh");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("1");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("bbcc")
+                .name("zghh")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
         userRepository.save(user1);
         userRepository.save(user2);
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(post("/users/"+user1.getUser_id() +"/friends")
+        ResultActions resultActions = this.mockMvc.perform(post("/users/"+user1.getUserId() +"/friends")
                 .contentType(MediaType.APPLICATION_JSON) .accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
-                .content("{" + " \"friend_id\" : \""+user2.getUser_id()+"\" }"));
+                .content("{" + " \"friend_id\" : \""+user2.getUserId()+"\" }"));
 
-        ResultActions resultActions2 = this.mockMvc.perform(get("/users/"+user1.getUser_id()+"/friends"))
+        ResultActions resultActions2 = this.mockMvc.perform(get("/users/"+user1.getUserId()+"/friends"))
                 .andDo(print());
 
 
@@ -214,23 +221,25 @@ class FriendControllerTest {
     @Test
     void delFriendTest() throws Exception{
         //given
-        User user1= new User();
-        user1.setUser_id("aabb");
-        user1.setName("zffgg");
-        user1.setPassword("ddda");
-        user1.setStatus_message("hihi");
-        user1.setType("1");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
+        User user1 = User.builder()
+                .userId("aabb")
+                .name("zffgg")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
-        User user2= new User();
-        user2.setUser_id("bbcc");
-        user2.setName("zghh");
-        user2.setPassword("ddda");
-        user2.setStatus_message("hihi");
-        user2.setType("1");
-        user2.setUser_location("공학관");
-        user2.setConnection_status(true);
+        User user2 = User.builder()
+                .userId("bbcc")
+                .name("zghh")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
         userRepository.save(user1);
         userRepository.save(user2);
@@ -241,10 +250,10 @@ class FriendControllerTest {
         dbFriendRepository.save(friend1);
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(delete("/users/"+user1.getUser_id()
-                +"/friends/"+user2.getUser_id()));
+        ResultActions resultActions = this.mockMvc.perform(delete("/users/"+user1.getUserId()
+                +"/friends/"+user2.getUserId()));
 
-        ResultActions resultActions2 = this.mockMvc.perform(get("/users/"+user1.getUser_id()+"/friends"))
+        ResultActions resultActions2 = this.mockMvc.perform(get("/users/"+user1.getUserId()+"/friends"))
                 .andDo(print());
 
     }

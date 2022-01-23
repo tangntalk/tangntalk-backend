@@ -29,9 +29,9 @@ public class UserServiceImpl implements UserService{
     public User save(UserRegisterRequest userRegisterRequest) {
         userRegisterRequest.setPassword(AES128.getAES128_Encode(userRegisterRequest.getPassword()));
         User user = userRegisterRequest.toEntity();
-        user.setConnection_status(false);
-        user.setStatus_message("");
-        user.setUser_location("공학관");
+        user.setConnectionStatus(false);
+        user.setStatusMessage("");
+        user.setUserLocation("공학관");
         user.setRole(Role.USER.getValue());
         userRepository.save(user);
         return user;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
     public int updateStatusMessage(String id, String msg){
         Optional<User> userOptional = userRepository.findById(id);
 
-        userOptional.ifPresent(user -> user.setStatus_message(msg));
+        userOptional.ifPresent(user -> user.setStatusMessage(msg));
 
         if(userOptional.isPresent()){
             return 1;
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
     public int updateUserConnectionStatus(String id, Boolean flag){
         Optional<User> userOptional = userRepository.findById(id);
 
-        userOptional.ifPresent(user -> user.setConnection_status(flag));
+        userOptional.ifPresent(user -> user.setConnectionStatus(flag));
 
         if(userOptional.isPresent()){
             return 1;
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService{
     public int updateUserLocation(String id, String location){
         Optional<User> userOptional = userRepository.findById(id);
 
-        userOptional.ifPresent(user -> user.setUser_location(location));
+        userOptional.ifPresent(user -> user.setUserLocation(location));
 
         if(userOptional.isPresent()){
             return 1;

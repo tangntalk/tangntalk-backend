@@ -1,9 +1,6 @@
 package com.example.yonseitalk.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,43 +11,39 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "yt_user")
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
-    @Column(nullable = false, name = "user_id")
-    private String user_id;
+    @Column(nullable = false)
+    private String userId;
 
-    @Column(nullable = false, name = "name")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
-    @Column(nullable = false, name = "password")
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "role")
+    @Column
     private String role;
 
-    @Column(name = "status_message")
-    private String status_message;
+    @Column
+    private String statusMessage;
 
-    @Column(nullable = false, name = "type")
+    @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false, name = "user_location")
-    private String user_location;
+    @Column(nullable = false)
+    private String userLocation;
 
-    @Column(nullable = false, name = "connection_status")
-    private Boolean connection_status;
+    @Column(nullable = false)
+    private Boolean connectionStatus;
 
-    public User(String user_id, String name, String password, String type) {
-        this.user_id = user_id;
-        this.name = name;
-        this.password = password;
-        this.type = type;
-    }
 }

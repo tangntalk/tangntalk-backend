@@ -14,6 +14,11 @@ public class UserRegisterRequest {
     private String type;
 
     public User toEntity(){
-        return new User(user_id,name,password,type);
+        return User.builder()
+                .userId(user_id)
+                .name(name)
+                .password(password)
+                .type(type)
+                .build();
     }
 }

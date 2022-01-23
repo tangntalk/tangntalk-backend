@@ -42,15 +42,16 @@ class YonseitalkApplicationTests {
 
 	@BeforeEach
 	void setup(){
-		User user1= new User();
-		user1.setUser_id("flaxinger1");
-		user1.setName("yohan");
-		user1.setPassword("mok");
 
-		user1.setStatus_message("Preswot");
-		user1.setType("1");
-		user1.setUser_location("공학관");
-		user1.setConnection_status(true);
+		User user1 = User.builder()
+				.userId("flaxinger1")
+				.name("yohan")
+				.password("mok")
+				.statusMessage("Preswot")
+				.type("학생")
+				.userLocation("공학관")
+				.connectionStatus(true)
+				.build();
 
 		userRepository.save(user1);
 	}

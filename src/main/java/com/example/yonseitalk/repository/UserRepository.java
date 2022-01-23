@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findById(String id);
 
-    @Query("SELECT u FROM User u WHERE u.user_location = ?1")
+    @Query("SELECT u FROM User u WHERE u.userLocation = ?1")
     List<User> findByLocation(String location);
 
 }

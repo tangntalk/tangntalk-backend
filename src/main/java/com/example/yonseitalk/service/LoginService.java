@@ -22,13 +22,13 @@ public class LoginService {
     }
 
     @Transactional
-    public void updateConnectionTrue(User user){
-        userService.updateUserConnectionStatus(user.getUser_id(),true);
+    public void updateConnectionTrue(String Id){
+        userService.updateUserConnectionStatus(Id,true);
     }
 
     @Transactional
-    public void updateConnectionFalse(User user){
-        userService.updateUserConnectionStatus(user.getUser_id(),false);
+    public void updateConnectionFalse(String Id){
+        userService.updateUserConnectionStatus(Id,false);
     }
 
 }

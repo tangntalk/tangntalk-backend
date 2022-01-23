@@ -20,7 +20,6 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
-
 public class UserInfoController {
 
     private final UserService userService;
@@ -39,8 +38,8 @@ public class UserInfoController {
         } else{
             response.put("success", true);
             userInfo.put("name", user.get().getName());
-            userInfo.put("status_message", user.get().getStatus_message());
-            userInfo.put("location_name", user.get().getUser_location());
+            userInfo.put("status_message", user.get().getStatusMessage());
+            userInfo.put("location_name", user.get().getUserLocation());
             response.put("user", userInfo);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -99,7 +98,7 @@ public class UserInfoController {
             response.put("code", new NotFoundException());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        String location=user.get().getUser_location();
+        String location=user.get().getUserLocation();
         response.put("success",true);
         response.put("myplace",location);
         //추가하기
@@ -111,18 +110,18 @@ public class UserInfoController {
         List<User> nearbyPeople= userService.findByLocation(target_location);
 
         for(User user2: nearbyPeople){
-            if(user2.getUser_id().equals(user.get().getUser_id())){
+            if(user2.getUserId().equals(user.get().getUserId())){
                 continue;
             }
-            if(user2.getConnection_status()){
+            if(user2.getConnectionStatus()){
                 //connection
                 nearbyUser onlineNearByUser= new nearbyUser();
-                onlineNearByUser.setUser_id(user2.getUser_id());
+                onlineNearByUser.setUser_id(user2.getUserId());
                 onlineNearByUser.setName(user2.getName());
                 onlineNearByUser.setType(user2.getType());
-                onlineNearByUser.setStatus_message(user2.getStatus_message());
+                onlineNearByUser.setStatus_message(user2.getStatusMessage());
                 //chatroom 추가
-                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUser_id(),user2.getUser_id());
+                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
                     onlineNearByUser.setChatroom_id(chatroom.get().getChatroom_id());
@@ -132,13 +131,13 @@ public class UserInfoController {
             }
             else{//not connection
                 nearbyUser offlineNearByUser= new nearbyUser();
-                offlineNearByUser.setUser_id(user2.getUser_id());
+                offlineNearByUser.setUser_id(user2.getUserId());
                 offlineNearByUser.setName(user2.getName());
                 offlineNearByUser.setType(user2.getType());
-                offlineNearByUser.setStatus_message(user2.getStatus_message());
+                offlineNearByUser.setStatus_message(user2.getStatusMessage());
 
                 // chatroom
-                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUser_id(),user2.getUser_id());
+                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
                     offlineNearByUser.setChatroom_id(chatroom.get().getChatroom_id());

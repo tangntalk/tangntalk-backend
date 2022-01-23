@@ -24,16 +24,15 @@ class DBUserRepositoryTest {
 
     @BeforeEach
     void setup(){
-        User user1= new User();
-        user1.setUser_id("ji1");
-        user1.setName("jihoon");
-        user1.setPassword("ddda");
-
-        user1.setStatus_message("hihi");
-        user1.setType("학생");
-        user1.setUser_location("공학관");
-        user1.setConnection_status(true);
-
+        User user1= User.builder()
+                .userId("ji1")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("학생")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
         //when
         userService.save(user1);
     }
@@ -43,7 +42,7 @@ class DBUserRepositoryTest {
     void findById() {
         //then
         User findUser=userService.findById("ji1").get();
-        Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
+        Assertions.assertThat(findUser.getUserId()).isEqualTo("ji1");
     }
 
     @Transactional
@@ -52,8 +51,7 @@ class DBUserRepositoryTest {
 
         //then
         User findUser=userService.findById("ji1").get();
-
-        Assertions.assertThat(findUser.getUser_id()).isEqualTo("ji1");
+        Assertions.assertThat(findUser.getUserId()).isEqualTo("ji1");
     }
 
     @Transactional
@@ -63,9 +61,8 @@ class DBUserRepositoryTest {
         userService.deleteById("ji1");
 
         //then
-        User findUser=userService.findById("ji1").orElse(new User());
-
-        Assertions.assertThat(findUser.getUser_id()).isNull();
+        User findUser=userService.findById("ji1").orElse(null);
+        Assertions.assertThat(findUser).isNull();
     }
     //findByLocation test 추가하기
 
@@ -78,7 +75,7 @@ class DBUserRepositoryTest {
 
         //then
         User findUser=userService.findById("ji1").get();
-        Assertions.assertThat(findUser.getStatus_message()).isEqualTo(newMsg);
+        Assertions.assertThat(findUser.getStatusMessage()).isEqualTo(newMsg);
 
     }
 
@@ -91,7 +88,7 @@ class DBUserRepositoryTest {
 
         //then
         User findUser=userService.findById("ji1").get();
-        Assertions.assertThat(findUser.getUser_location()).isEqualTo(newLocation);
+        Assertions.assertThat(findUser.getUserLocation()).isEqualTo(newLocation);
 
     }
 
@@ -103,7 +100,7 @@ class DBUserRepositoryTest {
 
         //then
         User findUser=userService.findById("ji1").get();
-        Assertions.assertThat(findUser.getConnection_status()).isEqualTo(flag);
+        Assertions.assertThat(findUser.getConnectionStatus()).isEqualTo(flag);
 
     }
 
