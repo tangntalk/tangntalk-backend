@@ -1,10 +1,9 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.domain.Friend;
-import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.repository.DBFriendRepository;
-import com.example.yonseitalk.repository.DBFriendUserRepository;
-import com.example.yonseitalk.repository.UserRepository;
+import com.example.yonseitalk.web.friend.dao.Friend;
+import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
+import com.example.yonseitalk.web.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ class FriendControllerTest {
     private DBFriendRepository dbFriendRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
 
     @Test
@@ -71,17 +70,17 @@ class FriendControllerTest {
                 .build();
 
         Friend friend1=new Friend();
-        friend1.setFriend_id("nam");
-        friend1.setUser_id("tt");
+        friend1.setFriendId("nam");
+        friend1.setUserId("tt");
 
 
         Friend friend2 =new Friend();
-        friend2.setFriend_id("pp");
-        friend2.setUser_id("tt");
+        friend2.setFriendId("pp");
+        friend2.setUserId("tt");
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
+        userService.save(user1);
+        userService.save(user2);
+        userService.save(user3);
 
         dbFriendRepository.save(friend1);
         dbFriendRepository.save(friend2);
@@ -140,33 +139,33 @@ class FriendControllerTest {
 
 
         Friend friend1=new Friend();
-        friend1.setUser_id("aabb");
-        friend1.setFriend_id("bbcc");
+        friend1.setUserId("aabb");
+        friend1.setFriendId("bbcc");
 
         Friend friend2=new Friend();
-        friend2.setUser_id("aabb");
-        friend2.setFriend_id("ccdd");
+        friend2.setUserId("aabb");
+        friend2.setFriendId("ccdd");
 
         Friend friend3=new Friend();
-        friend3.setUser_id("aabb");
-        friend3.setFriend_id("ddee");
+        friend3.setUserId("aabb");
+        friend3.setFriendId("ddee");
 
         Friend friend4=new Friend();
-        friend4.setUser_id("bbcc");
-        friend4.setFriend_id("ccdd");
+        friend4.setUserId("bbcc");
+        friend4.setFriendId("ccdd");
 
         Friend friend5=new Friend();
-        friend5.setUser_id("bbcc");
-        friend5.setFriend_id("ddee");
+        friend5.setUserId("bbcc");
+        friend5.setFriendId("ddee");
 
         Friend friend6=new Friend();
-        friend6.setUser_id("ccdd");
-        friend6.setFriend_id("ddee");
+        friend6.setUserId("ccdd");
+        friend6.setFriendId("ddee");
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
-        userRepository.save(user4);
+        userService.save(user1);
+        userService.save(user2);
+        userService.save(user3);
+        userService.save(user4);
 
         dbFriendRepository.save(friend1);
         dbFriendRepository.save(friend2);
@@ -204,8 +203,8 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        userRepository.save(user1);
-        userRepository.save(user2);
+        userService.save(user1);
+        userService.save(user2);
 
         //when
         ResultActions resultActions = this.mockMvc.perform(post("/users/"+user1.getUserId() +"/friends")
@@ -241,12 +240,12 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        userRepository.save(user1);
-        userRepository.save(user2);
+        userService.save(user1);
+        userService.save(user2);
 
         Friend friend1=new Friend();
-        friend1.setUser_id("aabb");
-        friend1.setFriend_id("bbcc");
+        friend1.setUserId("aabb");
+        friend1.setFriendId("bbcc");
         dbFriendRepository.save(friend1);
 
         //when

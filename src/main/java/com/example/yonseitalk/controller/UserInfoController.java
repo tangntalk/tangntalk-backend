@@ -1,15 +1,12 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.domain.Chatroom;
-import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.domain.nearbyUser;
+import com.example.yonseitalk.web.chatroom.dao.Chatroom;
+import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dao.nearbyUser;
 import com.example.yonseitalk.exception.NotFoundException;
-import com.example.yonseitalk.repository.ChatroomRepository;
-import com.example.yonseitalk.repository.UserRepository;
-import com.example.yonseitalk.service.UserService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
+import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -116,31 +113,31 @@ public class UserInfoController {
             if(user2.getConnectionStatus()){
                 //connection
                 nearbyUser onlineNearByUser= new nearbyUser();
-                onlineNearByUser.setUser_id(user2.getUserId());
+                onlineNearByUser.setUserId(user2.getUserId());
                 onlineNearByUser.setName(user2.getName());
                 onlineNearByUser.setType(user2.getType());
-                onlineNearByUser.setStatus_message(user2.getStatusMessage());
+                onlineNearByUser.setStatusMessage(user2.getStatusMessage());
                 //chatroom 추가
                 Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
-                    onlineNearByUser.setChatroom_id(chatroom.get().getChatroom_id());
+                    onlineNearByUser.setChatroomId(chatroom.get().getChatroomId());
                 }
 
                 onlineUser.add(onlineNearByUser);
             }
             else{//not connection
                 nearbyUser offlineNearByUser= new nearbyUser();
-                offlineNearByUser.setUser_id(user2.getUserId());
+                offlineNearByUser.setUserId(user2.getUserId());
                 offlineNearByUser.setName(user2.getName());
                 offlineNearByUser.setType(user2.getType());
-                offlineNearByUser.setStatus_message(user2.getStatusMessage());
+                offlineNearByUser.setStatusMessage(user2.getStatusMessage());
 
                 // chatroom
                 Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
-                    offlineNearByUser.setChatroom_id(chatroom.get().getChatroom_id());
+                    offlineNearByUser.setChatroomId(chatroom.get().getChatroomId());
                 }
 
 

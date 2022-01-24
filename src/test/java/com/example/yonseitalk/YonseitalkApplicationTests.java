@@ -1,7 +1,7 @@
 package com.example.yonseitalk;
 
-import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.repository.UserRepository;
+import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class YonseitalkApplicationTests {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@Autowired
 	private MockMvc mvc;
@@ -53,7 +52,7 @@ class YonseitalkApplicationTests {
 				.connectionStatus(true)
 				.build();
 
-		userRepository.save(user1);
+		userService.save(user1);
 	}
 	@Test
 	@Transactional

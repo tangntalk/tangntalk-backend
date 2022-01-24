@@ -1,14 +1,14 @@
 package com.example.yonseitalk.controller;
 
 
-import com.example.yonseitalk.domain.FriendUser;
-import com.example.yonseitalk.domain.SearchUser;
-import com.example.yonseitalk.service.FriendService;
-import com.example.yonseitalk.service.SearchService;
+import com.example.yonseitalk.web.user.dto.FriendUser;
+import com.example.yonseitalk.web.user.dao.SearchUser;
+import com.example.yonseitalk.web.friend.service.FriendService;
+import com.example.yonseitalk.util.login.service.SearchService;
 import com.example.yonseitalk.view.DefaultResponse;
-import com.example.yonseitalk.view.friend.FriendCheckView;
-import com.example.yonseitalk.view.friend.FriendListView;
-import com.example.yonseitalk.view.friend.SearchFriendView;
+import com.example.yonseitalk.web.friend.dto.FriendCheckView;
+import com.example.yonseitalk.web.friend.dto.FriendListView;
+import com.example.yonseitalk.web.friend.dto.SearchFriendView;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

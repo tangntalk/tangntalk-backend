@@ -1,6 +1,6 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.domain.User;
+import com.example.yonseitalk.web.user.dao.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

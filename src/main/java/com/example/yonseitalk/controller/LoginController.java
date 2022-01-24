@@ -1,9 +1,9 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.service.LoginService;
-import com.example.yonseitalk.domain.LoginFormat;
-import com.example.yonseitalk.domain.User;
-import com.example.yonseitalk.util.JwtUtil;
+import com.example.yonseitalk.util.login.service.LoginService;
+import com.example.yonseitalk.util.login.LoginFormat;
+import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.util.login.jwt.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class LoginController {
         LoginFormat loginFormat=objectMapper.readValue(messageBody,LoginFormat.class);
 
 
-        User loginUser=loginService.login(loginFormat.getUser_id(),loginFormat.getPassword());
+        User loginUser=loginService.login(loginFormat.getUserId(),loginFormat.getPassword());
 
         if(loginUser==null){
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);

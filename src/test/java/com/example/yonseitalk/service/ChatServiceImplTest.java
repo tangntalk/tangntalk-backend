@@ -1,12 +1,12 @@
 //package com.example.yonseitalk.service;
 //
-//import com.example.yonseitalk.domain.Chatroom;
+//import com.example.yonseitalk.web.Chatroom.Dao.Chatroom;
 //import com.example.yonseitalk.domain.ChatroomWrapper;
-//import com.example.yonseitalk.domain.Message;
-//import com.example.yonseitalk.domain.User;
-//import com.example.yonseitalk.repository.ChatroomRepository;
-//import com.example.yonseitalk.repository.MessageRepository;
-//import com.example.yonseitalk.repository.UserRepository;
+//import com.example.yonseitalk.web.Message.Dao.Message;
+//import com.example.yonseitalk.web.User.Dao.User;
+//import com.example.yonseitalk.web.Chatroom.Dao.ChatroomRepository;
+//import com.example.yonseitalk.web.Message.Dao.MessageRepository;
+//import com.example.yonseitalk.web.User.Dao.userService;
 //import org.assertj.core.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@
 //    private ChatroomRepository chatroomRepository;
 //
 //    @Autowired
-//    private UserRepository userRepository;
+//    private UserService userService;
 //
 //    @Autowired
 //    private MessageRepository messageRepository;
@@ -40,34 +40,34 @@
 //    @BeforeEach
 //    void setUp(){
 //        User user1 = new User();
-//        user1.setUser_id("flaxinger1");
+//        user1.setUserId("flaxinger1");
 //        user1.setName("yohanmok1");
 //        user1.setPassword("aaa");
-//        user1.setStatus_message("Talk");
+//        user1.setStatusMessage("Talk");
 //        user1.setType("학생");
-//        user1.setUser_location("공학관");
-//        user1.setConnection_status(true);
-//        userRepository.save(user1);
+//        user1.setUserLocation("공학관");
+//        user1.setConnectionStatus(true);
+//        userService.save(user1);
 //
 //        User user2 = new User();
-//        user2.setUser_id("flaxinger2");
+//        user2.setUserId("flaxinger2");
 //        user2.setName("yohanmok2");
 //        user2.setPassword("aaa");
-//        user2.setStatus_message("Talk");
+//        user2.setStatusMessage("Talk");
 //        user2.setType("학생");
-//        user2.setUser_location("공학관");
-//        user2.setConnection_status(true);
-//        userRepository.save(user2);
+//        user2.setUserLocation("공학관");
+//        user2.setConnectionStatus(true);
+//        userService.save(user2);
 //
 //        User user3 = new User();
-//        user3.setUser_id("flaxinger3");
+//        user3.setUserId("flaxinger3");
 //        user3.setName("yohanmok3");
 //        user3.setPassword("aaa");
-//        user3.setStatus_message("Talk");
+//        user3.setStatusMessage("Talk");
 //        user3.setType("학생");
-//        user3.setUser_location("공학관");
-//        user3.setConnection_status(false);
-//        userRepository.save(user3);
+//        user3.setUserLocation("공학관");
+//        user3.setConnectionStatus(false);
+//        userService.save(user3);
 //
 //    }
 //
@@ -112,7 +112,7 @@
 //        //given
 //        chatroom_id = chatService.addChatroom("flaxinger1","flaxinger2");
 //        Long chatroom_id2 = chatService.addChatroom("flaxinger1","flaxinger3");
-//        userRepository.updateUserConnectionStatus("flaxinger3",true);
+//        userService.updateUserConnectionStatus("flaxinger3",true);
 //        chatService.sendMessage("flaxinger1",chatroom_id2,"hello",null,null);
 //
 //        TimeUnit.MILLISECONDS.sleep(20);
@@ -154,8 +154,8 @@
 //        assertThat(messageList.get(0).getContent()).isEqualTo("hello");
 //        assertThat(messageList.get(1).getContent()).isEqualTo("hidden message");
 //        assertThat(messageList.get(2).getContent()).isEqualTo("hello3");
-//        assertThat(messageList.get(2).getRendezvous_flag()).isTrue();
-//        assertThat(messageList.get(1).getRead_time()).isNotNull();
+//        assertThat(messageList.get(2).getRendezvousFlag()).isTrue();
+//        assertThat(messageList.get(1).getReadTime()).isNotNull();
 //
 //
 //    }
