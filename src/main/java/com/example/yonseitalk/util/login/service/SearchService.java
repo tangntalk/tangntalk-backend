@@ -1,6 +1,6 @@
 package com.example.yonseitalk.util.login.service;
 
-import com.example.yonseitalk.web.user.dao.SearchUser;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 
 import java.util.List;
 

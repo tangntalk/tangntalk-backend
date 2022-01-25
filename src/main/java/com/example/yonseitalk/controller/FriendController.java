@@ -2,7 +2,7 @@ package com.example.yonseitalk.controller;
 
 
 import com.example.yonseitalk.web.user.dto.FriendUser;
-import com.example.yonseitalk.web.user.dao.SearchUser;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.friend.service.FriendService;
 import com.example.yonseitalk.util.login.service.SearchService;
 import com.example.yonseitalk.view.DefaultResponse;

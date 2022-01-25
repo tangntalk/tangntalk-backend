@@ -4,6 +4,7 @@ import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
 import com.example.yonseitalk.web.friend.dao.Friend;
 import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.FriendUser;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,9 +33,10 @@ class UserRepositoryFriendTest {
     @Transactional
     void save(){
 
-        User user = userService.findById("tt").get();
-        Assertions.assertThat(user.getUserAddedFriends().contains("nam"));
-        Assertions.assertThat(user.getUserAddedFriends().contains("pp"));
+        UserDto userDto = userService.findById("tt").get();
+        Assertions.assertThat(userService.findFriendUser("tt").size()).isEqualTo(2);
+        Assertions.assertThat(userService.findFriendUser("pp").size()).isEqualTo(1);
+        Assertions.assertThat(userService.findFriendUser("nam").size()).isEqualTo(0);
 
     }
 
@@ -43,14 +45,13 @@ class UserRepositoryFriendTest {
     void delete(){
 
         userService.delFriend("tt", "pp");
-        User user = userService.findById("tt").get();
-        Assertions.assertThat(user.getUserAddedFriends().size()).isEqualTo(1);
+        Assertions.assertThat(userService.findFriendUser("tt").size()).isEqualTo(1);
 
     }
 
     @BeforeEach
     void setup(){
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("tt")
                 .name("jihoon")
                 .password("ddda")
@@ -60,7 +61,7 @@ class UserRepositoryFriendTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("nam")
                 .name("jihoon")
                 .password("ddda")
@@ -70,7 +71,7 @@ class UserRepositoryFriendTest {
                 .connectionStatus(true)
                 .build();
 
-        User user3 = User.builder()
+        UserDto user3 = UserDto.builder()
                 .userId("pp")
                 .name("jihoon")
                 .password("ddda")

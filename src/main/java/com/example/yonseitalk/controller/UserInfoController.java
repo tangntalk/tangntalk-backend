@@ -1,8 +1,8 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.user.dao.User;
-import com.example.yonseitalk.web.user.dao.nearbyUser;
+import com.example.yonseitalk.web.user.dto.UserDto;
+import com.example.yonseitalk.web.user.dto.nearbyUser;
 import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
 import com.example.yonseitalk.web.user.service.UserService;
@@ -25,18 +25,18 @@ public class UserInfoController {
     @RequestMapping(value = "/{user_id}", method = RequestMethod.GET)
     public ResponseEntity<?> userInfo(@PathVariable("user_id") String userId){
 
-        Optional<User> user = userService.findById(userId);
+        Optional<UserDto> userDto = userService.findById(userId);
         Map<String, String> userInfo = new HashMap<>();
         Map<String, Object> response = new HashMap<>();
 
-        if(!user.isPresent()) {
+        if(!userDto.isPresent()) {
             response.put("success", false);
             response.put("code", new NotFoundException());
         } else{
             response.put("success", true);
-            userInfo.put("name", user.get().getName());
-            userInfo.put("status_message", user.get().getStatusMessage());
-            userInfo.put("location_name", user.get().getUserLocation());
+            userInfo.put("name", userDto.get().getName());
+            userInfo.put("status_message", userDto.get().getStatusMessage());
+            userInfo.put("location_name", userDto.get().getUserLocation());
             response.put("user", userInfo);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -87,15 +87,15 @@ public class UserInfoController {
 
         Map<String, Object> response = new HashMap<>();
 
-        Optional<User> user = userService.findById(userId);
+        Optional<UserDto> userDto = userService.findById(userId);
 
 
-        if(!user.isPresent()) {
+        if(!userDto.isPresent()) {
             response.put("success", false);
             response.put("code", new NotFoundException());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        String location=user.get().getUserLocation();
+        String location=userDto.get().getUserLocation();
         response.put("success",true);
         response.put("myplace",location);
         //추가하기
@@ -104,10 +104,10 @@ public class UserInfoController {
         ArrayList<nearbyUser> offlineUser =new ArrayList<>();
 
         //ArrayList<User>
-        List<User> nearbyPeople= userService.findByLocation(target_location);
+        List<UserDto> nearbyPeople = userService.findByLocation(target_location);
 
-        for(User user2: nearbyPeople){
-            if(user2.getUserId().equals(user.get().getUserId())){
+        for(UserDto user2: nearbyPeople){
+            if(user2.getUserId().equals(userDto.get().getUserId())){
                 continue;
             }
             if(user2.getConnectionStatus()){
@@ -118,7 +118,7 @@ public class UserInfoController {
                 onlineNearByUser.setType(user2.getType());
                 onlineNearByUser.setStatusMessage(user2.getStatusMessage());
                 //chatroom 추가
-                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
+                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(userDto.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
                     onlineNearByUser.setChatroomId(chatroom.get().getChatroomId());
@@ -134,7 +134,7 @@ public class UserInfoController {
                 offlineNearByUser.setStatusMessage(user2.getStatusMessage());
 
                 // chatroom
-                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(user.get().getUserId(),user2.getUserId());
+                Optional<Chatroom> chatroom =chatroomRepository.findByPairUser(userDto.get().getUserId(),user2.getUserId());
 
                 if (chatroom.isPresent()){
                     offlineNearByUser.setChatroomId(chatroom.get().getChatroomId());

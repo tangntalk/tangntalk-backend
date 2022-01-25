@@ -3,6 +3,7 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.web.friend.dao.Friend;
 import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,7 @@ class FriendControllerTest {
     void friendListTest() throws Exception{
 
         //given
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("tt")
                 .name("jihoon")
                 .password("ddda")
@@ -49,7 +50,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("nam")
                 .name("jihoon")
                 .password("ddda")
@@ -59,7 +60,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user3 = User.builder()
+        UserDto user3 = UserDto.builder()
                 .userId("pp")
                 .name("jihoon")
                 .password("ddda")
@@ -97,7 +98,7 @@ class FriendControllerTest {
     @Test
     void searchUserTest() throws Exception{
         //given
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("aabb")
                 .name("zffgg")
                 .password("ddda")
@@ -107,7 +108,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("bbcc")
                 .name("zghh")
                 .password("ddda")
@@ -117,7 +118,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user3 = User.builder()
+        UserDto user3 = UserDto.builder()
                 .userId("ccdd")
                 .name("zhhii")
                 .password("dda")
@@ -127,7 +128,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user4 = User.builder()
+        UserDto user4 = UserDto.builder()
                 .userId("ddee")
                 .name("iijj")
                 .password("ddda")
@@ -183,7 +184,7 @@ class FriendControllerTest {
     void addFriendTest() throws Exception{
 
         //given
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("aabb")
                 .name("zffgg")
                 .password("ddda")
@@ -193,7 +194,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("bbcc")
                 .name("zghh")
                 .password("ddda")
@@ -220,7 +221,7 @@ class FriendControllerTest {
     @Test
     void delFriendTest() throws Exception{
         //given
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("aabb")
                 .name("zffgg")
                 .password("ddda")
@@ -230,7 +231,7 @@ class FriendControllerTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("bbcc")
                 .name("zghh")
                 .password("ddda")
@@ -243,10 +244,10 @@ class FriendControllerTest {
         userService.save(user1);
         userService.save(user2);
 
-        Friend friend1=new Friend();
-        friend1.setUserId("aabb");
-        friend1.setFriendId("bbcc");
-        dbFriendRepository.save(friend1);
+//        Friend friend1=new Friend();
+//        friend1.setUserId("aabb");
+//        friend1.setFriendId("bbcc");
+//        dbFriendRepository.save(friend1);
 
         //when
         ResultActions resultActions = this.mockMvc.perform(delete("/users/"+user1.getUserId()

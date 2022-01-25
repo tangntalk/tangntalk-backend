@@ -5,6 +5,7 @@ import com.example.yonseitalk.web.friend.dao.DBFriendUserRepository;
 import com.example.yonseitalk.web.friend.dao.Friend;
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +23,14 @@ import static org.assertj.core.api.Assertions.*;
 class DBFriendUserRepositoryTest {
 
     @Autowired
-    private DBFriendRepository dbFriendRepository;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private DBFriendUserRepository dbFriendUserRepository;
 
     @Test
     void findAllTest() {
 
         //given
 
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("tt")
                 .name("jihoon")
                 .password("ddda")
@@ -45,7 +40,7 @@ class DBFriendUserRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("nam")
                 .name("jihoon")
                 .password("ddda")
@@ -55,7 +50,7 @@ class DBFriendUserRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
-        User user3 = User.builder()
+        UserDto user3 = UserDto.builder()
                 .userId("pp")
                 .name("jihoon")
                 .password("ddda")
@@ -66,29 +61,22 @@ class DBFriendUserRepositoryTest {
                 .build();
 
 
-        Friend friend1=new Friend();
-        friend1.setFriendId("nam");
-        friend1.setUserId("tt");
-
-
-        Friend friend2 =new Friend();
-        friend2.setFriendId("pp");
-        friend2.setUserId("tt");
-
         //when
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
 
-
-        dbFriendRepository.save(friend1);
-        dbFriendRepository.save(friend2);
+        userService.addFriend(user1.getUserId(), user2.getUserId());
+        userService.addFriend(user1.getUserId(), user3.getUserId());
 
         //then
-        List<FriendUser> friends = dbFriendUserRepository.findAll(user1.getUserId());
+        List<FriendUser> friends = userService.findFriendUser(user1.getUserId());
+        System.out.println(friends);
         assertThat(friends.size()).isEqualTo(2);
         assertThat(friends.stream().map(FriendUser::getUserId)).contains("pp");
         assertThat(friends.stream().map(FriendUser::getUserId)).contains("nam");
+        assertThat(friends.contains(user2));
+        assertThat(friends.contains(user3));
         assertThat(friends.stream().map(FriendUser::getChatroomId)).containsNull();
         assertThat(friends.stream().map(FriendUser::getUserLocation)).contains("공학관");
     }

@@ -3,6 +3,7 @@ package com.example.yonseitalk.web.chatroom.service;
 import com.example.yonseitalk.web.chatroom.dao.ChatroomDetail;
 import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ChatService {
     Long getMessageCount(Long chatroom_id);
     List<Message> messageInquiry(Long chatroom_id, String user_id);
 //    Message readMessage(Long message_id, User user);
-    String transformContent(Message message, User user);
-    String transformContent(ChatroomDetail chatroomDetail, User user);
+    String transformContent(Message message, UserDto userDto);
+    String transformContent(ChatroomDetail chatroomDetail, UserDto userDto);
     Long sendMessage(String user_id , Long chatroom_id, String content, Long rendezvous_time);
 }

@@ -11,7 +11,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "yt_user")
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -56,6 +55,5 @@ public class User {
     @Builder.Default
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userAddedFriends", fetch = FetchType.LAZY)
     private Set<User> friendsAddedUser = new HashSet<>();
-
 
 }

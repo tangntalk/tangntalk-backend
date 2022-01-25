@@ -1,6 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setup(){
-        User user1= User.builder()
+        UserDto user1= UserDto.builder()
                 .userId("ji1")
                 .name("jihoon")
                 .password("ddda")
@@ -29,7 +30,7 @@ class UserRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2= User.builder()
+        UserDto user2= UserDto.builder()
                 .userId("ji2")
                 .name("jihoon")
                 .password("ddda")
@@ -48,7 +49,7 @@ class UserRepositoryTest {
     @Test
     void findById() {
         //then
-        User findUser=userService.findById("ji1").get();
+        UserDto findUser = userService.findById("ji1").get();
         Assertions.assertThat(findUser.getUserId()).isEqualTo("ji1");
     }
 
@@ -57,7 +58,7 @@ class UserRepositoryTest {
     void save() {
 
         //then
-        User findUser=userService.findById("ji1").get();
+        UserDto findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getUserId()).isEqualTo("ji1");
     }
 
@@ -68,7 +69,7 @@ class UserRepositoryTest {
         userService.deleteById("ji1");
 
         //then
-        User findUser=userService.findById("ji1").orElse(null);
+        UserDto findUser = userService.findById("ji1").orElse(null);
         Assertions.assertThat(findUser).isNull();
     }
     //findByLocation test 추가하기
@@ -81,7 +82,7 @@ class UserRepositoryTest {
         userService.updateStatusMessage("ji1",newMsg);
 
         //then
-        User findUser=userService.findById("ji1").get();
+        UserDto findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getStatusMessage()).isEqualTo(newMsg);
 
     }
@@ -94,7 +95,7 @@ class UserRepositoryTest {
         userService.updateUserLocation("ji1",newLocation);
 
         //then
-        User findUser=userService.findById("ji1").get();
+        UserDto findUser=userService.findById("ji1").get();
         Assertions.assertThat(findUser.getUserLocation()).isEqualTo(newLocation);
 
     }
@@ -106,7 +107,7 @@ class UserRepositoryTest {
         userService.updateUserConnectionStatus("ji1", flag);
 
         //then
-        User findUser = userService.findById("ji1").get();
+        UserDto findUser = userService.findById("ji1").get();
         Assertions.assertThat(findUser.getConnectionStatus()).isEqualTo(flag);
 
     }
@@ -116,13 +117,15 @@ class UserRepositoryTest {
     void addFriend(){
         userService.addFriend("ji1", "ji2");
 
-        User user = userService.findById("ji1").get();
-        User friend = userService.findById("ji2").get();
+        UserDto user = userService.findById("ji1").get();
+        UserDto user2 = userService.findById("ji1").get();
+        UserDto friend = userService.findById("ji2").get();
 
-        Assertions.assertThat(user.getUserAddedFriends().contains(friend));
-        Assertions.assertThat(!friend.getFriendsAddedUser().contains(friend));
-        Assertions.assertThat(friend.getFriendsAddedUser().contains(user));
-
+        System.out.println(userService.findFriendUser("ji1"));
+        Assertions.assertThat(user.equals(user2)).isEqualTo(true);
+        Assertions.assertThat(userService.findFriendUser("ji1").size()).isEqualTo(1);
+        Assertions.assertThat(userService.findFriendUser("ji1").contains(friend)).isEqualTo(true);
+        Assertions.assertThat(userService.findFriendUser("ji2").size()).isEqualTo(0);
     }
 
 }

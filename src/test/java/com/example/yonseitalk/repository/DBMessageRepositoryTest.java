@@ -5,6 +5,7 @@ import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
 import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.message.dao.MessageRepository;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class DBMessageRepositoryTest {
     @BeforeEach
     void setUp(){
 
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("flaxinger1")
                 .name("yohanmok1")
                 .password("aaa")
@@ -45,7 +46,7 @@ class DBMessageRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("flaxinger2")
                 .name("yohanmok2")
                 .password("aaa")

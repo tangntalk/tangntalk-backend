@@ -1,9 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
-import com.example.yonseitalk.web.friend.dao.Friend;
-import com.example.yonseitalk.web.user.dao.SearchUser;
-import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -67,31 +65,6 @@ class UserRepositorySearchTest {
                 .connectionStatus(true)
                 .build();
 
-//
-//        Friend friend1=new Friend();
-//        friend1.setUserId("aabb");
-//        friend1.setFriendId("bbcc");
-//
-//        Friend friend2=new Friend();
-//        friend2.setUserId("aabb");
-//        friend2.setFriendId("ccdd");
-//
-//        Friend friend3=new Friend();
-//        friend3.setUserId("aabb");
-//        friend3.setFriendId("ddee");
-//
-//        Friend friend4=new Friend();
-//        friend4.setUserId("bbcc");
-//        friend4.setFriendId("ccdd");
-//
-//        Friend friend5=new Friend();
-//        friend5.setUserId("bbcc");
-//        friend5.setFriendId("ddee");
-//
-//        Friend friend6=new Friend();
-//        friend6.setUserId("ccdd");
-//        friend6.setFriendId("ddee");
-
 
         //when
         userService.save(user1);
@@ -99,19 +72,11 @@ class UserRepositorySearchTest {
         userService.save(user3);
         userService.save(user4);
 
-
-
-//        dbFriendRepository.save(friend1);
-//        dbFriendRepository.save(friend2);
-//        dbFriendRepository.save(friend3);
-//        dbFriendRepository.save(friend4);
-//        dbFriendRepository.save(friend5);
-//        dbFriendRepository.save(friend6);
+        userService.addFriend(user2.getUserId(), user3.getUserId());
 
         //then
-        List<UserDto> friends = userService.search(user2.getUserId(),"z");
+        List<SearchUser> friends = userService.search(user2.getUserId(),"z");
+        System.out.println(friends);
         Assertions.assertThat(friends.size()).isEqualTo(2);
-
     }
-
 }

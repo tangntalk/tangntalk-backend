@@ -5,6 +5,7 @@ import com.example.yonseitalk.web.chatroom.dao.DBChatroomRepository;
 import com.example.yonseitalk.web.message.dao.DBMessageRepository;
 import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class DBChatroomRepositoryTest {
     @BeforeEach
     void setup(){
 
-        User user1 = User.builder()
+        UserDto user1 = UserDto.builder()
                 .userId("tt")
                 .name("jihoon")
                 .password("ddda")
@@ -44,7 +45,7 @@ public class DBChatroomRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
+        UserDto user2 = UserDto.builder()
                 .userId("nam")
                 .name("jihoon")
                 .password("ddda")
@@ -55,6 +56,8 @@ public class DBChatroomRepositoryTest {
                 .build();
 
 
+        userService.save(user1);
+        userService.save(user2);
         Chatroom chatroom = new Chatroom();
         chatroom.setChatroomId(null);
         chatroom.setUser1("flaxinger1");

@@ -1,6 +1,7 @@
 package com.example.yonseitalk.util.login.jwt;
 
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -86,17 +87,15 @@ public class JwtUtil {
         }
     }
 
-
-
     public String extractUsername(String token) {
         final Claims claims = extractAllClaims(token);
         if (claims == null) return null;
         else return (String) claims.get("user_id");
     }
 
-    public String generateToken(User users) {
+    public String generateToken(UserDto userDto) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user_id", users.getUserId());
+        claims.put("user_id", userDto.getUserId());
         return createToken(claims);
     }
 

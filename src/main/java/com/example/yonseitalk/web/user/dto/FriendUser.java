@@ -2,6 +2,7 @@ package com.example.yonseitalk.web.user.dto;
 
 import com.example.yonseitalk.web.chatroom.dao.Chatroom;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.projection.FriendUserProjection;
 import lombok.*;
 
 @Getter
@@ -19,14 +20,15 @@ public class FriendUser{
     private String userLocation;
     private Long chatroomId;
 
-    public static FriendUser valueOf(User user, Chatroom chatroom){
+    public static FriendUser fromProjection(FriendUserProjection friendUserProjection){
         return FriendUser.builder()
-                .name(user.getName())
-                .statusMessage(user.getStatusMessage())
-                .type(user.getType())
-                .connectionStatus(user.getConnectionStatus())
-                .userLocation(user.getUserLocation())
-                .chatroomId(chatroom.getChatroomId())
+                .name(friendUserProjection.getName())
+                .userId(friendUserProjection.getUserId())
+                .statusMessage(friendUserProjection.getStatusMessage())
+                .type(friendUserProjection.getType())
+                .connectionStatus(friendUserProjection.getConnectionStatus())
+                .userLocation(friendUserProjection.getUserLocation())
+                .chatroomId(friendUserProjection.getChatroomId())
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.yonseitalk.web.friend.dto;
 
-import com.example.yonseitalk.web.user.dao.SearchUser;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.view.DefaultResponse;
 import lombok.Getter;
 import lombok.Setter;

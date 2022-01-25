@@ -8,6 +8,7 @@ import com.example.yonseitalk.web.chatroom.dao.Chatroom;
 import com.example.yonseitalk.web.chatroom.dao.ChatroomDetail;
 import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,23 +46,23 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatroomDetail> findChatroom(String user_id) {
 
-        Optional<User> user = userService.findById(user_id);
-        if(!user.isPresent())
+        Optional<UserDto> userDto = userService.findById(user_id);
+        if(!userDto.isPresent())
             return new ArrayList<>();
         List<ChatroomDetail> chatroomDetailList = chatroomDetailRepository.findChatroomListbyUser(user_id);
-        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail,user.get())));
+        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail,userDto.get())));
         return chatroomDetailList;
     }
 
     @Override
     public List<Message> messageInquiry(Long chatroom_id, String user_id) {
-        Optional<User> user = userService.findById(user_id);
-        if(!user.isPresent())
+        Optional<UserDto> userDto = userService.findById(user_id);
+        if(!userDto.isPresent())
             return new ArrayList<>();
 
         List<Message> messageList = messageRepository.findByChatroomId(chatroom_id);
         messageList.forEach(message -> {
-            message.setContent(transformContent(message,user.get()));
+            message.setContent(transformContent(message,userDto.get()));
             //가려진 메시지도 읽었다고 처리했다 가정하자.
             if(message.getReadTime()==null && !message.getSenderId().equals(user_id)){
                 messageRepository.updateReadTime(message.getMessageId(),new Timestamp(System.currentTimeMillis()));
@@ -72,11 +73,11 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Override
-    public String transformContent(Message message, User user){
+    public String transformContent(Message message, UserDto userDto){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         message.setContent(AES128.getAES128_Decode(message.getContent()));
-        if(message.getRendezvousFlag() && !message.getSenderId().equals(user.getUserId())) {
-            if (!message.getRendezvousLocation().equals(user.getUserLocation()) || currentTime.after(message.getRendezvousTime())) {
+        if(message.getRendezvousFlag() && !message.getSenderId().equals(userDto.getUserId())) {
+            if (!message.getRendezvousLocation().equals(userDto.getUserLocation()) || currentTime.after(message.getRendezvousTime())) {
                 message.setContent("hidden message");
             }
         }
@@ -84,11 +85,11 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public String transformContent(ChatroomDetail chatroomDetail, User user){
+    public String transformContent(ChatroomDetail chatroomDetail, UserDto userDto){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         chatroomDetail.setContent(AES128.getAES128_Decode(chatroomDetail.getContent()));
-        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(user.getUserId())) {
-            if (!chatroomDetail.getRendezvousLocation().equals(user.getUserLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
+        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(userDto.getUserId())) {
+            if (!chatroomDetail.getRendezvousLocation().equals(userDto.getUserLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
                 chatroomDetail.setContent("hidden message");
             }
         }
@@ -98,8 +99,8 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Long sendMessage(String user_id, Long chatroom_id, String content, Long rendezvous_time) {
         Optional<Chatroom> chatroom = chatroomRepository.findById(chatroom_id);
-        Optional<User> user = userService.findById(user_id);
-        if(!chatroom.isPresent() || !user.isPresent())
+        Optional<UserDto> userDto = userService.findById(user_id);
+        if(!chatroom.isPresent() || !userDto.isPresent())
             return (long)-1;
 
         Message message = new Message();
@@ -111,7 +112,7 @@ public class ChatServiceImpl implements ChatService {
         if (!rendezvous_time.equals(-1L)){
             message.setRendezvousFlag(true);
             message.setRendezvousTime(new Timestamp(message.getSendTime().getTime() + (rendezvous_time * 60000L)));  // 60000 ms = 1 min
-            message.setRendezvousLocation(user.get().getUserLocation());
+            message.setRendezvousLocation(userDto.get().getUserLocation());
         }
         else{
             message.setRendezvousFlag(false);

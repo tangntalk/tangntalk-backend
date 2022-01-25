@@ -1,7 +1,7 @@
 package com.example.yonseitalk.web.user.service;
 
-import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.FriendUser;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 
@@ -15,11 +15,11 @@ public interface UserService {
 
     public UserDto save(UserRegisterRequest userRegisterRequest);
 
-    public UserDto findById(String id);
+    public Optional<UserDto> findById(String id);
 
     public void deleteById(String id);
 
-    public List<User> findByLocation(String location);
+    public List<UserDto> findByLocation(String location);
 
     public int updateStatusMessage(String id, String msg);
 
@@ -27,13 +27,13 @@ public interface UserService {
     
     public int updateUserLocation(String id, String location);
 
-    public Set<User> findFriendUser(String userId);
+    public List<FriendUser> findFriendUser(String userId);
 
     public void addFriend(String userId, String friendId);
 
     public void delFriend(String userId, String friendId);
 
-    public void isFriend(String userId, String friendId);
+    public boolean isFriend(String userId, String friendId);
 
-    public List<UserDto> search(String userId, String searchQuery);
+    public List<SearchUser> search(String userId, String searchQuery);
 }

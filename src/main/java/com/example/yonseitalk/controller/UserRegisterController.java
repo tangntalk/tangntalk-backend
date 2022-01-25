@@ -1,6 +1,7 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class UserRegisterController {
     public void register(@RequestBody UserRegisterRequest userRegisterRequest , HttpServletResponse response) throws IOException {
 
         if(userService.findById(userRegisterRequest.getUserId()).isEmpty()){
-            User user = userService.save(userRegisterRequest);
-            log.info("User={}", user);
+            UserDto userDto = userService.save(userRegisterRequest);
+            log.info("User={}", userDto);
             //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
             response.setStatus(201);
         }

@@ -1,15 +1,13 @@
 package com.example.yonseitalk.web.user.dto;
 
 import com.example.yonseitalk.web.user.dao.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.Column;
+import lombok.*;
 
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode
+@ToString
 public class UserDto {
     private String userId;
     private String name;

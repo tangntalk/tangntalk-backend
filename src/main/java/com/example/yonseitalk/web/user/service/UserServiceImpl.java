@@ -2,9 +2,10 @@ package com.example.yonseitalk.web.user.service;
 
 import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.util.login.role.Role;
+import com.example.yonseitalk.web.user.dto.FriendUser;
+import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dao.UserRepository;
-import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,9 +41,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public UserDto findById(String id){
-        UserDto userDto = UserDto.fromUser(userRepository.findById(id).orElse(null));
-        return userDto;
+    public Optional<UserDto> findById(String id){
+        User user = userRepository.findById(id).orElse(null);
+        return user==null?Optional.empty():Optional.of(UserDto.fromUser(user));
     }
 
     @Transactional
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public List<User> findByLocation(String location){
-        return userRepository.findByLocation(location);
+    public List<UserDto> findByLocation(String location){
+        return userRepository.findByLocation(location).stream().map(UserDto::fromUser).collect(Collectors.toList());
     }
 
     @Transactional
@@ -83,8 +83,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public Set<User> findFriendUser(String userId){
-        return userRepository.findById(userId).get().getUserAddedFriends();
+    public List<FriendUser> findFriendUser(String userId){
+        return userRepository.findAll(userId).stream().map(FriendUser::fromProjection).collect(Collectors.toList());
     }
 
     @Transactional
@@ -104,15 +104,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void isFriend(String userId, String friendId){
+    public boolean isFriend(String userId, String friendId){
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));
         User friend = userRepository.findById(friendId).orElseThrow(() -> new IllegalArgumentException("No user with id "+friendId));
-        user.getUserAddedFriends().contains(friend);
+        return user.getUserAddedFriends().contains(friend);
     }
 
     @Transactional
-    public List<UserDto> search(String userId, String serachQuery){
-        return userRepository.search(userId, serachQuery).stream().map(UserDto::fromUser).collect(Collectors.toList());
+    public List<SearchUser> search(String userId, String searchQuery){
+        return userRepository.search(userId, searchQuery).stream().map(SearchUser::fromProjection).collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.yonseitalk;
 
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,7 @@ class YonseitalkApplicationTests {
 	@BeforeEach
 	void setup(){
 
-		User user1 = User.builder()
+		UserDto user1 = UserDto.builder()
 				.userId("flaxinger1")
 				.name("yohan")
 				.password("mok")
