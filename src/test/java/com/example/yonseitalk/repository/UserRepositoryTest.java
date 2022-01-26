@@ -124,6 +124,7 @@ class UserRepositoryTest {
         UserDto friend = userService.findById("ji2").get();
 
         System.out.printf("User Friend List: " + userService.findFriendUser("ji1") + "\n");
+
         System.out.printf("Friend User: " + friend + "\n");
         Assertions.assertThat(userService.findFriendUser("ji1").size()).isEqualTo(1);
         Assertions.assertThat(userService.findFriendUser("ji1").stream().map(FriendUser::getUserId).collect(Collectors.toSet()).contains("ji2")).isEqualTo(true);

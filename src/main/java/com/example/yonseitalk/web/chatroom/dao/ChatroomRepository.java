@@ -1,6 +1,5 @@
 package com.example.yonseitalk.web.chatroom.dao;
 
-import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
 import com.example.yonseitalk.web.chatroom.dto.projection.ChatroomDetailProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

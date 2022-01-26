@@ -91,7 +91,7 @@ public class ChatServiceImpl implements ChatService {
         return messageDto.getContent();
     }
 
-    @Override
+    @Transactional
     public String transformContent(ChatroomDetail chatroomDetail, UserDto userDto){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         chatroomDetail.setContent(AES128.getAES128_Decode(chatroomDetail.getContent()));
@@ -103,29 +103,25 @@ public class ChatServiceImpl implements ChatService {
         return chatroomDetail.getContent();
     }
 
-    @Override
+    @Transactional
     public Long sendMessage(String user_id, Long chatroom_id, String content, Long rendezvous_time) {
         Chatroom chatroom = chatroomRepository.findByChatroomId(chatroom_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+chatroom_id));;
-        UserDto userDto = userService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));;
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));;
 
-//        Message message = new Message();
-//        message.setChatroomId(chatroom_id);
-//        message.setSenderId(user_id);
-//        message.setContent(AES128.getAES128_Encode(content));
-//        message.setSendTime(new Timestamp(System.currentTimeMillis()));
         Message message = Message.builder()
-                .sender(userDto.toUser())
+                .sender(user)
                 .chatroom(chatroom)
                 .content(AES128.getAES128_Encode(content))
                 .sendTime(new Timestamp(System.currentTimeMillis()))
                 .build();
+
         chatroom.getMessages().add(message);
         chatroom.setLastMessage(message);
 
         if (!rendezvous_time.equals(-1L) && rendezvous_time != null){
             message.setRendezvousFlag(true);
             message.setRendezvousTime(new Timestamp(message.getSendTime().getTime() + (rendezvous_time * 60000L)));  // 60000 ms = 1 min
-            message.setRendezvousLocation(userDto.getUserLocation());
+            message.setRendezvousLocation(user.getUserLocation());
         }
         else{
             message.setRendezvousFlag(false);
