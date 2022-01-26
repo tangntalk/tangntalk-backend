@@ -4,7 +4,9 @@ import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.domain.Role;
 import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.domain.user.UserRegisterRequest;
+import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.repository.UserRepository;
+import javassist.bytecode.DuplicateMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User save(UserRegisterRequest userRegisterRequest) {
+
+        userRepository.findById(userRegisterRequest.getUser_id())
+                .ifPresent(user -> {throw new DuplicateAccountException();});
+
         userRegisterRequest.setPassword(AES128.getAES128_Encode(userRegisterRequest.getPassword()));
         User user = userRegisterRequest.toEntity();
         user.setConnection_status(false);

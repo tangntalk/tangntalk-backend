@@ -6,9 +6,12 @@ import com.example.yonseitalk.domain.User;
 import com.example.yonseitalk.domain.user.UserRegisterRequest;
 import com.example.yonseitalk.repository.*;
 import com.example.yonseitalk.service.UserService;
+import com.example.yonseitalk.view.DefaultResponse;
+import com.example.yonseitalk.view.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +30,6 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RequestMapping("/register")
 public class UserRegisterController {
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @GetMapping("")
@@ -36,17 +38,12 @@ public class UserRegisterController {
     }
 
     @PostMapping("")
-    public void register(@RequestBody UserRegisterRequest userRegisterRequest , HttpServletResponse response) throws IOException {
+    public ResponseEntity<DefaultResponse> register(@RequestBody UserRegisterRequest userRegisterRequest){
 
-        if(userRepository.findById(userRegisterRequest.getUser_id()).isEmpty()){
-            User user = userService.save(userRegisterRequest);
-            log.info("User={}", user);
-            //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
-            response.setStatus(201);
-        }
-        else{
-            response.setStatus(401);
-        }
+        User user = userService.save(userRegisterRequest);
+        return ResponseEntity.status(201).body(
+                new DefaultResponse(true)
+        );
 
     }
 

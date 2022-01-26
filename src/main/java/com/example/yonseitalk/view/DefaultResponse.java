@@ -1,5 +1,6 @@
 package com.example.yonseitalk.view;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,4 +9,11 @@ import lombok.Setter;
 public class DefaultResponse {
     private boolean success;
 
+    public DefaultResponse(){
+
+    }
+
+    public DefaultResponse(boolean success) {
+        this.success = success;
+    }
 }
