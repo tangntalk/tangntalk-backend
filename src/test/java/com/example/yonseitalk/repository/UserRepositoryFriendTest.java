@@ -1,11 +1,8 @@
 package com.example.yonseitalk.repository;
 
-import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
-import com.example.yonseitalk.web.friend.dao.Friend;
-import com.example.yonseitalk.web.user.dao.User;
-import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,20 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-
-
+@Slf4j
 @SpringBootTest
 class UserRepositoryFriendTest {
 
-//    @Autowired
-//    private DBFriendRepository dbFriendRepository;
 
     @Autowired
     private UserService userService;
-
-
 
 
     @Test
@@ -45,6 +35,7 @@ class UserRepositoryFriendTest {
     void delete(){
 
         userService.delFriend("tt", "pp");
+        log.info(userService.findFriendUser("tt").toString());
         Assertions.assertThat(userService.findFriendUser("tt").size()).isEqualTo(1);
 
     }

@@ -15,17 +15,17 @@ public class MessageListView extends DefaultResponse {
 
     private List<SingleMessage> messages = new ArrayList<>();
 
-    public void addSingleMessage(Message message){
+    public void addSingleMessage(MessageDto messageDto){
         messages.add(SingleMessage.builder()
-                .message_id(message.getMessageId())
-                .chatroom_id(message.getChatroomId())
-                .sender_id(message.getSenderId())
-                .content(message.getContent())
-                .send_time(String.valueOf(message.getSendTime()))
-                .read_time((message.getReadTime() == null) ? "읽지 않음" : "읽음")
-                .rendezvous_flag(message.getRendezvousFlag())
-                .rendezvous_location(message.getRendezvousLocation())
-                .rendezvous_time((message.getRendezvousTime() == null) ? null : String.valueOf(message.getRendezvousTime()))
+                .message_id(messageDto.getMessageId())
+                .chatroom_id(messageDto.getChatroomId())
+                .sender_id(messageDto.getSenderId())
+                .content(messageDto.getContent())
+                .send_time(String.valueOf(messageDto.getSendTime()))
+                .read_time((messageDto.getReadTime() == null) ? "읽지 않음" : "읽음")
+                .rendezvous_flag(messageDto.getRendezvousFlag())
+                .rendezvous_location(messageDto.getRendezvousLocation())
+                .rendezvous_time((messageDto.getRendezvousTime() == null) ? null : String.valueOf(messageDto.getRendezvousTime()))
                 .build());
     }
 

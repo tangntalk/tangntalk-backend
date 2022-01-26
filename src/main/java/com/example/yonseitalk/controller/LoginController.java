@@ -59,7 +59,7 @@ public class LoginController {
         LoginFormat loginFormat=objectMapper.readValue(messageBody,LoginFormat.class);
 
 
-        UserDto loginUser = loginService.login(loginFormat.getUserId(),loginFormat.getPassword());
+        UserDto loginUser = loginService.login(loginFormat.getUser_id(),loginFormat.getPassword());
 
         if(loginUser==null){
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);

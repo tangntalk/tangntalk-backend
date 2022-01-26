@@ -1,6 +1,5 @@
 package com.example.yonseitalk.repository;
 
-import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
 import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
@@ -15,8 +14,7 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 class UserRepositorySearchTest {
-    @Autowired
-    private DBFriendRepository dbFriendRepository;
+
 
     @Autowired
     private UserService userService;

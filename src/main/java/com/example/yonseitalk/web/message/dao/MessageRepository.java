@@ -1,19 +1,22 @@
 package com.example.yonseitalk.web.message.dao;
 
-
-import java.sql.Timestamp;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
-import java.util.Optional;
 
-public interface MessageRepository {
+public interface MessageRepository extends JpaRepository<Message, String> {
 
-    Optional<Message> findById(Long id);
+    List<Message> findByChatroomChatroomIdOrderBySendTimeAsc(Long chatroomId);
+    Long countByChatroomChatroomId(Long chatroomId);
+    Message findMessageByMessageId(Long messageId);
 
-    Message save(Message message);
+    default List<Message> findByChatroomId(Long chatroomId){
+        return findByChatroomChatroomIdOrderBySendTimeAsc(chatroomId);
+    }
 
-    List<Message> findByChatroomId(Long chatroom_id);
+    default Long countMessages(Long chatroomId){
+        return countByChatroomChatroomId(chatroomId);
+    }
 
-    int updateReadTime(Long id, Timestamp timestamp);
 
-    Long countMessages(Long chatroom_id);
+
 }

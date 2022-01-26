@@ -1,16 +1,22 @@
 package com.example.yonseitalk.web.user.dao;
 
+import com.example.yonseitalk.web.chatroom.dao.Chatroom;
 import lombok.*;
+import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * TODO: CHECK Constraint Test Case 추가 필요
+ */
 
 @Getter
 @Setter
 @Entity
 @Table(name = "yt_user")
+@Check(constraints = "user_location IN ('공학관', '백양관', '학생회관', '신촌역')")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +44,7 @@ public class User {
     @Column(nullable = false)
     private String type;
 
+//    @Column(nullable = false)
     @Column(nullable = false)
     private String userLocation;
 
@@ -46,14 +53,22 @@ public class User {
 
     @Builder.Default
     @JoinTable(name = "friends",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+                joinColumns = {@JoinColumn(name = "user_id")},
+                inverseJoinColumns = {@JoinColumn(name = "friend_id")}
     )
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,
+                fetch = FetchType.LAZY)
     private Set<User> userAddedFriends = new HashSet<>();
 
     @Builder.Default
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userAddedFriends", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,
+                mappedBy = "userAddedFriends",
+                fetch = FetchType.LAZY)
     private Set<User> friendsAddedUser = new HashSet<>();
+
+//    @Builder.Default
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+//    private Set<Chatroom> chatrooms = new HashSet<>();
+
 
 }

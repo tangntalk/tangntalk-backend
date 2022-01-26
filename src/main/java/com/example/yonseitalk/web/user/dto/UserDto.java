@@ -35,15 +35,15 @@ public class UserDto {
 
     public User toUser(){
         return User.builder()
-                .userId(getUserId())
-                .name(getName())
-                .email(getEmail())
-                .password(getPassword())
-                .role(getRole())
-                .statusMessage(getStatusMessage())
-                .type(getType())
-                .userLocation(getUserLocation())
-                .connectionStatus(getConnectionStatus())
+                .userId(userId)
+                .name(name)
+                .email(email)
+                .password(password)
+                .role(role)
+                .statusMessage(statusMessage)
+                .type(type)
+                .userLocation(userLocation)
+                .connectionStatus(connectionStatus)
                 .build();
     }
 }

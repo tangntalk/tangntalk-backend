@@ -1,8 +1,6 @@
 package com.example.yonseitalk.repository;
 
-import com.example.yonseitalk.web.friend.dao.DBFriendRepository;
-import com.example.yonseitalk.web.friend.dao.DBFriendUserRepository;
-import com.example.yonseitalk.web.friend.dao.Friend;
+
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.UserDto;

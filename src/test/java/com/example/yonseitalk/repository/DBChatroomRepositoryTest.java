@@ -1,9 +1,12 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.chatroom.dao.DBChatroomRepository;
-import com.example.yonseitalk.web.message.dao.DBMessageRepository;
+import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
+import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
+import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
+import com.example.yonseitalk.web.chatroom.service.ChatService;
 import com.example.yonseitalk.web.message.dao.Message;
+import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
@@ -21,14 +24,15 @@ import java.util.Optional;
 @SpringBootTest
 public class DBChatroomRepositoryTest {
 
-    @Autowired
-    private DBChatroomRepository dbChatroomRepository;
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private DBMessageRepository dbMessageRepository;
+    private ChatService chatService;
+
+    @Autowired
+    private ChatroomRepository chatroomRepository;
 
     Long chatroom_id;
 
@@ -36,7 +40,7 @@ public class DBChatroomRepositoryTest {
     void setup(){
 
         UserDto user1 = UserDto.builder()
-                .userId("tt")
+                .userId("t1")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -46,7 +50,7 @@ public class DBChatroomRepositoryTest {
                 .build();
 
         UserDto user2 = UserDto.builder()
-                .userId("nam")
+                .userId("t2")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -55,14 +59,24 @@ public class DBChatroomRepositoryTest {
                 .connectionStatus(true)
                 .build();
 
+        UserDto user3 = UserDto.builder()
+                .userId("t3")
+                .name("jihoon")
+                .password("ddda")
+                .statusMessage("hihi")
+                .type("일반")
+                .userLocation("공학관")
+                .connectionStatus(true)
+                .build();
 
         userService.save(user1);
         userService.save(user2);
-        Chatroom chatroom = new Chatroom();
-        chatroom.setChatroomId(null);
-        chatroom.setUser1("flaxinger1");
-        chatroom.setUser2("flaxinger2");
-        chatroom_id = dbChatroomRepository.save(chatroom).getChatroomId();
+        userService.save(user3);
+        Long id = chatService.addChatroom(user1.getUserId(), user2.getUserId());
+        Long id2 = chatService.addChatroom(user2.getUserId(), user3.getUserId());
+        chatService.sendMessage("t1", id, "aaa", -1L);
+        chatService.sendMessage("t2", id2, "aaa", -1L);
+
     }
 
 //    @Transactional
@@ -78,7 +92,7 @@ public class DBChatroomRepositoryTest {
     void save(){
 
         User user1 = User.builder()
-                .userId("tt")
+                .userId("t1")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -88,7 +102,7 @@ public class DBChatroomRepositoryTest {
                 .build();
 
         User user2 = User.builder()
-                .userId("nam")
+                .userId("t2")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -98,16 +112,16 @@ public class DBChatroomRepositoryTest {
                 .build();
 
 
-        Chatroom chatroom = new Chatroom();
-        chatroom.setChatroomId(null);
-        chatroom.setUser1("tt");
-        chatroom.setUser2("nam");
-        chatroom_id = dbChatroomRepository.save(chatroom).getChatroomId();
+//        Chatroom chatroom = new Chatroom();
+//        chatroom.setChatroomId(null);
+//        chatroom.setUser1("t1");
+//        chatroom.setUser2("t2");
+//        chatroom_id = chatService.save(chatroom).getChatroomId();
+        Long id = chatService.addChatroom(user1.getUserId(), user2.getUserId());
 
-        Optional<Chatroom> chatroom1 =dbChatroomRepository.findById(chatroom_id);
-        Assertions.assertThat(chatroom1.get().getUser1()).isEqualTo("tt");
-
-
+        chatService.sendMessage("t1", id, "aaa", -1L);
+        List<ChatroomDetail> chatroom1 =  chatService.findChatroom(user1.getUserId());
+        Assertions.assertThat(chatroom1.get(0).getUser1()).isEqualTo("t1");
 
     }
 
@@ -115,43 +129,54 @@ public class DBChatroomRepositoryTest {
     @Test
     void findByUserandfindById(){
 
-        List<Chatroom> chatroomList1 = dbChatroomRepository.findByUser("tt");
-        List<Chatroom> chatroomList2 = dbChatroomRepository.findByUser("nam");
-        Assertions.assertThat(chatroomList1.size() == 1);
-        Assertions.assertThat(chatroomList2.size() == 1);
-        Optional<Chatroom> chatroom = dbChatroomRepository.findById(chatroomList1.get(0).getChatroomId());
+        List<ChatroomDetail> chatroomList1 = chatService.findChatroom("t1");
+        List<ChatroomDetail> chatroomList2 = chatService.findChatroom("t2");
+        Assertions.assertThat(chatroomList1.size()).isEqualTo(1);
+        Assertions.assertThat(chatroomList2.size()).isEqualTo(2);
+        Optional<Chatroom> chatroom = chatroomRepository.findByChatroomId(chatroomList1.get(0).getChatroomId());
 
         Assertions.assertThat(chatroom.isPresent());
         Assertions.assertThat(chatroomList1.get(0).getChatroomId()).isEqualTo(chatroomList2.get(0).getChatroomId());
-        Assertions.assertThat(chatroom.get().getUser1()).isEqualTo(chatroomList2.get(0).getUser1());
+        Assertions.assertThat(chatroom.get().getUser1().getUserId()).isEqualTo(chatroomList1.get(0).getUser1());
     }
 
     @Transactional
     @Test
     void delete() {
-
-        List<Chatroom> chatroomList1 = dbChatroomRepository.findByUser("tt");
-        Assertions.assertThat(chatroomList1.size() == 1);
-
-        dbChatroomRepository.delete(chatroomList1.get(0).getChatroomId());
-        chatroomList1 = dbChatroomRepository.findByUser("tt");
+        List<ChatroomDetail> chatroomList1 = chatService.findChatroom("t1");
+        Assertions.assertThat(chatroomList1.size()).isEqualTo(1);
+        chatroomRepository.deleteChatroomByChatroomId(chatroomList1.get(0).getChatroomId());
+        chatroomList1 = chatService.findChatroom("t1");
         Assertions.assertThat(chatroomList1.size() == 0);
     }
 
     @Transactional
     @Test
     void updateLastMessage() {
-        Message message = new Message();
-        message.setChatroomId(chatroom_id);
-        message.setSenderId("tt");
-        message.setSendTime(new Timestamp(System.currentTimeMillis()));
-        message.setRendezvousFlag(false);
-        message.setContent("1");
-        Long message_id = dbMessageRepository.save(message).getMessageId();
-        dbChatroomRepository.updateLastMessage(chatroom_id,message_id);
-        List<Chatroom> chatroomList = dbChatroomRepository.findByUser("tt");
-        Assertions.assertThat(chatroomList.get(0).getLastMessageId()).isEqualTo(message_id);
 
+        List<ChatroomDetail> chatroomList = chatService.findChatroom("t1");
+        Long message_id = chatService.sendMessage("t1", chatroomList.get(0).getChatroomId(), "aa", -1L);
+//        Message message = new Message();
+//        message.setChatroomId(chatroom_id);
+//        message.setSenderId("t1");
+//        message.setSendTime(new Timestamp(System.currentTimeMillis()));
+//        message.setRendezvousFlag(false);
+//        message.setContent("1");
+//        Long message_id = dbMessageRepository.save(message).getMessageId();
+//        dbChatroomRepository.updateLastMessage(chatroom_id,message_id);
+        chatroomList = chatService.findChatroom("t1");
+        System.out.println(chatroomList);
+        Assertions.assertThat(chatroomList.get(0).getSenderId()).isEqualTo("t1");
+
+    }
+
+    @Transactional
+    @Test
+    void messageInquiry(){
+        List<ChatroomDetail> chatroomList = chatService.findChatroom("t1");
+        Assertions.assertThat(chatroomList.size()).isEqualTo(1);
+        List<MessageDto> MessageList = chatService.messageInquiry(chatroomList.get(0).getChatroomId(), "t1");
+        System.out.println(MessageList);
     }
 
 }

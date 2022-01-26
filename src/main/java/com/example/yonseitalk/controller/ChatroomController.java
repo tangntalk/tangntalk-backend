@@ -1,10 +1,12 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.web.chatroom.dao.ChatroomDetail;
+import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
+import com.example.yonseitalk.web.chatroom.dto.ChatroomView;
 import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.chatroom.service.ChatService;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
 import com.example.yonseitalk.web.message.dto.MessageCount;
+import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.message.dto.MessageListView;
 import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -36,27 +38,27 @@ public class ChatroomController {
     }
 
     @GetMapping(value = "/{user_id}/chatrooms")
-    public ChatroomDto getChatroomList(@PathVariable("user_id") String userId){
+    public ChatroomView getChatroomList(@PathVariable("user_id") String userId){
         List<ChatroomDetail> chatroomDetails = chatService.findChatroom(userId);
-        ChatroomDto chatroomDto = new ChatroomDto();
+        ChatroomView chatroomView = new ChatroomView();
         if(!chatroomDetails.isEmpty()){
             chatroomDetails.forEach(chatroomDetail -> {
                 String opponentId = (chatroomDetail.getUser1().equals(userId))? chatroomDetail.getUser2() : chatroomDetail.getUser1();
                 chatroomDetail.setUser1(userService.findById(chatroomDetail.getUser1()).get().getName());
                 chatroomDetail.setUser2(userService.findById(chatroomDetail.getUser2()).get().getName());
-               chatroomDto.addSingleChatroom(chatroomDetail, userService.findById(userId).get().getName(), opponentId);
+                chatroomView.addSingleChatroom(chatroomDetail, userService.findById(userId).get().getName(), opponentId);
             });
         }
-        chatroomDto.setSuccess(true);
-        return chatroomDto;
+        chatroomView.setSuccess(true);
+        return chatroomView;
     }
 
     @GetMapping(value = "/{user_id}/chatrooms/{chatroom_id}")
     public MessageListView getMessages(@PathVariable("user_id") String userId, @PathVariable("chatroom_id") Long chatroomId){
-        List<Message> messageList = chatService.messageInquiry(chatroomId, userId);
+        List<MessageDto> messageList = chatService.messageInquiry(chatroomId, userId);
         MessageListView messageListView = new MessageListView();
         if(!messageList.isEmpty()) {
-            for(Message m: messageList)
+            for(MessageDto m: messageList)
                 messageListView.addSingleMessage(m);
         }
         messageListView.setSuccess(true);

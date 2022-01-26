@@ -3,12 +3,12 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.SearchUser;
-import com.example.yonseitalk.web.friend.service.FriendService;
-import com.example.yonseitalk.util.login.service.SearchService;
 import com.example.yonseitalk.view.DefaultResponse;
 import com.example.yonseitalk.web.friend.dto.FriendCheckView;
 import com.example.yonseitalk.web.friend.dto.FriendListView;
 import com.example.yonseitalk.web.friend.dto.SearchFriendView;
+import com.example.yonseitalk.web.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +17,14 @@ import java.util.Map;
 @CrossOrigin("*")
 @RequestMapping("/users")
 @RestController
+@RequiredArgsConstructor
 public class FriendController {
-    private final FriendService friendService;
-    private final SearchService searchService;
 
-    public FriendController(FriendService friendService, SearchService searchService) {
-        this.friendService = friendService;
-        this.searchService = searchService;
-    }
+    private final UserService userService;
 
     @GetMapping("/{user_id}/friends")
     public FriendListView friendList(@PathVariable("user_id") String userId){
-        List<FriendUser> friendUsers = friendService.FindFriends(userId);
+        List<FriendUser> friendUsers = userService.findFriendUser(userId);
         FriendListView friendListView = new FriendListView();
         if (!friendUsers.isEmpty()){
             friendUsers.forEach(friendListView::addUser);
@@ -39,7 +35,7 @@ public class FriendController {
 
     @GetMapping("/{user_id}/friends/search")
     public SearchFriendView friendList(@PathVariable("user_id") String userId, @RequestParam("query") String query){
-        List<SearchUser> searchUsers = searchService.searchFriends(userId, query);
+        List<SearchUser> searchUsers = userService.search(userId, query);
         SearchFriendView searchFriendView = new SearchFriendView();
         if (!searchUsers.isEmpty()){
             searchUsers.forEach(searchFriendView::addUser);
@@ -50,23 +46,23 @@ public class FriendController {
 
     @PostMapping("/{user_id}/friends")
     public DefaultResponse addFriend(@PathVariable("user_id") String userId, @RequestBody Map<String, String> friendId ){
-        int status = friendService.addFriend(userId,friendId.get("friend_id"));
+        userService.addFriend(userId,friendId.get("friend_id"));
         DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(status > 0);
+        defaultResponse.setSuccess(true);
         return defaultResponse;
     }
 
     @DeleteMapping("/{user_id}/friends/{friend_id}")
     public DefaultResponse delFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
-        int status = friendService.delFriend(userId,friendId);
+        userService.delFriend(userId,friendId);
         DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(status > 0);
+        defaultResponse.setSuccess(true);
         return defaultResponse;
     }
 
     @GetMapping("/{user_id}/friends/{friend_id}")
     public DefaultResponse isFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
-        boolean isFriend = friendService.isFriend(userId,friendId);
+        boolean isFriend = userService.isFriend(userId,friendId);
         FriendCheckView friendCheckView = new FriendCheckView();
         friendCheckView.setSuccess(true);
         friendCheckView.set_friend(isFriend);

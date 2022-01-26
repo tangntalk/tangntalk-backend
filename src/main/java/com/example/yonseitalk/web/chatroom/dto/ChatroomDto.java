@@ -1,47 +1,33 @@
 package com.example.yonseitalk.web.chatroom.dto;
 
-import com.example.yonseitalk.web.chatroom.dao.ChatroomDetail;
-import com.example.yonseitalk.view.DefaultResponse;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.yonseitalk.web.chatroom.dao.Chatroom;
+import com.example.yonseitalk.web.message.dao.Message;
+import com.example.yonseitalk.web.message.dto.MessageDto;
+import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.UserDto;
+import lombok.*;
 
 @Getter
 @Setter
-public class ChatroomDto extends DefaultResponse{
+@Builder
+@ToString
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
+public class ChatroomDto {
 
-    private List<SingleChatroom> chatrooms = new ArrayList<>();
+    private Long chatroomId;
+    private UserDto user1;
+    private UserDto user2;
+    private MessageDto lastMessage;
 
-    public void addSingleChatroom(ChatroomDetail chatroomDetail, String userName, String opponentId){
-        chatrooms.add(SingleChatroom.builder()
-                .chatroom_id(chatroomDetail.getChatroomId())
-                .last_message(chatroomDetail.getContent())
-                .last_send_time(String.valueOf(chatroomDetail.getSendTime()))
-                .last_message_from(chatroomDetail.getSenderId())
-                .opponent_name((String.valueOf(chatroomDetail.getUser1()).equals(userName)) ? chatroomDetail.getUser2() : chatroomDetail.getUser1())
-                .opponent_id(opponentId)
-                .message_location(chatroomDetail.getRendezvousLocation())
-                .rendezvous_time(String.valueOf(chatroomDetail.getRendezvousTime()))
-                .connection_Status(chatroomDetail.getConnectionStatus())
-                .build());
-    }
-
-    @Getter
-    @Setter
-    @Builder
-    static class SingleChatroom {
-        Long chatroom_id;
-        String last_message;
-        String last_send_time;
-        String last_message_from;
-        String opponent_name;
-        String opponent_id;
-        String message_location;
-        String rendezvous_time;
-        Boolean connection_Status;
+    public static ChatroomDto fromChatroom(Chatroom chatroom){
+        return ChatroomDto.builder()
+                .chatroomId(chatroom.getChatroomId())
+                .user1(UserDto.fromUser(chatroom.getUser1()))
+                .user2(UserDto.fromUser(chatroom.getUser2()))
+                .lastMessage(MessageDto.fromMessage(chatroom.getLastMessage()))
+                .build();
     }
 
 }

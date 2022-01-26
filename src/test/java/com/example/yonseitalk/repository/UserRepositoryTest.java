@@ -1,6 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -8,9 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class UserRepositoryTest {
@@ -118,13 +121,12 @@ class UserRepositoryTest {
         userService.addFriend("ji1", "ji2");
 
         UserDto user = userService.findById("ji1").get();
-        UserDto user2 = userService.findById("ji1").get();
         UserDto friend = userService.findById("ji2").get();
 
-        System.out.println(userService.findFriendUser("ji1"));
-        Assertions.assertThat(user.equals(user2)).isEqualTo(true);
+        System.out.printf("User Friend List: " + userService.findFriendUser("ji1") + "\n");
+        System.out.printf("Friend User: " + friend + "\n");
         Assertions.assertThat(userService.findFriendUser("ji1").size()).isEqualTo(1);
-        Assertions.assertThat(userService.findFriendUser("ji1").contains(friend)).isEqualTo(true);
+        Assertions.assertThat(userService.findFriendUser("ji1").stream().map(FriendUser::getUserId).collect(Collectors.toSet()).contains("ji2")).isEqualTo(true);
         Assertions.assertThat(userService.findFriendUser("ji2").size()).isEqualTo(0);
     }
 
