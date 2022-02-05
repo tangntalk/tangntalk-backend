@@ -1,6 +1,7 @@
 package com.example.yonseitalk.web.user.service;
 
 import com.example.yonseitalk.AES128;
+import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.util.login.role.Role;
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.SearchUser;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto save(UserRegisterRequest userRegisterRequest) {
+
+        userRepository.findById(userRegisterRequest.getUserId())
+                .ifPresent(user -> {throw new DuplicateAccountException();});
         userRegisterRequest.setPassword(AES128.getAES128_Encode(userRegisterRequest.getPassword()));
         User user = userRegisterRequest.toEntity();
         user.setConnectionStatus(false);

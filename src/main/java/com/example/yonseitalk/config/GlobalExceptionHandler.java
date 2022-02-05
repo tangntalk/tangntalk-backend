@@ -1,12 +1,15 @@
 package com.example.yonseitalk.config;
 
+import com.example.yonseitalk.web.common.dto.Response;
 import com.example.yonseitalk.exception.CommonException;
 import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.view.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -31,20 +34,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(value = {DuplicateAccountException.class})
-    protected ResponseEntity<ErrorResponse> handleDuplicateAccountException(DuplicateAccountException e){
+    protected Response.Error handleDuplicateAccountException(DuplicateAccountException e){
         log.error("throw DuplicatedAccount Exception : {}", e.getCode());
-        return ResponseEntity.status(401).body(
-                new ErrorResponse(false, e.getCode())
-        );
+        return new Response.Error(e.getCode());
     }
 
+    /*
+        db 단에서의 에러를 임시러 처리하게 했다.
+        추후에 validation 과정을 자세하게 구현해야한다.
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {DataIntegrityViolationException.class})
-    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e){
+    protected Response.Error handleDataIntegrityViolationException(DataIntegrityViolationException e){
         log.error("throw DataIntegrityViolation Exception : {}", "DataIntegrityViolationException");
-        return ResponseEntity.status(401).body(
-                new ErrorResponse(false, "DataIntegrityViolationException")
-        );
+        return new Response.Error("DataIntegrityViolationException");
     }
 
 
