@@ -1,6 +1,5 @@
 package com.example.yonseitalk;
 
-import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;

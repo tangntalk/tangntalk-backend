@@ -1,13 +1,11 @@
 package com.example.yonseitalk.repository;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
+import com.example.yonseitalk.web.chatroom.domain.Chatroom;
+import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
-import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
 import com.example.yonseitalk.web.chatroom.service.ChatService;
-import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.domain.User;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 

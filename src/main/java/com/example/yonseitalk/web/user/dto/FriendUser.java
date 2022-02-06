@@ -1,7 +1,5 @@
 package com.example.yonseitalk.web.user.dto;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.projection.FriendUserProjection;
 import lombok.*;
 

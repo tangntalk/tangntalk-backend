@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.chatroom.dao;
+package com.example.yonseitalk.web.chatroom.domain;
 
 import com.example.yonseitalk.web.chatroom.dto.projection.ChatroomDetailProjection;
 import org.springframework.data.jpa.repository.JpaRepository;

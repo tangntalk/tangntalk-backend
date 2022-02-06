@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.message.dao;
+package com.example.yonseitalk.web.message.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, String> {
 
     List<Message> findByChatroomChatroomIdOrderBySendTimeAsc(Long chatroomId);
+
     Long countByChatroomChatroomId(Long chatroomId);
     Message findMessageByMessageId(Long messageId);
 

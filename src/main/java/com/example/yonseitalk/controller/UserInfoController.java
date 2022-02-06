@@ -1,10 +1,10 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
+import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.nearbyUser;
 import com.example.yonseitalk.exception.NotFoundException;
-import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
+import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
 import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

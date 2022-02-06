@@ -1,6 +1,5 @@
 package com.example.yonseitalk.util.login.jwt;
 
-import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

@@ -1,10 +1,6 @@
 package com.example.yonseitalk.web.message.dto;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
-import com.example.yonseitalk.web.message.dao.Message;
-import com.example.yonseitalk.web.user.dao.User;
-import com.example.yonseitalk.web.user.dto.UserDto;
+import com.example.yonseitalk.web.message.domain.Message;
 import lombok.*;
 
 import java.util.Date;
@@ -40,5 +36,7 @@ public class MessageDto {
                 .rendezvousTime(message.getRendezvousTime())
                 .build();
     }
+
+    // TODO: toMessage()를 만들어야한다.
 
 }

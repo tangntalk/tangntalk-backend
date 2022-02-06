@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.user.dao;
+package com.example.yonseitalk.web.user.domain;
 
 import com.example.yonseitalk.web.user.dto.projection.FriendUserProjection;
 import com.example.yonseitalk.web.user.dto.projection.SearchUserProjection;

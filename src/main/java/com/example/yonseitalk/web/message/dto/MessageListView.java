@@ -1,6 +1,5 @@
 package com.example.yonseitalk.web.message.dto;
 
-import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.view.DefaultResponse;
 import lombok.Builder;
 import lombok.Getter;

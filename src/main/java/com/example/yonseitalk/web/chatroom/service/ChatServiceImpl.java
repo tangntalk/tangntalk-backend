@@ -1,14 +1,14 @@
 package com.example.yonseitalk.web.chatroom.service;
 
 import com.example.yonseitalk.AES128;
-import com.example.yonseitalk.web.chatroom.dao.ChatroomRepository;
-import com.example.yonseitalk.web.message.dao.MessageRepository;
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
+import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
+import com.example.yonseitalk.web.message.domain.MessageRepository;
+import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
-import com.example.yonseitalk.web.message.dao.Message;
+import com.example.yonseitalk.web.message.domain.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.user.dao.User;
-import com.example.yonseitalk.web.user.dao.UserRepository;
+import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.user.domain.UserRepository;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
