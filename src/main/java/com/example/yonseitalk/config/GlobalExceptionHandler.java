@@ -1,8 +1,9 @@
 package com.example.yonseitalk.config;
 
-import com.example.yonseitalk.web.common.dto.Response;
+import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.exception.CommonException;
 import com.example.yonseitalk.exception.DuplicateAccountException;
+import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.view.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,10 +35,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(value = {DuplicateAccountException.class})
     protected Response.Error handleDuplicateAccountException(DuplicateAccountException e){
         log.error("throw DuplicatedAccount Exception : {}", e.getCode());
+        return new Response.Error(e.getCode());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {NotFoundException.class})
+    protected Response.Error handleNotFoundException(NotFoundException e){
+        log.error("throw NonFoundException : {}", "NotFoundException");
         return new Response.Error(e.getCode());
     }
 
@@ -51,6 +60,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("throw DataIntegrityViolation Exception : {}", "DataIntegrityViolationException");
         return new Response.Error("DataIntegrityViolationException");
     }
+
+
 
 
 }

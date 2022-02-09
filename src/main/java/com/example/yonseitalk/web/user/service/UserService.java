@@ -1,9 +1,6 @@
 package com.example.yonseitalk.web.user.service;
 
-import com.example.yonseitalk.web.user.dto.FriendUser;
-import com.example.yonseitalk.web.user.dto.SearchUser;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
+import com.example.yonseitalk.web.user.dto.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +11,8 @@ public interface UserService {
     public void save(UserDto userDto);
 
     public UserDto save(UserRegisterRequest userRegisterRequest);
+
+    public UserInfoQueryResponse userInfoQuery(String id);
 
     public Optional<UserDto> findById(String id);
 

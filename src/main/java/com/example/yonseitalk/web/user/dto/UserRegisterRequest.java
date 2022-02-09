@@ -1,6 +1,7 @@
 package com.example.yonseitalk.web.user.dto;
 
 import com.example.yonseitalk.web.user.domain.User;
+import lombok.Builder;
 import lombok.Data;
 
 @Data

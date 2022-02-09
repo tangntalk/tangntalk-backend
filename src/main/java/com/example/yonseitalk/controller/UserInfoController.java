@@ -1,7 +1,9 @@
 package com.example.yonseitalk.controller;
 
+import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.user.dto.UserDto;
+import com.example.yonseitalk.web.user.dto.UserInfoQueryResponse;
 import com.example.yonseitalk.web.user.dto.nearbyUser;
 import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
@@ -22,24 +24,9 @@ public class UserInfoController {
     private final UserService userService;
     private final ChatroomRepository chatroomRepository;
 
-    @RequestMapping(value = "/{user_id}", method = RequestMethod.GET)
-    public ResponseEntity<?> userInfo(@PathVariable("user_id") String userId){
-
-        Optional<UserDto> userDto = userService.findById(userId);
-        Map<String, String> userInfo = new HashMap<>();
-        Map<String, Object> response = new HashMap<>();
-
-        if(!userDto.isPresent()) {
-            response.put("success", false);
-            response.put("code", new NotFoundException());
-        } else{
-            response.put("success", true);
-            userInfo.put("name", userDto.get().getName());
-            userInfo.put("status_message", userDto.get().getStatusMessage());
-            userInfo.put("location_name", userDto.get().getUserLocation());
-            response.put("user", userInfo);
-        }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping(value = "/{user_id}")
+    public Response.Item<UserInfoQueryResponse> userInfo(@PathVariable("user_id") String userId){
+        return new Response.Item<>(userService.userInfoQuery(userId));
     }
 
     @PostMapping(value = "/{user_id}/location")

@@ -1,5 +1,6 @@
 package com.example.yonseitalk.controller;
 
+import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 import com.example.yonseitalk.web.user.service.UserService;
@@ -24,8 +25,8 @@ public class UserRegisterController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public UserDto register(@RequestBody UserRegisterRequest userRegisterRequest){
-        return userService.save(userRegisterRequest);
+    public Response.Item<UserDto> register(@RequestBody UserRegisterRequest userRegisterRequest){
+        return new Response.Item<>(userService.save(userRegisterRequest));
     }
 
 }

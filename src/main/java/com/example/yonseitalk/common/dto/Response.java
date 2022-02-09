@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.common.dto;
+package com.example.yonseitalk.common.dto;
 
 import lombok.Getter;
 

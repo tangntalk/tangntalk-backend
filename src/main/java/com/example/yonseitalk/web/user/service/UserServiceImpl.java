@@ -2,13 +2,11 @@ package com.example.yonseitalk.web.user.service;
 
 import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.exception.DuplicateAccountException;
+import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.util.login.role.Role;
-import com.example.yonseitalk.web.user.dto.FriendUser;
-import com.example.yonseitalk.web.user.dto.SearchUser;
+import com.example.yonseitalk.web.user.dto.*;
 import com.example.yonseitalk.web.user.domain.User;
 import com.example.yonseitalk.web.user.domain.UserRepository;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +41,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return UserDto.fromUser(user);
     }
+
+    @Override
+    public UserInfoQueryResponse userInfoQuery(String id) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        return UserInfoQueryResponse.fromUser(user);
+    }
+
 
     @Transactional
     public Optional<UserDto> findById(String id){
