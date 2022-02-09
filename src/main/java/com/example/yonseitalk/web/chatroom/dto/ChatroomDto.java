@@ -1,9 +1,7 @@
 package com.example.yonseitalk.web.chatroom.dto;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.message.dao.Message;
+import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.user.dao.User;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import lombok.*;
 

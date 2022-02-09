@@ -1,6 +1,5 @@
-package com.example.yonseitalk.web.user.dao;
+package com.example.yonseitalk.web.user.domain;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
 import lombok.*;
 import org.hibernate.annotations.Check;
 

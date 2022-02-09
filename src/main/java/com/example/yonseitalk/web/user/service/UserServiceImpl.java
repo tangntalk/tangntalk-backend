@@ -5,8 +5,8 @@ import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.util.login.role.Role;
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.SearchUser;
-import com.example.yonseitalk.web.user.dao.User;
-import com.example.yonseitalk.web.user.dao.UserRepository;
+import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.user.domain.UserRepository;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +63,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public int updateStatusMessage(String id, String msg){
         Optional<User> userOptional = userRepository.findById(id);
-
         userOptional.ifPresent(user -> user.setStatusMessage(msg));
-
         return userOptional.isPresent()?1:0;
     }
     @Transactional

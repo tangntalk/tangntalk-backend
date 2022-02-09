@@ -2,7 +2,7 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.util.login.service.LoginService;
 import com.example.yonseitalk.util.login.LoginFormat;
-import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.user.domain.User;
 import com.example.yonseitalk.util.login.jwt.JwtUtil;
 import com.example.yonseitalk.web.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -2,9 +2,7 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomView;
-import com.example.yonseitalk.web.message.dao.Message;
 import com.example.yonseitalk.web.chatroom.service.ChatService;
-import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
 import com.example.yonseitalk.web.message.dto.MessageCount;
 import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.message.dto.MessageListView;

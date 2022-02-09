@@ -1,7 +1,7 @@
-package com.example.yonseitalk.web.message.dao;
+package com.example.yonseitalk.web.message.domain;
 
-import com.example.yonseitalk.web.chatroom.dao.Chatroom;
-import com.example.yonseitalk.web.user.dao.User;
+import com.example.yonseitalk.web.chatroom.domain.Chatroom;
+import com.example.yonseitalk.web.user.domain.User;
 import lombok.*;
 import org.hibernate.annotations.Check;
 
@@ -51,6 +51,4 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
     private Chatroom chatroom;
-
-
 }
