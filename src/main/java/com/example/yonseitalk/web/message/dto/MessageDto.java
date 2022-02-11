@@ -27,7 +27,7 @@ public class MessageDto {
         return MessageDto.builder()
                 .messageId(message.getMessageId())
                 .chatroomId(message.getChatroom().getChatroomId())
-                .senderId(message.getSender().getUserId())
+                .senderId(message.getSender().getAccountId())
                 .content(message.getContent())
                 .sendTime(message.getSendTime())
                 .readTime(message.getReadTime())

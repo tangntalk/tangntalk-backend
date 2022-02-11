@@ -1,7 +1,7 @@
 package com.example.yonseitalk.web.chatroom.domain;
 
 import com.example.yonseitalk.web.message.domain.Message;
-import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.account.domain.Account;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,12 +24,12 @@ public class Chatroom {
 
     @ManyToOne
     @JoinColumn(name = "user_1")
-    private User user1;
+    private Account user1;
 
 
     @ManyToOne
     @JoinColumn(name = "user_2")
-    private User user2;
+    private Account user2;
 
 //    @Builder.Default
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

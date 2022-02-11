@@ -6,7 +6,7 @@ import com.example.yonseitalk.web.chatroom.service.ChatService;
 import com.example.yonseitalk.web.message.dto.MessageCount;
 import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.message.dto.MessageListView;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.*;
 public class ChatroomController {
 
     private final ChatService chatService;
-    private final UserService userService;
+    private final AccountService accountService;
 
     @PostMapping(value = "/{user_id}/chatrooms")
     public ResponseEntity<?> newChatroom(@PathVariable("user_id") String userId, @RequestBody Map<String, String> body){
@@ -42,9 +42,9 @@ public class ChatroomController {
         if(!chatroomDetails.isEmpty()){
             chatroomDetails.forEach(chatroomDetail -> {
                 String opponentId = (chatroomDetail.getUser1().equals(userId))? chatroomDetail.getUser2() : chatroomDetail.getUser1();
-                chatroomDetail.setUser1(userService.findById(chatroomDetail.getUser1()).get().getName());
-                chatroomDetail.setUser2(userService.findById(chatroomDetail.getUser2()).get().getName());
-                chatroomView.addSingleChatroom(chatroomDetail, userService.findById(userId).get().getName(), opponentId);
+                chatroomDetail.setUser1(accountService.findById(chatroomDetail.getUser1()).get().getName());
+                chatroomDetail.setUser2(accountService.findById(chatroomDetail.getUser2()).get().getName());
+                chatroomView.addSingleChatroom(chatroomDetail, accountService.findById(userId).get().getName(), opponentId);
             });
         }
         chatroomView.setSuccess(true);
