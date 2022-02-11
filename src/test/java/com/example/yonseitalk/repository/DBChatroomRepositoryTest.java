@@ -5,9 +5,9 @@ import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
 import com.example.yonseitalk.web.chatroom.service.ChatService;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.user.domain.User;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.domain.Account;
+import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.service.AccountService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class DBChatroomRepositoryTest {
 
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Autowired
     private ChatService chatService;
@@ -36,41 +36,41 @@ public class DBChatroomRepositoryTest {
     @BeforeEach
     void setup(){
 
-        UserDto user1 = UserDto.builder()
-                .userId("t1")
+        AccountDto user1 = AccountDto.builder()
+                .accountId("t1")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
                 .type("학생")
-                .userLocation("공학관")
+                .accountLocation("공학관")
                 .connectionStatus(true)
                 .build();
 
-        UserDto user2 = UserDto.builder()
-                .userId("t2")
+        AccountDto user2 = AccountDto.builder()
+                .accountId("t2")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
                 .type("일반")
-                .userLocation("공학관")
+                .accountLocation("공학관")
                 .connectionStatus(true)
                 .build();
 
-        UserDto user3 = UserDto.builder()
-                .userId("t3")
+        AccountDto user3 = AccountDto.builder()
+                .accountId("t3")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
                 .type("일반")
-                .userLocation("공학관")
+                .accountLocation("공학관")
                 .connectionStatus(true)
                 .build();
 
-        userService.save(user1);
-        userService.save(user2);
-        userService.save(user3);
-        Long id = chatService.addChatroom(user1.getUserId(), user2.getUserId());
-        Long id2 = chatService.addChatroom(user2.getUserId(), user3.getUserId());
+        accountService.save(user1);
+        accountService.save(user2);
+        accountService.save(user3);
+        Long id = chatService.addChatroom(user1.getAccountId(), user2.getAccountId());
+        Long id2 = chatService.addChatroom(user2.getAccountId(), user3.getAccountId());
         chatService.sendMessage("t1", id, "aaa", -1L);
         chatService.sendMessage("t2", id2, "aaa", -1L);
 
@@ -88,23 +88,23 @@ public class DBChatroomRepositoryTest {
     @Test
     void save(){
 
-        User user1 = User.builder()
-                .userId("t1")
+        Account user1 = Account.builder()
+                .accountId("t1")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
                 .type("학생")
-                .userLocation("공학관")
+                .accountLocation("공학관")
                 .connectionStatus(true)
                 .build();
 
-        User user2 = User.builder()
-                .userId("t2")
+        Account user2 = Account.builder()
+                .accountId("t2")
                 .name("jihoon")
                 .password("ddda")
                 .statusMessage("hihi")
                 .type("일반")
-                .userLocation("공학관")
+                .accountLocation("공학관")
                 .connectionStatus(true)
                 .build();
 
@@ -114,10 +114,10 @@ public class DBChatroomRepositoryTest {
 //        chatroom.setUser1("t1");
 //        chatroom.setUser2("t2");
 //        chatroom_id = chatService.save(chatroom).getChatroomId();
-        Long id = chatService.addChatroom(user1.getUserId(), user2.getUserId());
+        Long id = chatService.addChatroom(user1.getAccountId(), user2.getAccountId());
 
         chatService.sendMessage("t1", id, "aaa", -1L);
-        List<ChatroomDetail> chatroom1 =  chatService.findChatroom(user1.getUserId());
+        List<ChatroomDetail> chatroom1 =  chatService.findChatroom(user1.getAccountId());
         Assertions.assertThat(chatroom1.get(0).getUser1()).isEqualTo("t1");
 
     }
@@ -134,7 +134,7 @@ public class DBChatroomRepositoryTest {
 
         Assertions.assertThat(chatroom.isPresent());
         Assertions.assertThat(chatroomList1.get(0).getChatroomId()).isEqualTo(chatroomList2.get(0).getChatroomId());
-        Assertions.assertThat(chatroom.get().getUser1().getUserId()).isEqualTo(chatroomList1.get(0).getUser1());
+        Assertions.assertThat(chatroom.get().getUser1().getAccountId()).isEqualTo(chatroomList1.get(0).getUser1());
     }
 
     @Transactional

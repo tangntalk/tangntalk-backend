@@ -7,10 +7,10 @@ import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
 import com.example.yonseitalk.web.message.domain.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.user.domain.User;
-import com.example.yonseitalk.web.user.domain.UserRepository;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.domain.Account;
+import com.example.yonseitalk.web.account.domain.AccountRepository;
+import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 public class ChatServiceImpl implements ChatService {
     private final ChatroomRepository chatroomRepository;
     private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
-    private final UserService userService;
+    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
     @Transactional
     public Long getMessageCount(Long chatroom_id){
@@ -40,8 +40,8 @@ public class ChatServiceImpl implements ChatService {
         if(chatroomCheck.isPresent()) return chatroomCheck.get().getChatroomId();
 
         Chatroom chatroom = Chatroom.builder()
-                .user1(userRepository.findById(user_1_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_1_id)))
-                .user2(userRepository.findById(user_2_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_2_id)))
+                .user1(accountRepository.findById(user_1_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_1_id)))
+                .user2(accountRepository.findById(user_2_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_2_id)))
                 .build();
 
         chatroom = chatroomRepository.save(chatroom);
@@ -51,21 +51,21 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     public List<ChatroomDetail> findChatroom(String user_id) {
 
-        UserDto userDto = userService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
+        AccountDto accountDto = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
 
         List<ChatroomDetail> chatroomDetailList = chatroomRepository.findChatroomListbyUser(user_id).stream().map(ChatroomDetail::fromProjection).collect(Collectors.toList());
-        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail, userDto)));
+        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail, accountDto)));
         return chatroomDetailList;
     }
 
     @Transactional
     public List<MessageDto> messageInquiry(Long chatroom_id, String user_id) {
 
-        UserDto userDto = userService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
+        AccountDto accountDto = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
         List<MessageDto> messageList = messageRepository.findByChatroomId(chatroom_id).stream().map(MessageDto::fromMessage).collect(Collectors.toList());
 
         messageList.forEach(message -> {
-            message.setContent(transformContent(message,userDto));
+            message.setContent(transformContent(message, accountDto));
             //가려진 메시지도 읽었다고 처리했다 가정하자.
             if(message.getReadTime()==null && !message.getSenderId().equals(user_id)){
                 message.setReadTime(new Timestamp(System.currentTimeMillis()));
@@ -79,12 +79,12 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Transactional
-    public String transformContent(MessageDto messageDto, UserDto userDto){
+    public String transformContent(MessageDto messageDto, AccountDto accountDto){
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         messageDto.setContent(AES128.getAES128_Decode(messageDto.getContent()));
-        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(userDto.getUserId())) {
-            if (!messageDto.getRendezvousLocation().equals(userDto.getUserLocation()) || currentTime.after(messageDto.getRendezvousTime())) {
+        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(accountDto.getAccountId())) {
+            if (!messageDto.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(messageDto.getRendezvousTime())) {
                 messageDto.setContent("hidden message");
             }
         }
@@ -92,11 +92,11 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Transactional
-    public String transformContent(ChatroomDetail chatroomDetail, UserDto userDto){
+    public String transformContent(ChatroomDetail chatroomDetail, AccountDto accountDto){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         chatroomDetail.setContent(AES128.getAES128_Decode(chatroomDetail.getContent()));
-        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(userDto.getUserId())) {
-            if (!chatroomDetail.getRendezvousLocation().equals(userDto.getUserLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
+        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(accountDto.getAccountId())) {
+            if (!chatroomDetail.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
                 chatroomDetail.setContent("hidden message");
             }
         }
@@ -106,7 +106,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     public Long sendMessage(String user_id, Long chatroom_id, String content, Long rendezvous_time) {
         Chatroom chatroom = chatroomRepository.findByChatroomId(chatroom_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+chatroom_id));;
-        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));;
+        Account user = accountRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));;
 
         Message message = Message.builder()
                 .sender(user)
@@ -121,7 +121,7 @@ public class ChatServiceImpl implements ChatService {
         if (!rendezvous_time.equals(-1L) && rendezvous_time != null){
             message.setRendezvousFlag(true);
             message.setRendezvousTime(new Timestamp(message.getSendTime().getTime() + (rendezvous_time * 60000L)));  // 60000 ms = 1 min
-            message.setRendezvousLocation(user.getUserLocation());
+            message.setRendezvousLocation(user.getAccountLocation());
         }
         else{
             message.setRendezvousFlag(false);

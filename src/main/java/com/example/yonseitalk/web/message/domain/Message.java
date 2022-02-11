@@ -1,7 +1,7 @@
 package com.example.yonseitalk.web.message.domain;
 
 import com.example.yonseitalk.web.chatroom.domain.Chatroom;
-import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.account.domain.Account;
 import lombok.*;
 import org.hibernate.annotations.Check;
 
@@ -28,7 +28,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    private User sender;
+    private Account sender;
 
     @Column(nullable = false)
     private String content;

@@ -1,8 +1,8 @@
 package com.example.yonseitalk.controller;
 
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.dto.AccountRegisterRequest;
+import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/register")
-public class UserRegisterController {
+public class AccountRegisterController {
 
-    private final UserService userService;
+    private final AccountService accountService;
 
     @GetMapping("")
     public void enterRegister(){
@@ -25,11 +25,11 @@ public class UserRegisterController {
     }
 
     @PostMapping("")
-    public void register(@RequestBody UserRegisterRequest userRegisterRequest , HttpServletResponse response) throws IOException {
+    public void register(@RequestBody AccountRegisterRequest accountRegisterRequest, HttpServletResponse response) throws IOException {
 
-        if(userService.findById(userRegisterRequest.getUserId()).isEmpty()){
-            UserDto userDto = userService.save(userRegisterRequest);
-            log.info("User={}", userDto);
+        if(accountService.findById(accountRegisterRequest.getAccountId()).isEmpty()){
+            AccountDto accountDto = accountService.save(accountRegisterRequest);
+            log.info("User={}", accountDto);
             //true로 응답을 줘라.(이건 일단 이대로 리다이렉팅으로 하자)
             response.setStatus(201);
         }

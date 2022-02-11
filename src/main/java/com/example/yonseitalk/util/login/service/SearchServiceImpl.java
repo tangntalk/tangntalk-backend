@@ -1,7 +1,7 @@
 package com.example.yonseitalk.util.login.service;
 
-import com.example.yonseitalk.web.user.dto.SearchUser;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.dto.SearchAccount;
+import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService{
 
-    private final UserService userService;
+    private final AccountService accountService;
 
     @Override
-    public List<SearchUser> searchFriends(String userId, String searchQuery) {
-        return userService.search(userId,searchQuery);
+    public List<SearchAccount> searchFriends(String userId, String searchQuery) {
+        return accountService.search(userId,searchQuery);
     }
 
     @Override

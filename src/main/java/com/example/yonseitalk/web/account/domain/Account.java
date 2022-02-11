@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.user.domain;
+package com.example.yonseitalk.web.account.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Check;
@@ -14,16 +14,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "yt_user")
-@Check(constraints = "user_location IN ('공학관', '백양관', '학생회관', '신촌역')")
+@Table(name = "yt_account")
+@Check(constraints = "account_location IN ('공학관', '백양관', '학생회관', '신촌역')")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Account {
 
     @Id
     @Column(nullable = false)
-    private String userId;
+    private String accountId;
 
     @Column(nullable = false)
     private String name;
@@ -45,25 +45,25 @@ public class User {
 
 //    @Column(nullable = false)
     @Column(nullable = false)
-    private String userLocation;
+    private String accountLocation;
 
     @Column(nullable = false)
     private Boolean connectionStatus;
 
     @Builder.Default
     @JoinTable(name = "friends",
-                joinColumns = {@JoinColumn(name = "user_id")},
+                joinColumns = {@JoinColumn(name = "account_id")},
                 inverseJoinColumns = {@JoinColumn(name = "friend_id")}
     )
     @ManyToMany(cascade = CascadeType.ALL,
                 fetch = FetchType.LAZY)
-    private Set<User> userAddedFriends = new HashSet<>();
+    private Set<Account> accountAddedFriends = new HashSet<>();
 
     @Builder.Default
     @ManyToMany(cascade = CascadeType.ALL,
-                mappedBy = "userAddedFriends",
+                mappedBy = "accountAddedFriends",
                 fetch = FetchType.LAZY)
-    private Set<User> friendsAddedUser = new HashSet<>();
+    private Set<Account> friendsAddedAccount = new HashSet<>();
 
 //    @Builder.Default
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")

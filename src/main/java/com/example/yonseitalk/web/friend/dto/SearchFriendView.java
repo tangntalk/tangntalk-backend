@@ -1,6 +1,6 @@
 package com.example.yonseitalk.web.friend.dto;
 
-import com.example.yonseitalk.web.user.dto.SearchUser;
+import com.example.yonseitalk.web.account.dto.SearchAccount;
 import com.example.yonseitalk.view.DefaultResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 public class SearchFriendView extends DefaultResponse {
-    private List<SearchUser> user = new ArrayList<>();
-    public void addUser(SearchUser searchUser){
-        user.add(searchUser);
+    private List<SearchAccount> user = new ArrayList<>();
+    public void addUser(SearchAccount searchAccount){
+        user.add(searchAccount);
     }
 }

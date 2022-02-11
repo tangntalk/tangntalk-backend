@@ -2,9 +2,9 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.util.login.service.LoginService;
 import com.example.yonseitalk.util.login.LoginFormat;
-import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.util.login.jwt.JwtUtil;
-import com.example.yonseitalk.web.user.dto.UserDto;
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +43,8 @@ public class LoginController {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Object user = session.getAttribute("loginUser");
-            User loginUser= (User)user;
-            String redirect="/"+loginUser.getUserId();
+            Account loginUser= (Account)user;
+            String redirect="/"+loginUser.getAccountId();
             response.sendRedirect(redirect);
         }
     }
@@ -59,14 +59,14 @@ public class LoginController {
         LoginFormat loginFormat=objectMapper.readValue(messageBody,LoginFormat.class);
 
 
-        UserDto loginUser = loginService.login(loginFormat.getUser_id(),loginFormat.getPassword());
+        AccountDto loginUser = loginService.login(loginFormat.getUser_id(),loginFormat.getPassword());
 
         if(loginUser==null){
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
         log.info("loginFormat:{}",loginFormat);
         //status change True
-        loginService.updateConnectionTrue(loginUser.getUserId());
+        loginService.updateConnectionTrue(loginUser.getAccountId());
 
         String token="";
         token = jwtUtil.generateToken(loginUser);

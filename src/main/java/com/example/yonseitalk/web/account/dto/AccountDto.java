@@ -1,6 +1,6 @@
-package com.example.yonseitalk.web.user.dto;
+package com.example.yonseitalk.web.account.dto;
 
-import com.example.yonseitalk.web.user.domain.User;
+import com.example.yonseitalk.web.account.domain.Account;
 import lombok.*;
 
 @Setter
@@ -8,41 +8,41 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class UserDto {
-    private String userId;
+public class AccountDto {
+    private String accountId;
     private String name;
     private String email;
     private String password;
     private String role;
     private String statusMessage;
     private String type;
-    private String userLocation;
+    private String accountLocation;
     private Boolean connectionStatus;
 
-    public static UserDto fromUser(User user){
-        return UserDto.builder()
-                .userId(user.getUserId())
+    public static AccountDto fromAccount(Account user){
+        return AccountDto.builder()
+                .accountId(user.getAccountId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole())
                 .statusMessage(user.getStatusMessage())
                 .type(user.getType())
-                .userLocation(user.getUserLocation())
+                .accountLocation(user.getAccountLocation())
                 .connectionStatus(user.getConnectionStatus())
                 .build();
     }
 
-    public User toUser(){
-        return User.builder()
-                .userId(userId)
+    public Account toAccount(){
+        return Account.builder()
+                .accountId(accountId)
                 .name(name)
                 .email(email)
                 .password(password)
                 .role(role)
                 .statusMessage(statusMessage)
                 .type(type)
-                .userLocation(userLocation)
+                .accountLocation(accountLocation)
                 .connectionStatus(connectionStatus)
                 .build();
     }

@@ -1,7 +1,7 @@
 package com.example.yonseitalk;
 
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.service.UserService;
+import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class YonseitalkApplicationTests {
 
 	@Autowired
-	private UserService userService;
+	private AccountService accountService;
 
 	@Autowired
 	private MockMvc mvc;
@@ -42,17 +42,17 @@ class YonseitalkApplicationTests {
 	@BeforeEach
 	void setup(){
 
-		UserDto user1 = UserDto.builder()
-				.userId("flaxinger1")
+		AccountDto user1 = AccountDto.builder()
+				.accountId("flaxinger1")
 				.name("yohan")
 				.password("mok")
 				.statusMessage("Preswot")
 				.type("학생")
-				.userLocation("공학관")
+				.accountLocation("공학관")
 				.connectionStatus(true)
 				.build();
 
-		userService.save(user1);
+		accountService.save(user1);
 	}
 	@Test
 	@Transactional

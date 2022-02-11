@@ -1,7 +1,7 @@
 package com.example.yonseitalk.web.friend.dto;
 
 
-import com.example.yonseitalk.web.user.dto.FriendUser;
+import com.example.yonseitalk.web.account.dto.FriendAccount;
 import com.example.yonseitalk.view.DefaultResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,15 +16,15 @@ public class FriendListView extends DefaultResponse {
     private List<InnerUser> offline = new ArrayList<>();
 
 
-    public void addUser(FriendUser friendUser){
+    public void addUser(FriendAccount friendAccount){
         InnerUser innerUser = new InnerUser();
-        innerUser.setUserId(friendUser.getUserId());
-        innerUser.setName(friendUser.getName());
-        innerUser.setStatusMessage(friendUser.getStatusMessage());
-        innerUser.setType(friendUser.getType());
-        innerUser.setChatroomId(friendUser.getChatroomId());
-        innerUser.setUserLocation(friendUser.getUserLocation());
-        if(friendUser.getConnectionStatus()){
+        innerUser.setUserId(friendAccount.getAccountId());
+        innerUser.setName(friendAccount.getName());
+        innerUser.setStatusMessage(friendAccount.getStatusMessage());
+        innerUser.setType(friendAccount.getType());
+        innerUser.setChatroomId(friendAccount.getChatroomId());
+        innerUser.setUserLocation(friendAccount.getAccountLocation());
+        if(friendAccount.getConnectionStatus()){
             online.add(innerUser);
         }
         else{
