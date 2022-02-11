@@ -1,13 +1,12 @@
 package com.example.yonseitalk.web.account.service;
 
 import com.example.yonseitalk.AES128;
+import com.example.yonseitalk.exception.DuplicateAccountException;
+import com.example.yonseitalk.exception.NotFoundException;
 import com.example.yonseitalk.util.login.role.Role;
-import com.example.yonseitalk.web.account.dto.FriendAccount;
-import com.example.yonseitalk.web.account.dto.SearchAccount;
+import com.example.yonseitalk.web.account.dto.*;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDto;
-import com.example.yonseitalk.web.account.dto.AccountRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +29,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto save(AccountRegisterRequest accountRegisterRequest) {
+        accountRepository.findById(accountRegisterRequest.getAccountId())
+                .ifPresent(user -> {throw new DuplicateAccountException();});
         accountRegisterRequest.setPassword(AES128.getAES128_Encode(accountRegisterRequest.getPassword()));
-        Account user = accountRegisterRequest.toEntity();
-        user.setConnectionStatus(false);
-        user.setStatusMessage("");
-        user.setAccountLocation("공학관");
-        user.setRole(Role.USER.getValue());
-        accountRepository.save(user);
-        return AccountDto.fromAccount(user);
+        Account account = accountRegisterRequest.toEntity();
+        account.setConnectionStatus(false);
+        account.setStatusMessage("");
+        account.setAccountLocation("공학관");
+        account.setRole(Role.USER.getValue());
+        accountRepository.save(account);
+        return AccountDto.fromAccount(account);
+    }
+
+    @Override
+    public AccountInfoQueryResponse  accountInfoQuery(String id) {
+        Account account = accountRepository.findById(id).orElseThrow(NotFoundException::new);
+        return AccountInfoQueryResponse.fromAccount(account);
     }
 
     @Transactional

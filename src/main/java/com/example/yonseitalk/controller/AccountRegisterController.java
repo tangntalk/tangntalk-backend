@@ -1,9 +1,6 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.common.dto.Response;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.dto.UserRegisterRequest;
-import com.example.yonseitalk.web.user.service.UserService;
 import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.account.dto.AccountRegisterRequest;
 import com.example.yonseitalk.web.account.service.AccountService;
@@ -12,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -31,8 +26,8 @@ public class AccountRegisterController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Response.Item<UserDto> register(@RequestBody UserRegisterRequest userRegisterRequest){
-        return new Response.Item<>(userService.save(userRegisterRequest));
+    public Response.Item<AccountDto> register(@RequestBody AccountRegisterRequest accountRegisterRequest){
+        return new Response.Item<>(accountService.save(accountRegisterRequest));
     }
 
 }

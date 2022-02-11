@@ -1,10 +1,8 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.common.dto.Response;
+import com.example.yonseitalk.web.account.dto.AccountInfoQueryResponse;
 import com.example.yonseitalk.web.chatroom.domain.Chatroom;
-import com.example.yonseitalk.web.user.dto.UserDto;
-import com.example.yonseitalk.web.user.dto.UserInfoQueryResponse;
-import com.example.yonseitalk.web.user.dto.nearbyUser;
 import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.account.dto.nearbyAccount;
 import com.example.yonseitalk.exception.NotFoundException;
@@ -27,8 +25,8 @@ public class AccountInfoController {
     private final ChatroomRepository chatroomRepository;
 
     @GetMapping(value = "/{user_id}")
-    public Response.Item<UserInfoQueryResponse> userInfo(@PathVariable("user_id") String userId){
-        return new Response.Item<>(userService.userInfoQuery(userId));
+    public Response.Item<AccountInfoQueryResponse> userInfo(@PathVariable("user_id") String accountId){
+        return new Response.Item<>(accountService.accountInfoQuery(accountId));
     }
 
     @PostMapping(value = "/{user_id}/location")

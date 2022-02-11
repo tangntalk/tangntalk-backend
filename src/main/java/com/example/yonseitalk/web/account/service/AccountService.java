@@ -1,9 +1,6 @@
 package com.example.yonseitalk.web.account.service;
 
-import com.example.yonseitalk.web.account.dto.FriendAccount;
-import com.example.yonseitalk.web.account.dto.SearchAccount;
-import com.example.yonseitalk.web.account.dto.AccountDto;
-import com.example.yonseitalk.web.account.dto.AccountRegisterRequest;
+import com.example.yonseitalk.web.account.dto.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +10,8 @@ public interface AccountService {
     public void save(AccountDto accountDto);
 
     public AccountDto save(AccountRegisterRequest accountRegisterRequest);
+
+    public AccountInfoQueryResponse accountInfoQuery(String id);
 
     public Optional<AccountDto> findById(String id);
 
