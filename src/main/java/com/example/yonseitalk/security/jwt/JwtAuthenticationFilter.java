@@ -1,4 +1,4 @@
-package com.example.yonseitalk.util.login.jwt;
+package com.example.yonseitalk.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

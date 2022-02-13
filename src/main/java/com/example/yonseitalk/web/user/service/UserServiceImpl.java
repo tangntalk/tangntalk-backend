@@ -1,7 +1,7 @@
 package com.example.yonseitalk.web.user.service;
 
 import com.example.yonseitalk.AES128;
-import com.example.yonseitalk.util.login.role.Role;
+import com.example.yonseitalk.security.authorization.role.Role;
 import com.example.yonseitalk.web.user.dto.FriendUser;
 import com.example.yonseitalk.web.user.dto.SearchUser;
 import com.example.yonseitalk.web.user.domain.User;
