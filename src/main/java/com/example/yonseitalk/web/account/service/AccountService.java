@@ -19,19 +19,21 @@ public interface AccountService {
 
     public List<AccountDto> findByLocation(String location);
 
+    public void modifyInformation(String id , AccountDtoMerged.Request.ModifyInfo modifyInfo);
+
     public int updateStatusMessage(String id, String msg);
 
     public int updateAccountConnectionStatus(String id, Boolean flag);
     
     public int updateAccountLocation(String id, String location);
 
-    public List<FriendAccount> findFriendAccount(String userId);
+    public FriendDto.Response.FriendQuery findFriendAccount(String accountId);
 
     public void addFriend(String userId, String friendId);
 
     public void delFriend(String userId, String friendId);
 
-    public boolean isFriend(String userId, String friendId);
+    public FriendDto.Response.FriendCheck isFriend(String userId, String friendId);
 
-    public List<SearchAccount> search(String userId, String searchQuery);
+    public List<FriendDto.Response.SearchFriend> search(String accountId, String searchQuery);
 }

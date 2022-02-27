@@ -1,17 +1,12 @@
 package com.example.yonseitalk.controller;
 
 
-import com.example.yonseitalk.web.account.dto.FriendAccount;
-import com.example.yonseitalk.web.account.dto.SearchAccount;
-import com.example.yonseitalk.view.DefaultResponse;
-import com.example.yonseitalk.web.friend.dto.FriendCheckView;
-import com.example.yonseitalk.web.friend.dto.FriendListView;
-import com.example.yonseitalk.web.friend.dto.SearchFriendView;
+import com.example.yonseitalk.common.dto.Response;
+import com.example.yonseitalk.web.account.dto.FriendDto;
+
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin("*")
@@ -23,51 +18,32 @@ public class FriendController {
     private final AccountService accountService;
 
     @GetMapping("/{user_id}/friends")
-    public FriendListView friendList(@PathVariable("user_id") String userId){
-        List<FriendAccount> friendAccounts = accountService.findFriendAccount(userId);
-        FriendListView friendListView = new FriendListView();
-        if (!friendAccounts.isEmpty()){
-            friendAccounts.forEach(friendListView::addUser);
-        }
-        friendListView.setSuccess(true);
-        return friendListView;
+    public Response.Item<FriendDto.Response.FriendQuery> friendList(@PathVariable("user_id") String userId){
+        return new Response.Item<>(accountService.findFriendAccount(userId));
     }
 
     @GetMapping("/{user_id}/friends/search")
-    public SearchFriendView friendList(@PathVariable("user_id") String userId, @RequestParam("query") String query){
-        List<SearchAccount> searchAccounts = accountService.search(userId, query);
-        SearchFriendView searchFriendView = new SearchFriendView();
-        if (!searchAccounts.isEmpty()){
-            searchAccounts.forEach(searchFriendView::addUser);
-        }
-        searchFriendView.setSuccess(true);
-        return searchFriendView;
+    public Response.ItemList<FriendDto.Response.SearchFriend> friendList(
+            @PathVariable("user_id") String userId,
+            @RequestParam("query") String query){
+        return new Response.ItemList<>(accountService.search(userId,query));
     }
 
     @PostMapping("/{user_id}/friends")
-    public DefaultResponse addFriend(@PathVariable("user_id") String userId, @RequestBody Map<String, String> friendId ){
+    public Response.Empty addFriend(@PathVariable("user_id") String userId, @RequestBody Map<String, String> friendId ){
         accountService.addFriend(userId,friendId.get("friend_id"));
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
-        return defaultResponse;
+        return new Response.Empty();
     }
 
     @DeleteMapping("/{user_id}/friends/{friend_id}")
-    public DefaultResponse delFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
+    public Response.Empty delFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
         accountService.delFriend(userId,friendId);
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
-        return defaultResponse;
+        return new Response.Empty();
     }
 
     @GetMapping("/{user_id}/friends/{friend_id}")
-    public DefaultResponse isFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
-        boolean isFriend = accountService.isFriend(userId,friendId);
-        FriendCheckView friendCheckView = new FriendCheckView();
-        friendCheckView.setSuccess(true);
-        friendCheckView.set_friend(isFriend);
-
-        return friendCheckView;
+    public Response.Item<FriendDto.Response.FriendCheck> isFriend(@PathVariable("user_id") String userId, @PathVariable("friend_id") String friendId){
+        return new Response.Item<>(accountService.isFriend(userId,friendId));
     }
 
 }

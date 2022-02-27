@@ -10,7 +10,6 @@ import com.example.yonseitalk.web.account.domain.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountInfoQueryResponse  accountInfoQuery(String id) {
+    public AccountInfoQueryResponse accountInfoQuery(String id) {
         Account account = accountRepository.findById(id).orElseThrow(NotFoundException::new);
         return AccountInfoQueryResponse.fromAccount(account);
     }
@@ -61,6 +60,17 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public List<AccountDto> findByLocation(String location){
         return accountRepository.findByLocation(location).stream().map(AccountDto::fromAccount).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void modifyInformation(String id, AccountDtoMerged.Request.ModifyInfo modifyInfo) {
+        Account account = accountRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (modifyInfo.getAccountLocation()!=null){
+            account.setAccountLocation(modifyInfo.getAccountLocation());
+        }
+        if (modifyInfo.getStatusMessage()!=null){
+            account.setStatusMessage(modifyInfo.getStatusMessage());
+        }
     }
 
     @Transactional
@@ -88,8 +98,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Transactional
-    public List<FriendAccount> findFriendAccount(String userId){
-        return accountRepository.findAll(userId).stream().map(FriendAccount::fromProjection).collect(Collectors.toList());
+    public FriendDto.Response.FriendQuery findFriendAccount(String accountId){
+        accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        return new FriendDto.Response.FriendQuery(accountRepository.findAll(accountId));
     }
 
     @Transactional
@@ -109,15 +120,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Transactional
-    public boolean isFriend(String userId, String friendId){
-        Account user = accountRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));
-        Account friend = accountRepository.findById(friendId).orElseThrow(() -> new IllegalArgumentException("No user with id "+friendId));
-        return user.getAccountAddedFriends().contains(friend);
+    public FriendDto.Response.FriendCheck isFriend(String accountId, String friendId){
+        Account account = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        Account friend = accountRepository.findById(friendId).orElseThrow(NotFoundException::new);
+        return new FriendDto.Response.FriendCheck(account.getAccountAddedFriends().contains(friend));
     }
 
     @Transactional
-    public List<SearchAccount> search(String userId, String searchQuery){
-        return accountRepository.search(userId, searchQuery).stream().map(SearchAccount::fromProjection).collect(Collectors.toList());
+    public List<FriendDto.Response.SearchFriend> search(String accountId, String searchQuery){
+        accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        return accountRepository.search(accountId, searchQuery).stream().map(FriendDto.Response.SearchFriend::fromProjection).collect(Collectors.toList());
     }
 
 }

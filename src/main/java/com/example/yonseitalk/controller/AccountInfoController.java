@@ -1,6 +1,7 @@
 package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.common.dto.Response;
+import com.example.yonseitalk.web.account.dto.AccountDtoMerged;
 import com.example.yonseitalk.web.account.dto.AccountInfoQueryResponse;
 import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.account.dto.AccountDto;
@@ -25,47 +26,21 @@ public class AccountInfoController {
     private final ChatroomRepository chatroomRepository;
 
     @GetMapping(value = "/{user_id}")
-    public Response.Item<AccountInfoQueryResponse> userInfo(@PathVariable("user_id") String accountId){
+    public Response.Item<AccountInfoQueryResponse> accountInfo(@PathVariable("user_id") String accountId){
         return new Response.Item<>(accountService.accountInfoQuery(accountId));
     }
 
-    @PostMapping(value = "/{user_id}/location")
-    public ResponseEntity<?> updateLocation(@PathVariable("user_id") String userId, @RequestBody Map<String, String> location){
-
-        int status = accountService.updateAccountLocation(userId, location.get("location_name"));
-
-        Map<String, Object> response = new HashMap<>();
-        if(status > 0)
-            response.put("success", true);
-        else
-            response.put("success", false);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/{user_id}/status")
-    public ResponseEntity<?> updateMessage(@PathVariable("user_id") String userId, @RequestBody Map<String, String> statusMessage){
-
-        int status = accountService.updateStatusMessage(userId, statusMessage.get("status_message"));
-
-        Map<String, Object> response = new HashMap<>();
-        if(status > 0)
-            response.put("success", true);
-        else
-            response.put("success", false);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PatchMapping(value = "/{user_id}")
+    public Response.Empty modifyInformation(@PathVariable("user_id") String accountId,
+                                                    @RequestBody AccountDtoMerged.Request.ModifyInfo modifyInfo){
+        accountService.modifyInformation(accountId ,modifyInfo);
+        return new Response.Empty();
     }
 
     @DeleteMapping(value = "/{user_id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("user_id") String userId){
-
+    public Response.Empty deleteUser(@PathVariable("user_id") String userId){
         accountService.deleteById(userId);
-
-        Map<String, Object> response = new HashMap<>();
-//        if(status > 0)
-        response.put("success", true);
-//        else
-//            response.put("success", false);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new Response.Empty();
     }
 
     //nearby
