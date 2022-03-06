@@ -17,7 +17,7 @@ public class LoginService {
 
     public AccountDto login(String loginId, String password){
 
-        return accountService.findById(loginId).filter(m -> AES128.getAES128_Decode(URLDecoder.decode(m.getPassword(), StandardCharsets.UTF_8)).equals(password)).orElse(null);
+        return accountService.findById(loginId).filter(m -> m.getPassword().equals(password)).orElse(null);
 //        return userService.findById(loginId).get();
     }
 

@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +25,6 @@ public class Chatroom {
     @JoinColumn(name = "user_1")
     private Account user1;
 
-
     @ManyToOne
     @JoinColumn(name = "user_2")
     private Account user2;
@@ -34,7 +32,6 @@ public class Chatroom {
 //    @Builder.Default
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    private Set<User> users = new HashSet<>();
-
 
     @OneToOne
     @JoinColumn(name = "last_message_id")
@@ -47,4 +44,11 @@ public class Chatroom {
                 fetch = FetchType.LAZY,
                 cascade = CascadeType.ALL)
     private Set<Message> messages = new HashSet<>();
+
+    public void addMessage(Message message){
+        message.setChatroom(this);
+        this.messages.add(message);
+        this.lastMessage = message;
+    }
+
 }

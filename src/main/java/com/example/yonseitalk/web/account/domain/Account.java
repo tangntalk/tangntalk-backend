@@ -1,5 +1,6 @@
 package com.example.yonseitalk.web.account.domain;
 
+import com.example.yonseitalk.AES128;
 import lombok.*;
 import org.hibernate.annotations.Check;
 
@@ -31,6 +32,7 @@ public class Account {
     @Column
     private String email;
 
+    @Convert(converter = AES128.class)
     @Column(nullable = false)
     private String password;
 
