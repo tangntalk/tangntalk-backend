@@ -10,7 +10,7 @@ import com.example.yonseitalk.web.message.domain.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +72,7 @@ public class ChatServiceImpl implements ChatService {
 
         return MessageDto.SingleMessage.fromMessageDtoList(messageDtos);
     }
+
 
 
     @Transactional

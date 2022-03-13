@@ -1,4 +1,4 @@
-package com.example.yonseitalk.config;
+package com.example.yonseitalk.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

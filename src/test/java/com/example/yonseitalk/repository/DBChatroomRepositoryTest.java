@@ -1,5 +1,6 @@
 package com.example.yonseitalk.repository;
 
+
 import com.example.yonseitalk.web.chatroom.domain.Chatroom;
 import com.example.yonseitalk.web.chatroom.domain.ChatroomQdslRepository;
 import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
@@ -13,16 +14,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
 @SpringBootTest
 public class DBChatroomRepositoryTest {
-
 
     @Autowired
     private AccountService accountService;
@@ -124,5 +121,6 @@ public class DBChatroomRepositoryTest {
         log.info("long chatroom took {}", System.currentTimeMillis()- start);
         Assertions.assertThat(messageList.size() == numMessages+1);
     }
+
 
 }

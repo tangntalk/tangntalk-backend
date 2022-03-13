@@ -1,4 +1,4 @@
-package com.example.yonseitalk.util.login.role;
+package com.example.yonseitalk.security.authorization.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,8 @@
 package com.example.yonseitalk;
 
-import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.domain.Account;
+import com.example.yonseitalk.web.account.domain.AccountRepository;
+import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 import com.example.yonseitalk.web.account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +31,9 @@ class YonseitalkApplicationTests {
 	private AccountService accountService;
 
 	@Autowired
+	private AccountRepository accountRepository;
+
+	@Autowired
 	private MockMvc mvc;
 
 	@Autowired
@@ -42,7 +47,7 @@ class YonseitalkApplicationTests {
 	@BeforeEach
 	void setup(){
 
-		AccountDto user1 = AccountDto.builder()
+		Account user1 = AccountDtoTemp.builder()
 				.accountId("flaxinger1")
 				.name("yohan")
 				.password("mok")
@@ -50,9 +55,9 @@ class YonseitalkApplicationTests {
 				.type("학생")
 				.accountLocation("공학관")
 				.connectionStatus(true)
-				.build();
+				.build().toAccount();
 
-		accountService.save(user1);
+		accountRepository.save(user1);
 	}
 	@Test
 	@Transactional
