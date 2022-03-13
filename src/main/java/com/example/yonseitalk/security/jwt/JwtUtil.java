@@ -1,4 +1,4 @@
-package com.example.yonseitalk.util.login.jwt;
+package com.example.yonseitalk.security.jwt;
 
 import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 import io.jsonwebtoken.*;
