@@ -9,7 +9,7 @@ import com.example.yonseitalk.web.message.domain.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,21 +51,21 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     public List<ChatroomDetail> findChatroom(String user_id) {
 
-        AccountDto accountDto = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
+        AccountDtoTemp accountDtoTemp = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
 
         List<ChatroomDetail> chatroomDetailList = chatroomRepository.findChatroomListbyUser(user_id).stream().map(ChatroomDetail::fromProjection).collect(Collectors.toList());
-        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail, accountDto)));
+        chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(transformContent(chatroomDetail, accountDtoTemp)));
         return chatroomDetailList;
     }
 
     @Transactional
     public List<MessageDto> messageInquiry(Long chatroom_id, String user_id) {
 
-        AccountDto accountDto = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
+        AccountDtoTemp accountDtoTemp = accountService.findById(user_id).orElseThrow(() -> new IllegalArgumentException("No user with id "+user_id));
         List<MessageDto> messageList = messageRepository.findByChatroomId(chatroom_id).stream().map(MessageDto::fromMessage).collect(Collectors.toList());
 
         messageList.forEach(message -> {
-            message.setContent(transformContent(message, accountDto));
+            message.setContent(transformContent(message, accountDtoTemp));
             //가려진 메시지도 읽었다고 처리했다 가정하자.
             if(message.getReadTime()==null && !message.getSenderId().equals(user_id)){
                 message.setReadTime(new Timestamp(System.currentTimeMillis()));
@@ -79,12 +79,12 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Transactional
-    public String transformContent(MessageDto messageDto, AccountDto accountDto){
+    public String transformContent(MessageDto messageDto, AccountDtoTemp accountDtoTemp){
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         messageDto.setContent(AES128.getAES128_Decode(messageDto.getContent()));
-        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(accountDto.getAccountId())) {
-            if (!messageDto.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(messageDto.getRendezvousTime())) {
+        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(accountDtoTemp.getAccountId())) {
+            if (!messageDto.getRendezvousLocation().equals(accountDtoTemp.getAccountLocation()) || currentTime.after(messageDto.getRendezvousTime())) {
                 messageDto.setContent("hidden message");
             }
         }
@@ -92,11 +92,11 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Transactional
-    public String transformContent(ChatroomDetail chatroomDetail, AccountDto accountDto){
+    public String transformContent(ChatroomDetail chatroomDetail, AccountDtoTemp accountDtoTemp){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         chatroomDetail.setContent(AES128.getAES128_Decode(chatroomDetail.getContent()));
-        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(accountDto.getAccountId())) {
-            if (!chatroomDetail.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
+        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(accountDtoTemp.getAccountId())) {
+            if (!chatroomDetail.getRendezvousLocation().equals(accountDtoTemp.getAccountLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
                 chatroomDetail.setContent("hidden message");
             }
         }

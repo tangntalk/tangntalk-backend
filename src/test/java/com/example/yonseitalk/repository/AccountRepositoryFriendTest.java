@@ -1,6 +1,8 @@
 package com.example.yonseitalk.repository;
 
-import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.exception.NotFoundException;
+import com.example.yonseitalk.web.account.domain.Account;
+import com.example.yonseitalk.web.account.domain.AccountRepository;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -18,15 +20,20 @@ class AccountRepositoryFriendTest {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
 
     @Test
     @Transactional
     void save(){
 
-        AccountDto accountDto = accountService.findById("tt").get();
-//        Assertions.assertThat(accountService.findFriendAccount("tt").size()).isEqualTo(2);
-//        Assertions.assertThat(accountService.findFriendAccount("pp").size()).isEqualTo(1);
-//        Assertions.assertThat(accountService.findFriendAccount("nam").size()).isEqualTo(0);
+        Account account = accountRepository.findById("tt").orElseThrow(NotFoundException::new);
+
+        Assertions.assertThat(accountService.findFriendAccount("tt").getOnline().size()).isEqualTo(1);
+        Assertions.assertThat(accountService.findFriendAccount("tt").getOffline().size()).isEqualTo(1);
+        Assertions.assertThat(accountService.findFriendAccount("pp").getOnline().size()).isEqualTo(1);
+        Assertions.assertThat(accountService.findFriendAccount("nam").getOnline().size()).isEqualTo(0);
 
     }
 
@@ -36,47 +43,45 @@ class AccountRepositoryFriendTest {
 
         accountService.delFriend("tt", "pp");
         log.info(accountService.findFriendAccount("tt").toString());
-       //Assertions.assertThat(accountService.findFriendAccount("tt").size()).isEqualTo(1);
+       Assertions.assertThat(accountService.findFriendAccount("tt").getOffline().size()).isEqualTo(0);
 
     }
 
     @BeforeEach
     void setup(){
-        AccountDto user1 = AccountDto.builder()
-                .accountId("tt")
-                .name("jihoon")
-                .password("ddda")
-                .statusMessage("hihi")
-                .type("학생")
-                .accountLocation("공학관")
-                .connectionStatus(true)
-                .build();
+        Account account1 = new Account();
+        account1.setAccountId("tt");
+        account1.setName("jihoon");
+        account1.setPassword("ddda");
+        account1.setStatusMessage("hihi");
+        account1.setType("학생");
+        account1.setAccountLocation("공학관");
+        account1.setConnectionStatus(true);
 
-        AccountDto user2 = AccountDto.builder()
-                .accountId("nam")
-                .name("jihoon")
-                .password("ddda")
-                .statusMessage("hihi")
-                .type("일반")
-                .accountLocation("공학관")
-                .connectionStatus(true)
-                .build();
+        Account account2 = new Account();
+        account2.setAccountId("nam");
+        account2.setName("jihoon");
+        account2.setPassword("ddda");
+        account2.setStatusMessage("hihi");
+        account2.setType("학생");
+        account2.setAccountLocation("공학관");
+        account2.setConnectionStatus(true);
 
-        AccountDto user3 = AccountDto.builder()
-                .accountId("pp")
-                .name("jihoon")
-                .password("ddda")
-                .statusMessage("hihi")
-                .type("강사")
-                .accountLocation("공학관")
-                .connectionStatus(false)
-                .build();
+
+        Account account3 = new Account();
+        account3.setAccountId("pp");
+        account3.setName("jihoon");
+        account3.setPassword("ddda");
+        account3.setStatusMessage("hihi");
+        account3.setType("강사");
+        account3.setAccountLocation("공학관");
+        account3.setConnectionStatus(false);
 
 
         //when
-        accountService.save(user1);
-        accountService.save(user2);
-        accountService.save(user3);
+        accountRepository.save(account1);
+        accountRepository.save(account2);
+        accountRepository.save(account3);
 
         accountService.addFriend("tt", "pp");
         accountService.addFriend("tt", "nam");

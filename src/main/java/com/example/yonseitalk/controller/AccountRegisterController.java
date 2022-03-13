@@ -2,7 +2,6 @@ package com.example.yonseitalk.controller;
 
 import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.web.account.dto.AccountDto;
-import com.example.yonseitalk.web.account.dto.AccountRegisterRequest;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +23,11 @@ public class AccountRegisterController {
         //프론트에서 알아서 함.
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @PostMapping("")
-    public Response.Item<AccountDto> register(@RequestBody AccountRegisterRequest accountRegisterRequest){
-        return new Response.Item<>(accountService.save(accountRegisterRequest));
+    public Response.Empty register(@RequestBody AccountDto.Request.Register accountRegisterRequest){
+        accountService.save(accountRegisterRequest);
+        return new Response.Empty();
     }
 
 }

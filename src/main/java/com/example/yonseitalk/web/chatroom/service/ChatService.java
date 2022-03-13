@@ -2,7 +2,7 @@ package com.example.yonseitalk.web.chatroom.service;
 
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDetail;
 import com.example.yonseitalk.web.message.dto.MessageDto;
-import com.example.yonseitalk.web.account.dto.AccountDto;
+import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface ChatService {
     Long getMessageCount(Long chatroom_id);
     List<MessageDto> messageInquiry(Long chatroom_id, String user_id);
 //    Message readMessage(Long message_id, User user);
-    String transformContent(MessageDto messageDto, AccountDto accountDto);
-    String transformContent(ChatroomDetail chatroomDetail, AccountDto accountDto);
+    String transformContent(MessageDto messageDto, AccountDtoTemp accountDtoTemp);
+    String transformContent(ChatroomDetail chatroomDetail, AccountDtoTemp accountDtoTemp);
     Long sendMessage(String user_id , Long chatroom_id, String content, Long rendezvous_time);
 }
