@@ -1,7 +1,7 @@
 package com.example.yonseitalk.repository;
 
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.account.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ class AccountRepositorySearchTest {
     void searchTest() {
 
         //given
-        AccountDtoTemp user1 = AccountDtoTemp.builder()
+        AccountDto user1 = AccountDto.builder()
                 .accountId("aabb")
                 .name("zffgg")
                 .password("ddda")
@@ -33,7 +33,7 @@ class AccountRepositorySearchTest {
                 .connectionStatus(true)
                 .build();
 
-        AccountDtoTemp user2 = AccountDtoTemp.builder()
+        AccountDto user2 = AccountDto.builder()
                 .accountId("bbcc")
                 .name("zghh")
                 .password("ddda")
@@ -43,7 +43,7 @@ class AccountRepositorySearchTest {
                 .connectionStatus(true)
                 .build();
 
-        AccountDtoTemp user3 = AccountDtoTemp.builder()
+        AccountDto user3 = AccountDto.builder()
                 .accountId("ccdd")
                 .name("zhhii")
                 .password("dda")
@@ -53,7 +53,7 @@ class AccountRepositorySearchTest {
                 .connectionStatus(true)
                 .build();
 
-        AccountDtoTemp user4 = AccountDtoTemp.builder()
+        AccountDto user4 = AccountDto.builder()
                 .accountId("ddee")
                 .name("iijj")
                 .password("ddda")

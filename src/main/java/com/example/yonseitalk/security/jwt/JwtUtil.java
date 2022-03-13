@@ -1,6 +1,6 @@
 package com.example.yonseitalk.security.jwt;
 
-import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -92,9 +92,9 @@ public class JwtUtil {
         else return (String) claims.get("user_id");
     }
 
-    public String generateToken(AccountDtoTemp accountDtoTemp) {
+    public String generateToken(AccountDto accountDto) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user_id", accountDtoTemp.getAccountId());
+        claims.put("user_id", accountDto.getAccountId());
         return createToken(claims);
     }
 

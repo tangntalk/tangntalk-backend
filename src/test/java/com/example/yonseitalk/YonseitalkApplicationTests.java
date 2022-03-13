@@ -2,7 +2,7 @@ package com.example.yonseitalk;
 
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ class YonseitalkApplicationTests {
 	@BeforeEach
 	void setup(){
 
-		Account user1 = AccountDtoTemp.builder()
+		Account user1 = AccountDto.builder()
 				.accountId("flaxinger1")
 				.name("yohan")
 				.password("mok")

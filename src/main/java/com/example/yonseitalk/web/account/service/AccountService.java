@@ -12,18 +12,19 @@ public interface AccountService {
 
     public void save(AccountDto.Request.Register accountRegisterRequest);
 
+    public void save(AccountDto accountDto);
+
     public AccountInfoQueryResponse accountInfoQuery(String id);
 
     public void deleteById(String id);
 
-    public Optional<AccountDtoTemp> findById(String id);
+    public Optional<AccountDto> findById(String id);
 
     public List<Account> findByLocation(String location);
 
     public void modifyInformation(String id , AccountDto.Request.ModifyInfo modifyInfo);
 
     public int updateAccountConnectionStatus(String id, Boolean flag);
-
 
     public FriendDto.Response.FriendQuery findFriendAccount(String accountId);
 

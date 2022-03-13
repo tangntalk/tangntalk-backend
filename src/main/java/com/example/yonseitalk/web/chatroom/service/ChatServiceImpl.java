@@ -1,5 +1,6 @@
 package com.example.yonseitalk.web.chatroom.service;
 
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.chatroom.domain.ChatroomQdslRepository;
 import com.example.yonseitalk.web.chatroom.domain.ChatroomRepository;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
@@ -10,7 +11,6 @@ import com.example.yonseitalk.web.message.domain.Message;
 import com.example.yonseitalk.web.message.dto.MessageDto;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
-import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

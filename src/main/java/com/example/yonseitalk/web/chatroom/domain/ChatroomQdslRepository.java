@@ -1,6 +1,7 @@
 package com.example.yonseitalk.web.chatroom.domain;
 
 import com.example.yonseitalk.web.account.domain.QAccount;
+import com.example.yonseitalk.web.chatroom.domain.QChatroom;
 import com.example.yonseitalk.web.chatroom.dto.ChatroomDto;
 import com.example.yonseitalk.web.message.domain.QMessage;
 import com.querydsl.core.types.Projections;

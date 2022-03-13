@@ -1,9 +1,8 @@
 package com.example.yonseitalk.web.account.service;
 
-import com.example.yonseitalk.AES128;
 import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.exception.NotFoundException;
-import com.example.yonseitalk.util.login.role.Role;
+import com.example.yonseitalk.security.authorization.role.Role;
 import com.example.yonseitalk.web.account.dto.*;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
@@ -37,15 +36,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void save(AccountDto accountDto) {
+        accountRepository.save(accountDto.toAccount());
+    }
+
+    @Override
     public AccountInfoQueryResponse accountInfoQuery(String id) {
         Account account = accountRepository.findById(id).orElseThrow(NotFoundException::new);
         return AccountInfoQueryResponse.fromAccount(account);
     }
 
     @Transactional
-    public Optional<AccountDtoTemp> findById(String id){
+    public Optional<AccountDto> findById(String id){
         Account user = accountRepository.findById(id).orElse(null);
-        return user==null?Optional.empty():Optional.of(AccountDtoTemp.fromAccount(user));
+        return user==null?Optional.empty():Optional.of(AccountDto.fromAccount(user));
     }
 
     @Transactional

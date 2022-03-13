@@ -1,7 +1,7 @@
 package com.example.yonseitalk.util.login.service;
 
 import com.example.yonseitalk.AES128;
-import com.example.yonseitalk.web.account.dto.AccountDtoTemp;
+import com.example.yonseitalk.web.account.dto.AccountDto;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class LoginService {
     private final AccountService accountService;
 
-    public AccountDtoTemp login(String loginId, String password){
+    public AccountDto login(String loginId, String password){
 
         return accountService.findById(loginId).filter(m -> m.getPassword().equals(password)).orElse(null);
 //        return userService.findById(loginId).get();
