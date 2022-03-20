@@ -2,7 +2,7 @@ package com.example.yonseitalk.web.account.service;
 
 import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.exception.NotFoundException;
-import com.example.yonseitalk.security.authorization.role.Role;
+import com.example.yonseitalk.security.authorization.role.AccountRole;
 import com.example.yonseitalk.web.account.dto.*;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
         account.setConnectionStatus(false);
         account.setStatusMessage("");
         account.setAccountLocation("공학관");
-        account.setRole(Role.USER.getValue());
+        account.setRole("학생");
         accountRepository.save(account);
 
     }
