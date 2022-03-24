@@ -36,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(value = {DuplicateAccountException.class})
     protected Response.Error handleDuplicateAccountException(DuplicateAccountException e){
         log.error("throw DuplicatedAccount Exception : {}", e.getCode());

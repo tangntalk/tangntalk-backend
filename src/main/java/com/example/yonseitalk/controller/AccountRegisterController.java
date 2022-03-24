@@ -23,7 +23,7 @@ public class AccountRegisterController {
         //프론트에서 알아서 함.
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+
     @PostMapping("")
     public Response.Empty register(@RequestBody AccountDto.Request.Register accountRegisterRequest){
         accountService.save(accountRegisterRequest);

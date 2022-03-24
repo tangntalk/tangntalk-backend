@@ -53,11 +53,11 @@ public class LoginController {
     }
 
     @PostMapping("/{user_id}/logout")
-    public void logout(@PathVariable("user_id") String userId,HttpServletRequest request,HttpServletResponse response) throws IOException{
+    public Response.Empty logout(@PathVariable("user_id") String userId,HttpServletRequest request,HttpServletResponse response) throws IOException{
 
 
         loginService.updateConnectionFalse(userId);
-        response.setStatus(200);
+        return new Response.Empty();
 
     }
 

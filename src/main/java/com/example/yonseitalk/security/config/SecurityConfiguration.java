@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtUtil jwtUtil;
     private final boolean enableSecurity;
 
-    public SecurityConfiguration(@Lazy  JwtUtil jwtUtil, @Value("${security.enabled}") boolean enableSecurity) {
+    public SecurityConfiguration(@Lazy JwtUtil jwtUtil, @Value("${security.enabled}") boolean enableSecurity) {
         this.jwtUtil = jwtUtil;
         this.enableSecurity = enableSecurity;
     }
