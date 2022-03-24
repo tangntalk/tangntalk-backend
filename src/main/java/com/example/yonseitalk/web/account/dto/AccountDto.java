@@ -75,6 +75,7 @@ public class AccountDto {
         public static class Login{
             private String accountId;
             private String password;
+
         }
 
         @Data

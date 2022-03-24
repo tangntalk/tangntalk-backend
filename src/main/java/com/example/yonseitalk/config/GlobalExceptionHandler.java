@@ -61,6 +61,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new Response.Error("DataIntegrityViolationException");
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    protected Response.Error handleIllegalArgumentException(IllegalArgumentException e){
+        return new Response.Error(e.getMessage());
+    }
+
 
 
 

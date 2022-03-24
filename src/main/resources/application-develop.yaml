@@ -4,4 +4,4 @@ spring:
     username: root
     password: secret
 security:
-  enabled: true
+  enabled: false

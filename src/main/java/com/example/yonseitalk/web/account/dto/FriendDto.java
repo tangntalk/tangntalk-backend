@@ -1,5 +1,6 @@
 package com.example.yonseitalk.web.account.dto;
 
+import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.dto.projection.FriendAccountProjection;
 import com.example.yonseitalk.web.account.dto.projection.SearchAccountProjection;
 import lombok.*;
@@ -13,6 +14,7 @@ public class FriendDto {
         public static class addFriend {
             private String friendId;
         }
+
     }
     public static class Response{
         @Data

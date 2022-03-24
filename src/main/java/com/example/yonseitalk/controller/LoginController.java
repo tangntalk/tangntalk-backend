@@ -46,17 +46,16 @@ public class LoginController {
 //        }
 //    }
     @PostMapping("/login")
-    public Response.Item<AccountDto.Response.Login> login(AccountDto.Request.Login loginRequest){
+    public Response.Item<AccountDto.Response.Login> login(@RequestBody AccountDto.Request.Login loginRequest){
 
         return new Response.Item<>(loginService.login(loginRequest));
 
     }
 
-    @PostMapping("/{user_id}/logout")
-    public Response.Empty logout(@PathVariable("user_id") String userId,HttpServletRequest request,HttpServletResponse response) throws IOException{
+    @PostMapping("/{account_id}/logout")
+    public Response.Empty logout(@PathVariable("account_id") String accountId){
 
-
-        loginService.updateConnectionFalse(userId);
+        loginService.updateConnectionFalse(accountId);
         return new Response.Empty();
 
     }
