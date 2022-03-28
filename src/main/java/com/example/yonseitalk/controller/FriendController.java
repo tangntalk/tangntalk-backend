@@ -4,6 +4,7 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.web.account.dto.FriendDto;
 
+import com.example.yonseitalk.web.account.dto.FriendSearchResponse;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class FriendController {
     }
 
     @GetMapping("/{account_id}/friends/search")
-    public Response.ItemList<FriendDto.Response.SearchFriend> friendList(
+    public Response.ItemList<FriendSearchResponse> friendList(
             @PathVariable("account_id") String accountId,
             @RequestParam("query") String query){
         return new Response.ItemList<>(accountService.search(accountId,query));
