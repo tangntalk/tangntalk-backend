@@ -19,8 +19,8 @@ public class FriendDto {
     public static class Response{
         @Data
         public static class FriendQuery {
-            private final List<Friend> online;
-            private final List<Friend> offline;
+            public  List<Friend> online;
+            public  List<Friend> offline;
 
             public FriendQuery(List<FriendAccountProjection> projectionList) {
                 online = new ArrayList<>();
@@ -36,6 +36,7 @@ public class FriendDto {
             }
 
             @Builder
+            @Data
             public static class Friend{
                 private String accountId;
                 private String name;
@@ -55,7 +56,10 @@ public class FriendDto {
                             .build();
                 }
             }
+
+
         }
+
         @Data
         @Builder
         public static class SearchFriend{
