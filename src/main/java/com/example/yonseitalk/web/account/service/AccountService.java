@@ -34,7 +34,7 @@ public interface AccountService {
 
     public FriendDto.Response.FriendCheck isFriend(String userId, String friendId);
 
-    public List<FriendDto.Response.SearchFriend> search(String accountId, String searchQuery);
+    public List<FriendSearchResponse> search(String accountId, String searchQuery);
 
     public AccountDto.Response.NearBy nearByQuery(String accountId , String targetLocation);
 

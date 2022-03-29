@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@RequestMapping("/users")
+@RequestMapping("/accounts")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -22,27 +22,27 @@ public class AccountInfoController {
     private final AccountService accountService;
     private final ChatroomRepository chatroomRepository;
 
-    @GetMapping(value = "/{user_id}")
-    public Response.Item<AccountInfoQueryResponse> accountInfo(@PathVariable("user_id") String accountId){
+    @GetMapping(value = "/{account_id}")
+    public Response.Item<AccountInfoQueryResponse> accountInfo(@PathVariable("account_id") String accountId){
         return new Response.Item<>(accountService.accountInfoQuery(accountId));
     }
 
-    @PatchMapping(value = "/{user_id}")
-    public Response.Empty modifyInformation(@PathVariable("user_id") String accountId,
+    @PatchMapping(value = "/{account_id}")
+    public Response.Empty modifyInformation(@PathVariable("account_id") String accountId,
                                                     @RequestBody AccountDto.Request.ModifyInfo modifyInfo){
         accountService.modifyInformation(accountId ,modifyInfo);
         return new Response.Empty();
     }
 
-    @DeleteMapping(value = "/{user_id}")
-    public Response.Empty deleteUser(@PathVariable("user_id") String userId){
-        accountService.deleteById(userId);
+    @DeleteMapping(value = "/{account_id}")
+    public Response.Empty deleteUser(@PathVariable("account_id") String accountId){
+        accountService.deleteById(accountId);
         return new Response.Empty();
     }
 
     //nearby
-    @GetMapping(value = "/{user_id}/nearby/{target_location}")
-    public Response.Item<AccountDto.Response.NearBy> nearbyUser(@PathVariable("user_id") String userId, @PathVariable("target_location") String target_location){
-        return new Response.Item<>(accountService.nearByQuery(userId,target_location));
+    @GetMapping(value = "/{account_id}/nearby/{target_location}")
+    public Response.Item<AccountDto.Response.NearBy> nearbyUser(@PathVariable("account_id") String accountId, @PathVariable("target_location") String target_location){
+        return new Response.Item<>(accountService.nearByQuery(accountId,target_location));
     }
 }

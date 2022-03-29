@@ -9,10 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountRepository extends JpaRepository<Account, String> {
 
     Optional<Account> findById(String id);
+
+
+    Set<Account> findByFriendsAddedAccountContains(Account account);
 
     List<Account> findByAccountLocation(String location);
 
@@ -30,7 +34,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
             "order by yt_account.name", nativeQuery = true)
     List<SearchAccountProjection> search(@Param("id") String id, @Param("searchQuery") String searchQuery);
 
-    @Query(value = "select yt_account.name as name,yt_account.account_id as userId, " +
+    @Query(value = "select yt_account.name as name,yt_account.account_id as accountId, " +
             "yt_account.status_message as statusMessage," +
             "yt_account.type as type, yt_account.connection_status as connectionStatus, " +
             "yt_account.account_location as userLocation,chatroom.chatroom_id as chatroomId " +

@@ -1,5 +1,6 @@
 package com.example.yonseitalk.web.account.dto;
 
+import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.dto.projection.FriendAccountProjection;
 import com.example.yonseitalk.web.account.dto.projection.SearchAccountProjection;
 import lombok.*;
@@ -13,12 +14,13 @@ public class FriendDto {
         public static class addFriend {
             private String friendId;
         }
+
     }
     public static class Response{
         @Data
         public static class FriendQuery {
-            private final List<Friend> online;
-            private final List<Friend> offline;
+            public  List<Friend> online;
+            public  List<Friend> offline;
 
             public FriendQuery(List<FriendAccountProjection> projectionList) {
                 online = new ArrayList<>();
@@ -34,6 +36,7 @@ public class FriendDto {
             }
 
             @Builder
+            @Data
             public static class Friend{
                 private String accountId;
                 private String name;
@@ -53,7 +56,10 @@ public class FriendDto {
                             .build();
                 }
             }
+
+
         }
+
         @Data
         @Builder
         public static class SearchFriend{

@@ -36,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(value = {DuplicateAccountException.class})
     protected Response.Error handleDuplicateAccountException(DuplicateAccountException e){
         log.error("throw DuplicatedAccount Exception : {}", e.getCode());
@@ -59,6 +59,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected Response.Error handleDataIntegrityViolationException(DataIntegrityViolationException e){
         log.error("throw DataIntegrityViolation Exception : {}", "DataIntegrityViolationException");
         return new Response.Error("DataIntegrityViolationException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    protected Response.Error handleIllegalArgumentException(IllegalArgumentException e){
+        return new Response.Error(e.getMessage());
     }
 
 

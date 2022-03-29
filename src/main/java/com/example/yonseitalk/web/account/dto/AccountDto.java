@@ -72,6 +72,13 @@ public class AccountDto {
         }
 
         @Data
+        public static class Login{
+            private String accountId;
+            private String password;
+
+        }
+
+        @Data
         public static class ModifyInfo {
             private String accountLocation;
             private String statusMessage;
@@ -143,6 +150,17 @@ public class AccountDto {
                             .chatroomId(projection.getChatroomId())
                             .build();
                 }
+            }
+        }
+
+        @Data
+        public static class Login{
+            private String accountId;
+            private String token;
+
+            public Login(String loginId, String token) {
+                this.accountId = loginId;
+                this.token = token;
             }
         }
     }

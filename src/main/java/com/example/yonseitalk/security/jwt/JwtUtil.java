@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +26,11 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtUtil {
+
+    private final long EXPIRE_TIME_MILLIS = 1000 * 60 * 60 * 24 * 7;
+
+    private final String SIGNING_KEY = Base64.getEncoder().encodeToString("tagntalkkkkbackenddatabasespringboot".getBytes());
 
     private String secretKey = "secretKey-test-authorization-jwt-manage-token";
     private final String AUTHORIZATION_HEADER = "Authorization";
@@ -34,6 +38,24 @@ public class JwtUtil {
 
     private final UserDetailsService userDetailsService;
 
+    public JwtUtil(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    public String issueToken(String id){
+        Claims claims = Jwts.claims().setSubject(id);
+        claims.put("id",id);
+
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + EXPIRE_TIME_MILLIS);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expireDate)
+                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .compact();
+    }
 
     private String createToken(Map<String, Object> claims) {
 

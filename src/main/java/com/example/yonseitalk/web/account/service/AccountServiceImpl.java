@@ -2,7 +2,8 @@ package com.example.yonseitalk.web.account.service;
 
 import com.example.yonseitalk.exception.DuplicateAccountException;
 import com.example.yonseitalk.exception.NotFoundException;
-import com.example.yonseitalk.security.authorization.role.Role;
+import com.example.yonseitalk.security.authorization.role.AccountRole;
+import com.example.yonseitalk.web.account.domain.AccountQdslRepository;
 import com.example.yonseitalk.web.account.dto.*;
 import com.example.yonseitalk.web.account.domain.Account;
 import com.example.yonseitalk.web.account.domain.AccountRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+
+    private final AccountQdslRepository accountQdslRepository;
 
     @Override
     @Transactional
@@ -30,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
         account.setConnectionStatus(false);
         account.setStatusMessage("");
         account.setAccountLocation("공학관");
-        account.setRole(Role.USER.getValue());
+        account.setRole("학생");
         accountRepository.save(account);
 
     }
@@ -113,9 +117,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Transactional
-    public List<FriendDto.Response.SearchFriend> search(String accountId, String searchQuery){
-        accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
-        return accountRepository.search(accountId, searchQuery).stream().map(FriendDto.Response.SearchFriend::fromProjection).collect(Collectors.toList());
+    public List<FriendSearchResponse> search(String accountId, String searchQuery){
+        Account requestAccount = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+
+        List<Account> searchAccountList = accountQdslRepository.search(accountId,searchQuery);
+        Set<Account> friendList = accountRepository.findByFriendsAddedAccountContains(requestAccount);
+
+        return searchAccountList
+                .stream()
+                .map(account -> {
+                    return FriendSearchResponse
+                            .fromAccount(account,friendList.contains(account));
+                })
+                .collect(Collectors.toList());
+
     }
 
     @Override
