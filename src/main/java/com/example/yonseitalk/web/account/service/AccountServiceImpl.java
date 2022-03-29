@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -117,8 +118,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     public List<FriendSearchResponse> search(String accountId, String searchQuery){
-        accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
-        return accountQdslRepository.search(accountId,searchQuery);
+        Account requestAccount = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+
+        List<Account> searchAccountList = accountQdslRepository.search(accountId,searchQuery);
+        Set<Account> friendList = accountRepository.findByFriendsAddedAccountContains(requestAccount);
+
+        return searchAccountList
+                .stream()
+                .map(account -> {
+                    return FriendSearchResponse
+                            .fromAccount(account,friendList.contains(account));
+                })
+                .collect(Collectors.toList());
+
     }
 
     @Override

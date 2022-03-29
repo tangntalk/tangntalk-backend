@@ -9,10 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountRepository extends JpaRepository<Account, String> {
 
     Optional<Account> findById(String id);
+
+
+    Set<Account> findByFriendsAddedAccountContains(Account account);
 
     List<Account> findByAccountLocation(String location);
 
