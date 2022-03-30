@@ -4,6 +4,7 @@ package com.example.yonseitalk.controller;
 import com.example.yonseitalk.common.dto.Response;
 import com.example.yonseitalk.web.account.dto.FriendDto;
 
+import com.example.yonseitalk.web.account.dto.FriendQueryResponse;
 import com.example.yonseitalk.web.account.dto.FriendSearchResponse;
 import com.example.yonseitalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class FriendController {
     private final AccountService accountService;
 
     @GetMapping("/{account_id}/friends")
-    public Response.Item<FriendDto.Response.FriendQuery> friendList(@PathVariable("account_id") String accountId){
+    public Response.Item<FriendQueryResponse> friendList(@PathVariable("account_id") String accountId){
         return new Response.Item<>(accountService.findFriendAccount(accountId));
     }
 

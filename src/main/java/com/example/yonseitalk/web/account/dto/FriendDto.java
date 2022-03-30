@@ -7,8 +7,22 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
+@ToString
 public class FriendDto {
+
+    private String accountId;
+    private String name;
+    private String statusMessage;
+    private String type;
+    private String accountLocation;
+    private Boolean connectionStatus;
+    private Long chatroomId;
+
+
+
+
     public static class Request{
         @Data
         public static class addFriend {

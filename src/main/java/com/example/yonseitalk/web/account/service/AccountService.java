@@ -26,7 +26,7 @@ public interface AccountService {
 
     public int updateAccountConnectionStatus(String id, Boolean flag);
 
-    public FriendDto.Response.FriendQuery findFriendAccount(String accountId);
+    public FriendQueryResponse findFriendAccount(String accountId);
 
     public void addFriend(String userId, String friendId);
 
