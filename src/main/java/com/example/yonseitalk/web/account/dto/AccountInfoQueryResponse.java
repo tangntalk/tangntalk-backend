@@ -1,10 +1,11 @@
 package com.example.yonseitalk.web.account.dto;
 
 import com.example.yonseitalk.web.account.domain.Account;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 public class AccountInfoQueryResponse {
     String name;
@@ -19,11 +20,4 @@ public class AccountInfoQueryResponse {
                 .build();
     }
 
-    public AccountInfoQueryResponse toAccount(){
-        return AccountInfoQueryResponse.builder()
-                .name(name)
-                .statusMessage(statusMessage)
-                .locationName(locationName)
-                .build();
-    }
 }

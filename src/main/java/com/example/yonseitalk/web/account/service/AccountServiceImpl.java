@@ -88,9 +88,9 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Transactional
-    public FriendDto.Response.FriendQuery findFriendAccount(String accountId){
-        accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
-        return new FriendDto.Response.FriendQuery(accountRepository.findAll(accountId));
+    public FriendQueryResponse findFriendAccount(String accountId){
+        Account requestAccount = accountRepository.findById(accountId).orElseThrow(NotFoundException::new);
+        return FriendQueryResponse.fromFriendDtoList(accountQdslRepository.friendQuery(requestAccount));
     }
 
     @Transactional
