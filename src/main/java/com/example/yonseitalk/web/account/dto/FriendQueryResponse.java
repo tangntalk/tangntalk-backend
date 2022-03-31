@@ -29,9 +29,7 @@ public class FriendQueryResponse {
                 .offline(
                         friendDtoList
                                 .stream()
-                                .filter(friendDto -> {
-                                    return  !friendDto.getConnectionStatus();
-                                })
+                                .filter(friendDto -> !friendDto.getConnectionStatus())
                                 .map(FriendQueryDto::fromFriendDto)
                                 .collect(Collectors.toList()))
                 .build();
