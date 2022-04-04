@@ -20,7 +20,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "yt_account")
 @Check(constraints = "account_location IN ('공학관', '백양관', '학생회관', '신촌역')")
 @Builder
 @AllArgsConstructor

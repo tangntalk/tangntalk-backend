@@ -23,12 +23,12 @@ public class Response {
     public static class Item<T> {
         private final boolean success;
         private final String message;
-        private final T result;
+        private final T data;
 
-        public Item(T result) {
+        public Item(T data) {
             success = true;
             message = OK_MESSAGE;
-            this.result = result;
+            this.data = data;
         }
     }
 
