@@ -114,8 +114,8 @@ public class AccountDto {
 
         @Data
         public static class NearBy {
-            private final List<NearByAccount> online;
-            private final List<NearByAccount> offline;
+            List<NearByAccount> online;
+            List<NearByAccount> offline;
 
             public NearBy(List<NearByAccountProjection> projectionList) {
                 online = new ArrayList<>();
@@ -132,6 +132,7 @@ public class AccountDto {
             }
 
             @Builder
+            @Data
             public static class NearByAccount {
                 private String accountId;
                 private String name;

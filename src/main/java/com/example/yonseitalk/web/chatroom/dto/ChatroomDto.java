@@ -9,12 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class ChatroomDto {
 
     private Long chatroomId;
@@ -31,11 +27,7 @@ public class ChatroomDto {
                 .build();
     }
 
-    @Getter
-    @Setter
-    @Builder
-    @ToString
-    @AllArgsConstructor
+    @Data
     public static class ChatroomDetail {
 
         private Long chatroomId;
@@ -54,32 +46,20 @@ public class ChatroomDto {
 
     }
 
+    @Data
+    public static class ChatroomList {
+        List<SingleChatroom> chatrooms = new ArrayList<>();
 
+        public static ChatroomList fromChatroomDetailList(List<ChatroomDto.ChatroomDetail> chatroomDetailList, String accountId){
+            ChatroomList chatroomList = new ChatroomList();
 
-    @Getter
-    @Setter
-    @Builder
-    @ToString
-    public static class SingleChatroom {
-        Long chatroomId;
-        String lastMessage;
-        String lastSendTime;
-        String lastMEssageFrom;
-        String opponentName;
-        String opponentId;
-        String messageLocation;
-        String rendezvousTime;
-        Boolean connectionStatus;
-
-        public static List<SingleChatroom> fromChatroomDetailList(List<ChatroomDto.ChatroomDetail> chatroomDetailList, String accountId){
-            List<SingleChatroom> singleChatrooms = new ArrayList<>();
             chatroomDetailList.forEach(chatroomDetail -> {
                 boolean user1IsAccount = chatroomDetail.getAccount1Id().equals(accountId);
-                singleChatrooms.add(SingleChatroom.builder()
+                chatroomList.chatrooms.add(SingleChatroom.builder()
                         .chatroomId(chatroomDetail.getChatroomId())
                         .lastMessage(chatroomDetail.getContent())
                         .lastSendTime(String.valueOf(chatroomDetail.getSendTime()))
-                        .lastMEssageFrom(chatroomDetail.getSenderId())
+                        .lastMessageFrom(chatroomDetail.getSenderId())
                         .opponentName( user1IsAccount ? chatroomDetail.getAccount2Name() : chatroomDetail.getAccount1Name())
                         .opponentId( user1IsAccount ? chatroomDetail.getAccount2Id() : chatroomDetail.getAccount1Id())
                         .messageLocation(chatroomDetail.getRendezvousLocation())
@@ -87,8 +67,24 @@ public class ChatroomDto {
                         .connectionStatus( user1IsAccount ? chatroomDetail.getAccount2ConnectionStatus() : chatroomDetail.getAccount2ConnectionStatus())
                         .build());
             });
-            return singleChatrooms;
+            return chatroomList;
         }
+    }
+
+
+    @Data
+    @Builder
+    public static class SingleChatroom {
+        Long chatroomId;
+        String lastMessage;
+        String lastSendTime;
+        String lastMessageFrom;
+        String opponentName;
+        String opponentId;
+        String messageLocation;
+        String rendezvousTime;
+        Boolean connectionStatus;
+
     }
 
 }

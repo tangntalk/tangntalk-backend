@@ -36,14 +36,14 @@ public class Response {
     public static class ItemList<T> {
         private final boolean success;
         private final String message;
-        private final List<T> result;
+        private final List<T> data;
         private final int totalElements;
 
-        public ItemList(List<T> result) {
+        public ItemList(List<T> data) {
             success = true;
             message = OK_MESSAGE;
-            this.result = result;
-            totalElements = result.size();
+            this.data = data;
+            totalElements = data.size();
         }
     }
 

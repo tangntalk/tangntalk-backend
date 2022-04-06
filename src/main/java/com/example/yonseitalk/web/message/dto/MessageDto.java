@@ -7,13 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@ToString
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@EqualsAndHashCode
-@AllArgsConstructor
 public class MessageDto {
 
     private Long messageId;
@@ -40,14 +35,37 @@ public class MessageDto {
                 .build();
     }
 
-    // TODO: toMessage()를 만들어야한다.
+    @Data
     @AllArgsConstructor
     public static class MessageCount {
         Long message_count;
     }
 
-    @Getter
-    @Setter
+    @Data
+    public static class MessageList{
+        List<SingleMessage> messageList = new ArrayList<>();
+
+        public static MessageList fromMessageDtoList(List<MessageDto> messageDtos){
+            MessageList messageList = new MessageList();
+
+            for(MessageDto messageDto: messageDtos){
+                messageList.messageList.add(SingleMessage.builder()
+                        .message_id(messageDto.getMessageId())
+                        .chatroom_id(messageDto.getChatroomId())
+                        .sender_id(messageDto.getSenderId())
+                        .content(messageDto.getContent())
+                        .send_time(String.valueOf(messageDto.getSendTime()))
+                        .read_time((messageDto.getReadTime() == null) ? "읽지 않음" : "읽음")
+                        .rendezvous_flag(messageDto.getRendezvousFlag())
+                        .rendezvous_location(messageDto.getRendezvousLocation())
+                        .rendezvous_time((messageDto.getRendezvousTime() == null) ? null : String.valueOf(messageDto.getRendezvousTime()))
+                        .build());
+            }
+            return messageList;
+        }
+    }
+
+    @Data
     @Builder
     public static class SingleMessage {
         Long message_id;
@@ -62,23 +80,6 @@ public class MessageDto {
 
 
 
-        public static List<SingleMessage> fromMessageDtoList(List<MessageDto> messageDtos){
-            List<SingleMessage> messages = new ArrayList<>();
 
-            for(MessageDto messageDto: messageDtos){
-                messages.add(SingleMessage.builder()
-                        .message_id(messageDto.getMessageId())
-                        .chatroom_id(messageDto.getChatroomId())
-                        .sender_id(messageDto.getSenderId())
-                        .content(messageDto.getContent())
-                        .send_time(String.valueOf(messageDto.getSendTime()))
-                        .read_time((messageDto.getReadTime() == null) ? "읽지 않음" : "읽음")
-                        .rendezvous_flag(messageDto.getRendezvousFlag())
-                        .rendezvous_location(messageDto.getRendezvousLocation())
-                        .rendezvous_time((messageDto.getRendezvousTime() == null) ? null : String.valueOf(messageDto.getRendezvousTime()))
-                        .build());
-            }
-            return messages;
-        }
     }
 }

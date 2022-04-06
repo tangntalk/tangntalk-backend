@@ -94,24 +94,24 @@ public class DBChatroomRepositoryTest {
     @Test
     void 채팅방_vanity_check(){
 
-        List<ChatroomDto.SingleChatroom> chatroomList1 = chatService.createChatroomView("t1");
-        List<ChatroomDto.SingleChatroom> chatroomList2 = chatService.createChatroomView("t2");
-        Assertions.assertThat(chatroomList1.size()).isEqualTo(1);
-        Assertions.assertThat(chatroomList2.size()).isEqualTo(2);
-        Optional<Chatroom> chatroom = chatroomRepository.findByChatroomId(chatroomList1.get(0).getChatroomId());
+        ChatroomDto.ChatroomList chatroomList1 = chatService.createChatroomView("t1");
+        ChatroomDto.ChatroomList chatroomList2 = chatService.createChatroomView("t2");
+        Assertions.assertThat(chatroomList1.getChatrooms().size()).isEqualTo(1);
+        Assertions.assertThat(chatroomList2.getChatrooms().size()).isEqualTo(2);
+        Optional<Chatroom> chatroom = chatroomRepository.findByChatroomId(chatroomList1.getChatrooms().get(0).getChatroomId());
 
         Assertions.assertThat(chatroom.isPresent());
-        Assertions.assertThat(chatroomList1.get(0).getChatroomId()).isEqualTo(chatroomList2.get(0).getChatroomId());
-        Assertions.assertThat(chatroom.get().getUser2().getAccountId()).isEqualTo(chatroomList1.get(0).getOpponentId());
+        Assertions.assertThat(chatroomList1.getChatrooms().get(0).getChatroomId()).isEqualTo(chatroomList2.getChatrooms().get(0).getChatroomId());
+        Assertions.assertThat(chatroom.get().getUser2().getAccountId()).isEqualTo(chatroomList1.getChatrooms().get(0).getOpponentId());
     }
 
     @Transactional
     @Test
     void 메시지_보내고_조회하기(){
         Long start = System.currentTimeMillis();
-        List<ChatroomDto.SingleChatroom> chatroomList = chatService.createChatroomView("t1");
+        ChatroomDto.ChatroomList chatroomList = chatService.createChatroomView("t1");
         log.info("small chatroom took {}", System.currentTimeMillis() - start);
-        Assertions.assertThat(chatroomList.size()).isEqualTo(1);
+        Assertions.assertThat(chatroomList.getChatrooms().size()).isEqualTo(1);
 
         int numMessages = 1000;
         start = System.currentTimeMillis();
@@ -122,9 +122,9 @@ public class DBChatroomRepositoryTest {
 
 
         start = System.currentTimeMillis();
-        List<MessageDto.SingleMessage> messageList = chatService.messageInquiry(chatroomList.get(0).getChatroomId(), "t1");
+        MessageDto.MessageList messageList = chatService.messageInquiry(chatroomList.getChatrooms().get(0).getChatroomId(), "t1");
         log.info("long chatroom took {}", System.currentTimeMillis()- start);
-        Assertions.assertThat(messageList.size() == numMessages+1);
+        Assertions.assertThat(messageList.getMessageList().size() == numMessages+1);
     }
 
 

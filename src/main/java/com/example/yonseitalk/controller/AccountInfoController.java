@@ -27,7 +27,7 @@ public class AccountInfoController {
         return new Response.Item<>(accountService.accountInfoQuery(accountId));
     }
 
-    @PatchMapping(value = "/{account_id}")
+    @PatchMapping(value = "/{account_id}/myinfo")
     public Response.Empty modifyInformation(@PathVariable("account_id") String accountId,
                                                     @RequestBody AccountDto.Request.ModifyInfo modifyInfo){
         accountService.modifyInformation(accountId ,modifyInfo);
