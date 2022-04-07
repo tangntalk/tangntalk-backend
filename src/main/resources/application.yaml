@@ -4,8 +4,6 @@ spring:
       org.mariadb.jdbc.Driver
   profiles:
     active: develop
-  jackson:
-    property-naming-strategy: SNAKE_CASE
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_NAME=yonseitalk-0.0.1-SNAPSHOT.jar
+PROJECT_NAME=tangntalk-0.0.1-SNAPSHOT.jar
 
 CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
 

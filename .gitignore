@@ -30,5 +30,5 @@ target
 .idea
 .iml
 *.iml
-src/main/java/com/example/yonseitalk/scripts/
+src/main/java/com/example/tangntalk/scripts/
 src/main/resources/application.properties

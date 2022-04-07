@@ -1,24 +1,24 @@
-DROP DATABASE yonseitalk;
+-- DROP DATABASE tangntalk;
 
-CREATE DATABASE IF NOT EXISTS yonseitalk;
+CREATE DATABASE IF NOT EXISTS tangntalk;
 
 # location table ------------------------------------
-CREATE TABLE IF NOT EXISTS yonseitalk.location(
+CREATE TABLE IF NOT EXISTS tangntalk.location(
     name varchar(255) NOT NULL UNIQUE
 );
 
-ALTER TABLE yonseitalk.location
+ALTER TABLE tangntalk.location
     ADD CONSTRAINT location_pk PRIMARY KEY (name);
 
-INSERT IGNORE INTO yonseitalk.location VALUES ('공학관');
-INSERT IGNORE INTO yonseitalk.location VALUES ('백양관');
-INSERT IGNORE INTO yonseitalk.location VALUES ('학생회관');
-INSERT IGNORE INTO yonseitalk.location VALUES ('신촌역');
+INSERT IGNORE INTO tangntalk.location VALUES ('공학관');
+INSERT IGNORE INTO tangntalk.location VALUES ('백양관');
+INSERT IGNORE INTO tangntalk.location VALUES ('학생회관');
+INSERT IGNORE INTO tangntalk.location VALUES ('신촌역');
 
 
 
 # yt_user table -------------------------------------
-CREATE TABLE IF NOT EXISTS yonseitalk.yt_user(
+CREATE TABLE IF NOT EXISTS tangntalk.yt_user(
     user_id varchar(255) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
@@ -29,47 +29,47 @@ CREATE TABLE IF NOT EXISTS yonseitalk.yt_user(
     user_location varchar(255) NOT NULL DEFAULT '공학관'
 );
 
-ALTER TABLE yonseitalk.yt_user
+ALTER TABLE tangntalk.yt_user
     ADD CONSTRAINT yt_user_pk PRIMARY KEY (user_id);
 
-ALTER TABLE yonseitalk.yt_user
-    ADD CONSTRAINT user_location_fk FOREIGN KEY (user_location) REFERENCES yonseitalk.location(name);
+ALTER TABLE tangntalk.yt_user
+    ADD CONSTRAINT user_location_fk FOREIGN KEY (user_location) REFERENCES tangntalk.location(name);
 
-ALTER TABLE yonseitalk.yt_user
+ALTER TABLE tangntalk.yt_user
     ADD CONSTRAINT type_check CHECK (type IN ('일반', '학생', '강사', '기업'));
 
 # friends table ------------------------------------
-CREATE TABLE IF NOT EXISTS yonseitalk.friends(
+CREATE TABLE IF NOT EXISTS tangntalk.friends(
     user_id varchar(255) NOT NULL,
     friend_id varchar(255) NOT NULL
 );
 
-ALTER TABLE yonseitalk.friends
-    ADD CONSTRAINT friends_pk FOREIGN KEY (user_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade ;
+ALTER TABLE tangntalk.friends
+    ADD CONSTRAINT friends_pk FOREIGN KEY (user_id) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade ;
 
-ALTER TABLE yonseitalk.friends
-    ADD CONSTRAINT friends_fk FOREIGN KEY (friend_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+ALTER TABLE tangntalk.friends
+    ADD CONSTRAINT friends_fk FOREIGN KEY (friend_id) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
 # chatroom table ------------------------------------
-CREATE TABLE IF NOT EXISTS yonseitalk.chatroom(
+CREATE TABLE IF NOT EXISTS tangntalk.chatroom(
     chatroom_id bigint NOT NULL UNIQUE AUTO_INCREMENT,
     user_1 varchar(255) NOT NULL,
     user_2 varchar(255) NOT NULL,
     last_message_id bigint
 );
 
-ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT user_1_fk FOREIGN KEY (user_1) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+ALTER TABLE tangntalk.chatroom
+    ADD CONSTRAINT user_1_fk FOREIGN KEY (user_1) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT user_2_fk FOREIGN KEY (user_2) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+ALTER TABLE tangntalk.chatroom
+    ADD CONSTRAINT user_2_fk FOREIGN KEY (user_2) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
-# ALTER TABLE yonseitalk.chatroom
-#     ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+# ALTER TABLE tangntalk.chatroom
+#     ADD CONSTRAINT last_send_user_fk FOREIGN KEY (last_send_user) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
 
 # message table ------------------------------------
-CREATE TABLE IF NOT EXISTS yonseitalk.message(
+CREATE TABLE IF NOT EXISTS tangntalk.message(
     message_id bigint NOT NULL AUTO_INCREMENT UNIQUE,
     chatroom_id bigint NOT NULL,
     sender_id varchar(255) NOT NULL,
@@ -86,39 +86,39 @@ CREATE TABLE IF NOT EXISTS yonseitalk.message(
 #    rendezvous_time_location_flag boolean NOT NULL
 );
 
-ALTER TABLE yonseitalk.message
+ALTER TABLE tangntalk.message
     ADD CONSTRAINT message_pk PRIMARY KEY (message_id);
 
-ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT message_location_fk FOREIGN KEY (rendezvous_location) REFERENCES yonseitalk.location(name);
+ALTER TABLE tangntalk.message
+    ADD CONSTRAINT message_location_fk FOREIGN KEY (rendezvous_location) REFERENCES tangntalk.location(name);
 
-ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+ALTER TABLE tangntalk.message
+    ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
-# ALTER TABLE yonseitalk.message
-#     ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES yonseitalk.yt_user(user_id) ON DELETE cascade;
+# ALTER TABLE tangntalk.message
+#     ADD CONSTRAINT receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES tangntalk.yt_user(user_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.message
-    ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES yonseitalk.chatroom(chatroom_id) ON DELETE cascade;
+ALTER TABLE tangntalk.message
+    ADD CONSTRAINT chatroom_id_fk FOREIGN KEY (chatroom_id) REFERENCES tangntalk.chatroom(chatroom_id) ON DELETE cascade;
 
-ALTER TABLE yonseitalk.message
+ALTER TABLE tangntalk.message
     ALTER rendezvous_flag SET DEFAULT false;
 
 -- location 테이블에 not null이어서 여기도 not null로 해야할듯..
--- ALTER TABLE yonseitalk.message
+-- ALTER TABLE tangntalk.message
 --     ALTER rendezvous_location SET DEFAULT NULL;
 
--- ALTER TABLE yonseitalk.message
+-- ALTER TABLE tangntalk.message
 --    ALTER rendezvous_time_flag SET DEFAULT false;
 
-ALTER TABLE yonseitalk.message
+ALTER TABLE tangntalk.message
     ALTER rendezvous_time SET DEFAULT 0;
 
-ALTER TABLE yonseitalk.message
+ALTER TABLE tangntalk.message
     ALTER read_time SET DEFAULT 0;
 
--- ALTER TABLE yonseitalk.message
+-- ALTER TABLE tangntalk.message
 --    ALTER rendezvous_time_location_flag SET DEFAULT false;
 
-ALTER TABLE yonseitalk.chatroom
-    ADD CONSTRAINT last_message_id_fk FOREIGN KEY (last_message_id) REFERENCES yonseitalk.message(message_id) ON DELETE SET NULL;
+ALTER TABLE tangntalk.chatroom
+    ADD CONSTRAINT last_message_id_fk FOREIGN KEY (last_message_id) REFERENCES tangntalk.message(message_id) ON DELETE SET NULL;

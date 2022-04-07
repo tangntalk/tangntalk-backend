@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/yonseitalk?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
+    url: jdbc:mariadb://localhost:3306/tangntalk?characterEncoding=UTF-8&serverTimezone=UTC
+    username: tangntalk
     password: secret
 security:
   enabled: false

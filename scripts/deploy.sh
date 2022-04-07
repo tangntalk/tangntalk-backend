@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROJECT_REPOSITORY=/root/yonseitalk/backend
-PROJECT_NAME=yonseitalk-0.0.1-SNAPSHOT.jar
+PROJECT_REPOSITORY=/root/tangntalk/backend
+PROJECT_NAME=tangntalk-0.0.1-SNAPSHOT.jar
 CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
 
 if [ ! -z "$CURRENT_PID" ]; then
@@ -17,7 +17,7 @@ cd $PROJECT_REPOSITORY
 mvn -N io.takari:maven:wrapper
 $PROJECT_REPOSITORY/mvnw clean package -DskipTests
 
-nohup java -Dspring.profiles.active=deploy -jar $PROJECT_REPOSITORY/target/yonseitalk-0.0.1-SNAPSHOT.jar  >/dev/null 2>&1 &
+nohup java -Dspring.profiles.active=deploy -jar $PROJECT_REPOSITORY/target/tangntalk-0.0.1-SNAPSHOT.jar  >/dev/null 2>&1 &
 CURRENT_PID=$(pgrep -f ${PROJECT_NAME})
 echo "> 정상적으로 배포되었습니다."
 echo "CURRENT PID: "${CURRENT_PID}
