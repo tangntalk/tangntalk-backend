@@ -8,6 +8,7 @@ import com.example.tangntalk.web.account.dto.*;
 import com.example.tangntalk.web.account.domain.Account;
 import com.example.tangntalk.web.account.domain.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +25,22 @@ public class AccountService {
 
     private final AccountQdslRepository accountQdslRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public void save(AccountDto.Request.Register accountRegisterRequest) {
         accountRepository.findAccountByUsername(accountRegisterRequest.getUsername())
                 .ifPresent(user -> {throw new DuplicateAccountException();});
-//        accountRegisterRequest.setPassword(AES128.getAES128_Encode(accountRegisterRequest.getPassword()));
-        Account account = accountRegisterRequest.toEntity();
-        account.setConnectionStatus(false);
-        account.setStatusMessage("");
-        account.setAccountLocation("공학관");
-        account.setRole(Role.NORMAL);
+        Account account = Account.builder()
+                .username(accountRegisterRequest.getUsername())
+                .name(accountRegisterRequest.getName())
+                .password(passwordEncoder.encode(accountRegisterRequest.getPassword()))
+                .accountType(accountRegisterRequest.getType())
+                .role(Role.of(accountRegisterRequest.getType()))
+                .connectionStatus(false)
+                .statusMessage("")
+                .accountLocation("공학관")
+                .build();
         accountRepository.save(account);
     }
 
@@ -87,25 +94,25 @@ public class AccountService {
     }
 
     @Transactional
-    public void addFriend(String userId, String friendId){
+    public void addFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendId).orElseThrow(NotFoundException::new);
+        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
         user.getAccountAddedFriends().add(friend);
         friend.getFriendsAddedAccount().add(user);
     }
 
     @Transactional
-    public void deleteFriend(String userId, String friendId){
+    public void deleteFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendId).orElseThrow(NotFoundException::new);
+        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
         user.getAccountAddedFriends().remove(friend);
         friend.getFriendsAddedAccount().remove(user);
     }
 
     @Transactional
-    public FriendDto.Response.FriendCheck isFriend(String username, String friendId){
+    public FriendDto.Response.FriendCheck isFriend(String username, String friendUsername){
         Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendId).orElseThrow(NotFoundException::new);
+        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
         return new FriendDto.Response.FriendCheck(account.getAccountAddedFriends().contains(friend));
     }
 

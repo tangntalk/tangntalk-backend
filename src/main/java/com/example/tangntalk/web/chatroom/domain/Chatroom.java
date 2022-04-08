@@ -28,15 +28,10 @@ public class Chatroom {
     @JoinColumn(name = "user_2")
     private Account user2;
 
-//    @Builder.Default
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<User> users = new HashSet<>();
-
     @OneToOne
     @JoinColumn(name = "lastMessageId")
     private Message lastMessage;
 
-    // TODO: @Getter, @Setter Access Level None 추가
     @Builder.Default
     @OneToMany(mappedBy = "chatroom",
                 orphanRemoval = true,

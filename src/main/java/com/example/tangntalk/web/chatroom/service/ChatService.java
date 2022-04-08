@@ -82,7 +82,7 @@ public class ChatService {
     @Transactional
     public Long sendMessage(String userId, Long chatroomId, String content, Long rendezvousTime) {
         Chatroom chatroom = chatroomRepository.findByChatroomId(chatroomId).orElseThrow(() -> new IllegalArgumentException("No user with id "+chatroomId));;
-        Account user = accountRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));;
+        Account user = accountRepository.findAccountByUsername(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));;
 
         Message message = Message.builder()
                 .sender(user)

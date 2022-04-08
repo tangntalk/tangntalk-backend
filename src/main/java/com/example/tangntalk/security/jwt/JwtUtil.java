@@ -7,15 +7,14 @@ import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Collections;
@@ -27,14 +26,15 @@ import java.util.List;
 @Component
 public class JwtUtil {
 
-    private final long EXPIRE_TIME_MILLIS = 1000 * 60 * 60 * 24 * 7;
+    private final long EXPIRE_TIME_MILLIS = 1000 * 60 * 30; // 30분
 
     private final String SIGNING_KEY;
 
     private String secretKey = "secretKey-test-authorization-jwt-manage-token";
     private String AUTHORITIES_KEY = "role";
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER_PREFIX = "Bearer";
+    public final static String JWT_COOKIE_KEY = "tngntlk-auth";
+//    private final String AUTHORIZATION_HEADER = "Authorization";
+//    private final String BEARER_PREFIX = "Bearer";
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -83,23 +83,23 @@ public class JwtUtil {
 
 
     public String extractToken(HttpServletRequest request) {
-        String authorization = request.getHeader(AUTHORIZATION_HEADER);
+//        String authorization = request.getHeader(AUTHORIZATION_HEADER);
+        Cookie[] cookies = request.getCookies();
 
-        if (authorization == null) {
-            return null;
+        if(cookies != null){
+            for(Cookie cookie: cookies){
+                if(cookie!=null && cookie.getName()!=null && cookie.getName().equals(JWT_COOKIE_KEY)){
+                    return cookie.getValue();
+                }
+            }
         }
-        if (!authorization.startsWith(BEARER_PREFIX)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 인증 헤더입니다.");
-        }
-        return authorization.substring(BEARER_PREFIX.length() + 1);
+        return null;
     }
 
 
 
     public Authentication getAuthentication(String token) throws UserNotFoundException {
         Claims claims = extractAllClaims(token);
-        log.info("in getAuthentication: username(subject) is: "+claims.getSubject());
-        log.info("in getAuthentication: Authority is: "+claims.get(AUTHORITIES_KEY));
         String username = claims.getSubject();
         List<GrantedAuthority> authorities = Collections.singletonList(
                 Role.valueOf(claims.get(AUTHORITIES_KEY).toString()).getAuthority()

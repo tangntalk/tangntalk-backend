@@ -15,10 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
@@ -28,9 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] WHITELIST_PATTERNS = {
             "/",
-            "/error",
-            "/favicon.ico",
-            "/static/**",
             "/v3/api-docs/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
@@ -50,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -63,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception{
-        // TODO: Granted Authorities 확인하는 설정 추가
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -79,11 +77,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(WHITELIST_PATTERNS).permitAll()
+//                .antMatchers("/**").hasAnyAuthority("NOAUTHORITY") // 이 친구로 대체하면 모든 유저가 인가되지 않음
+                .antMatchers("/**").hasAuthority("NORMAL")
                 .anyRequest().authenticated()
                 .and()
                 .logout(logout -> logout
                         .permitAll()
                         .logoutSuccessHandler((request, response, authentication) -> {
+                                    Cookie cookie = new Cookie(JwtUtil.JWT_COOKIE_KEY, null);
+                                    cookie.setHttpOnly(true);
+                                    cookie.setMaxAge(0);
+                                    response.addCookie(cookie);
                                     response.setStatus(HttpServletResponse.SC_OK);
                                 }
                         )

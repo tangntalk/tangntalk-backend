@@ -1,49 +1,45 @@
 package com.example.tangntalk.controller;
 
 import com.example.tangntalk.common.dto.Response;
+import com.example.tangntalk.security.jwt.JwtUtil;
 import com.example.tangntalk.util.login.service.LoginService;
 import com.example.tangntalk.web.account.dto.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Slf4j
-@CrossOrigin("*")
-@RequestMapping("")
+@RequestMapping
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
     private final LoginService loginService;
 
-//    @GetMapping("/")
-//    @ResponseBody
-//    public void loginEnter(HttpServletRequest request, HttpServletResponse response) throws IOException{
-//        // 로그인 들어오는것
-//        //프론트에서 알아서 해준다.
-//        //기존에 로그인이 되어 있으면 바로 해당 유저의 공간으로 리디렉션해줌
-//        HttpSession session = request.getSession(false);
-//        if (session != null) {
-//            Object user = session.getAttribute("loginUser");
-//            Account loginUser= (Account)user;
-//            String redirect="/"+loginUser.getUsername();
-//            response.sendRedirect(redirect);
-//        }
-//    }
     @PostMapping("/login")
-    public Response.Item<AccountDto.Response.Login> login(@RequestBody AccountDto.Request.Login loginRequest){
+    public Response.Item<String> login(
+            @RequestBody AccountDto.Request.Login loginRequest,
+            HttpServletResponse httpServletResponse
+    ){
 
-        return new Response.Item<>(loginService.login(loginRequest));
+        AccountDto.Response.Login loginResponse = loginService.login(loginRequest);
+        Cookie cookie = new Cookie(JwtUtil.JWT_COOKIE_KEY, loginResponse.getToken());
+        cookie.setMaxAge(3600);
+        cookie.setHttpOnly(true);
+        httpServletResponse.addCookie(cookie);
+        return new Response.Item<>("정상적으로 로그인되었습니다.");
 
     }
 
-//    @PostMapping("/{username}/logout")
     @PostMapping("/logout")
-    public Response.Empty logout(@PathVariable("username") String username){
-
+    public Response.Empty logout(HttpServletResponse httpServletResponse){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         loginService.updateConnectionFalse(username);
         return new Response.Empty();
 
     }
-
 }
