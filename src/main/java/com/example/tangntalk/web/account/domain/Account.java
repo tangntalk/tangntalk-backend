@@ -13,10 +13,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * TODO: CHECK Constraint Test Case 추가 필요
- */
-
 @Getter
 @Setter
 @Entity
@@ -38,7 +34,6 @@ public class Account implements UserDetails {
 
     private String email;
 
-    @Convert(converter = AES128.class)
     @Column(nullable = false)
     private String password;
 

@@ -26,7 +26,7 @@ public class FriendDto {
     public static class Request{
         @Data
         public static class addFriend {
-            private String friendId;
+            private String friendUsername;
         }
 
     }

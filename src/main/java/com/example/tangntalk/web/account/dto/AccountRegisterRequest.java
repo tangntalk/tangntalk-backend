@@ -10,12 +10,4 @@ public class AccountRegisterRequest {
     private String password;
     private String type;
 
-    public Account toEntity(){
-        return Account.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .accountType(type)
-                .build();
-    }
 }

@@ -17,7 +17,7 @@ public class AccountRegisterController {
 
     private final AccountService accountService;
 
-    @PostMapping("")
+    @PostMapping
     public Response.Empty register(@RequestBody AccountDto.Request.Register accountRegisterRequest){
         accountService.save(accountRegisterRequest);
         return new Response.Empty();

@@ -18,4 +18,14 @@ public enum Role {
     public GrantedAuthority getAuthority() {
         return authority;
     }
+
+    public static Role of(String role){
+        switch (role){
+            case "일반": case "학생":  case "강사": case "기업":
+                return Role.NORMAL;
+            default:
+                throw new IllegalArgumentException("존재하지 않는 사용자 종류입니다.");
+
+        }
+    }
 }
