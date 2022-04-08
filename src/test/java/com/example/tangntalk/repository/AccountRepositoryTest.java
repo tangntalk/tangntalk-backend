@@ -11,7 +11,7 @@ class AccountRepositoryTest {
 //    @BeforeEach
 //    void setup(){
 //        AccountDto user1= AccountDto.builder()
-//                .accountId("ji1")
+//                .username("ji1")
 //                .name("jihoon")
 //                .password("ddda")
 //                .statusMessage("hihi")
@@ -21,7 +21,7 @@ class AccountRepositoryTest {
 //                .build();
 //
 //        AccountDto user2= AccountDto.builder()
-//                .accountId("ji2")
+//                .username("ji2")
 //                .name("jihoon")
 //                .password("ddda")
 //                .statusMessage("hihi")
@@ -40,7 +40,7 @@ class AccountRepositoryTest {
 //    void findById() {
 //        //then
 //        AccountDto findUser = accountService.findById("ji1").get();
-//        Assertions.assertThat(findUser.getAccountId()).isEqualTo("ji1");
+//        Assertions.assertThat(findUser.getUsername()).isEqualTo("ji1");
 //    }
 //
 //    @Transactional
@@ -49,7 +49,7 @@ class AccountRepositoryTest {
 //
 //        //then
 //        AccountDto findUser= accountService.findById("ji1").get();
-//        Assertions.assertThat(findUser.getAccountId()).isEqualTo("ji1");
+//        Assertions.assertThat(findUser.getUsername()).isEqualTo("ji1");
 //    }
 //
 //    @Transactional

@@ -51,11 +51,11 @@ public class ChatroomDto {
     public static class ChatroomList {
         List<SingleChatroom> chatrooms = new ArrayList<>();
 
-        public static ChatroomList fromChatroomDetailList(List<ChatroomDto.ChatroomDetail> chatroomDetailList, String accountId){
+        public static ChatroomList fromChatroomDetailList(List<ChatroomDto.ChatroomDetail> chatroomDetailList, String username){
             ChatroomList chatroomList = new ChatroomList();
 
             chatroomDetailList.forEach(chatroomDetail -> {
-                boolean user1IsAccount = chatroomDetail.getAccount1Id().equals(accountId);
+                boolean user1IsAccount = chatroomDetail.getAccount1Id().equals(username);
                 chatroomList.chatrooms.add(SingleChatroom.builder()
                         .chatroomId(chatroomDetail.getChatroomId())
                         .lastMessage(chatroomDetail.getContent())

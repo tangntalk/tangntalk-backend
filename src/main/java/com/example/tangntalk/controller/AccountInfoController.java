@@ -2,16 +2,10 @@ package com.example.tangntalk.controller;
 
 import com.example.tangntalk.common.dto.Response;
 import com.example.tangntalk.web.account.dto.*;
-import com.example.tangntalk.web.chatroom.domain.Chatroom;
-import com.example.tangntalk.exception.NotFoundException;
 import com.example.tangntalk.web.chatroom.domain.ChatroomRepository;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @RequestMapping("/accounts")
 @RestController
@@ -22,27 +16,27 @@ public class AccountInfoController {
     private final AccountService accountService;
     private final ChatroomRepository chatroomRepository;
 
-    @GetMapping(value = "/{accountId}")
-    public Response.Item<AccountInfoQueryResponse> accountInfo(@PathVariable("accountId") String accountId){
-        return new Response.Item<>(accountService.accountInfoQuery(accountId));
+    @GetMapping(value = "/{username}")
+    public Response.Item<AccountInfoDto> accountInfo(@PathVariable("username") String username){
+        return new Response.Item<>(accountService.getAccountInfo(username));
     }
 
-    @PatchMapping(value = "/{accountId}/myinfo")
-    public Response.Empty modifyInformation(@PathVariable("accountId") String accountId,
+    @PatchMapping(value = "/{username}/myinfo")
+    public Response.Empty modifyInformation(@PathVariable("username") String username,
                                                     @RequestBody AccountDto.Request.ModifyInfo modifyInfo){
-        accountService.modifyInformation(accountId ,modifyInfo);
+        accountService.modifyInformation(username ,modifyInfo);
         return new Response.Empty();
     }
 
-    @DeleteMapping(value = "/{accountId}")
-    public Response.Empty deleteUser(@PathVariable("accountId") String accountId){
-        accountService.deleteById(accountId);
+    @DeleteMapping(value = "/{username}")
+    public Response.Empty deleteUser(@PathVariable("username") String username){
+        accountService.deleteById(username);
         return new Response.Empty();
     }
 
     //nearby
-    @GetMapping(value = "/{accountId}/nearby/{targetLocation}")
-    public Response.Item<AccountDto.Response.NearBy> nearbyUser(@PathVariable("accountId") String accountId, @PathVariable("targetLocation") String target_location){
-        return new Response.Item<>(accountService.nearByQuery(accountId,target_location));
+    @GetMapping(value = "/{username}/nearby/{targetLocation}")
+    public Response.Item<AccountDto.Response.NearBy> nearbyUser(@PathVariable("username") String username, @PathVariable("targetLocation") String target_location){
+        return new Response.Item<>(accountService.nearByQuery(username,target_location));
     }
 }

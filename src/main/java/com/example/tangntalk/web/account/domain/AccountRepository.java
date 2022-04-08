@@ -20,15 +20,17 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
     List<Account> findByAccountLocation(String location);
 
-    @Query(value = "select account.name as name, account.account_id as accountId, " +
+    @Query(value = "select account.name as name, account.username as username, " +
             "account.status_message as statusMessage," +
-            "account.type as type, account.connection_status as connectionStatus, " +
+            "account.account_type as type, account.connection_status as connectionStatus, " +
             "account.account_location as accountLocation, chatroom.chatroom_id as chatroomId " +
             "from account " +
-            "left join chatroom  on :id in (chatroom.user_1,chatroom.user_2) and " +
-            "account.account_id in (chatroom.user_1,chatroom.user_2) " +
+            "left join chatroom  on :username in (chatroom.user_1,chatroom.user_2) and " +
+            "account.username in (chatroom.user_1,chatroom.user_2) " +
             "where account.account_location = :location " +
-            "and account.account_id <> :id", nativeQuery = true)
-    List<NearByAccountProjection> findByNearLocation(@Param("id") String id, @Param("location") String location);
+            "and account.username <> :username", nativeQuery = true)
+    List<NearByAccountProjection> findByNearLocation(@Param("username") String username, @Param("location") String location);
+
+    Optional<Account> findAccountByUsername(String username);
 
 }

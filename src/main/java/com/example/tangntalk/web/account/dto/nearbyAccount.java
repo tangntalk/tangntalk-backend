@@ -10,7 +10,7 @@ import lombok.ToString;
 public class nearbyAccount {
 
     private String name;
-    private String accountId;
+    private String username;
     private String statusMessage;
     private String type;
     private Long chatroomId;

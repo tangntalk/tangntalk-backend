@@ -1,7 +1,7 @@
 package com.example.tangntalk.web.account.domain;
 
 import com.example.tangntalk.AES128;
-import com.example.tangntalk.security.authorization.role.AccountRole;
+import com.example.tangntalk.security.authorization.role.Role;
 import lombok.*;
 import org.hibernate.annotations.Check;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,36 +27,34 @@ import java.util.Set;
 public class Account implements UserDetails {
 
     @Id
-    @Column(nullable = false)
-    private String accountId;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String name;
 
-    @Column
     private String email;
 
     @Convert(converter = AES128.class)
     @Column(nullable = false)
     private String password;
 
-    @Column
-    private String role;
-
-
-
-    @Column
     private String statusMessage;
 
     @Column(nullable = false)
-    private String type;
+    private String accountType;
 
-//    @Column(nullable = false)
     @Column(nullable = false)
     private String accountLocation;
 
     @Column(nullable = false)
     private Boolean connectionStatus;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Builder.Default
     @JoinTable(name = "friends",
@@ -73,17 +71,15 @@ public class Account implements UserDetails {
                 fetch = FetchType.LAZY)
     private Set<Account> friendsAddedAccount = new HashSet<>();
 
-    @Enumerated(EnumType.STRING)
-    private AccountRole accountRole = AccountRole.NORMAL;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(accountRole.getAuthority());
+        return Collections.singletonList(role.getAuthority());
     }
 
     @Override
     public String getUsername() {
-        return accountId;
+        return username;
     }
 
     @Override

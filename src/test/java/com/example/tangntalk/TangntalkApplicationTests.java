@@ -48,7 +48,7 @@ class TangntalkApplicationTests {
 	void setup(){
 
 		Account user1 = AccountDto.builder()
-				.accountId("flaxinger1")
+				.username("flaxinger1")
 				.name("yohan")
 				.password("mok")
 				.statusMessage("Preswot")

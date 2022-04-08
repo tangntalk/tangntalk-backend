@@ -2,7 +2,7 @@ package com.example.tangntalk.web.account.dto.projection;
 
 public interface NearByAccountProjection {
     String getName();
-    String getAccountId();
+    String getUsername();
     String getStatusMessage();
     String getType();
     Boolean getConnectionStatus();

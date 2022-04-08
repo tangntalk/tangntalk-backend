@@ -17,7 +17,7 @@ public interface ChatroomRepository extends JpaRepository<Chatroom, Long> {
 
     //두개의 userId로 특정 chatroom을 가져올 수 있는 findByPairUser
     @Query(value = "select * from chatroom where (user_1=?1 and user_2=?2) or (user_1=?2 and user_2=?1)", nativeQuery = true)
-    Optional<Chatroom> findByPairUser(String userId1,String userId2);
+    Optional<Chatroom> findChatroomByUserPair(Long userId1, Long userId2);
 
 
 }

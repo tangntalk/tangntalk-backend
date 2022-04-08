@@ -24,7 +24,7 @@ class AccountRepositorySearchTest {
 
         //given
         AccountDto user1 = AccountDto.builder()
-                .accountId("aabb")
+                .username("aabb")
                 .name("zffgg")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -34,7 +34,7 @@ class AccountRepositorySearchTest {
                 .build();
 
         AccountDto user2 = AccountDto.builder()
-                .accountId("bbcc")
+                .username("bbcc")
                 .name("zghh")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -44,7 +44,7 @@ class AccountRepositorySearchTest {
                 .build();
 
         AccountDto user3 = AccountDto.builder()
-                .accountId("ccdd")
+                .username("ccdd")
                 .name("zhhii")
                 .password("dda")
                 .statusMessage("hihi")
@@ -54,7 +54,7 @@ class AccountRepositorySearchTest {
                 .build();
 
         AccountDto user4 = AccountDto.builder()
-                .accountId("ddee")
+                .username("ddee")
                 .name("iijj")
                 .password("ddda")
                 .statusMessage("hihi")
@@ -70,10 +70,10 @@ class AccountRepositorySearchTest {
 //        accountService.save(user3);
 //        accountService.save(user4);
 
-        accountService.addFriend(user2.getAccountId(), user3.getAccountId());
+        accountService.addFriend(user2.getUsername(), user3.getUsername());
 
         //then
-        //List<SearchAccount> friends = accountService.search(user2.getAccountId(),"z");
+        //List<SearchAccount> friends = accountService.search(user2.getUsername(),"z");
         //System.out.println(friends);
         //Assertions.assertThat(friends.size()).isEqualTo(2);
     }

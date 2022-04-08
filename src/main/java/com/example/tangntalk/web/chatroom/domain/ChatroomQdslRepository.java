@@ -21,11 +21,11 @@ public class ChatroomQdslRepository {
         return jpaQueryFactory
                 .select(Projections.constructor(ChatroomDto.ChatroomDetail.class,
                         QChatroom.chatroom.chatroomId,
-                        QChatroom.chatroom.user1.accountId,
-                        QChatroom.chatroom.user2.accountId,
+                        QChatroom.chatroom.user1.username,
+                        QChatroom.chatroom.user2.username,
                         QChatroom.chatroom.user1.name,
                         QChatroom.chatroom.user2.name,
-                        QChatroom.chatroom.lastMessage.sender().accountId,
+                        QChatroom.chatroom.lastMessage.sender().username,
                         QChatroom.chatroom.lastMessage.content,
                         QChatroom.chatroom.lastMessage.sendTime,
                         QChatroom.chatroom.lastMessage.rendezvousFlag,
@@ -37,8 +37,8 @@ public class ChatroomQdslRepository {
                         .innerJoin(QChatroom.chatroom.user1, QAccount.account)
                         .innerJoin(QChatroom.chatroom.user2, QAccount.account)
                         .innerJoin(QChatroom.chatroom.lastMessage, QMessage.message)
-                        .where(QChatroom.chatroom.user1.accountId.eq(userId)
-                                .or(QChatroom.chatroom.user2.accountId.eq(userId)))
+                        .where(QChatroom.chatroom.user1.username.eq(userId)
+                                .or(QChatroom.chatroom.user2.username.eq(userId)))
                         .fetch();
 
     }

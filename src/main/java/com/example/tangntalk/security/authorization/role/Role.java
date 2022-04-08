@@ -5,15 +5,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
-@Getter
-public enum AccountRole {
-    NORMAL(new SimpleGrantedAuthority("normal")),
-    ADMIN(new SimpleGrantedAuthority("admin"));
+public enum Role {
+    NORMAL(new SimpleGrantedAuthority("NORMAL")),
+    ADMIN(new SimpleGrantedAuthority("NORMAL"));
 
     private final GrantedAuthority authority;
 
-    AccountRole(GrantedAuthority authority) {
+    Role(GrantedAuthority authority) {
         this.authority = authority;
     }
 
+    public GrantedAuthority getAuthority() {
+        return authority;
+    }
 }

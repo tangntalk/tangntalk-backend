@@ -22,7 +22,7 @@ class AccountQdslRepositoryTest {
 
     @Test
     void search(){
-        List<FriendSearchResponse> dtoList = accountService.search("string", "str");
+        List<FriendSearchResponse> dtoList = accountService.searchByNameOrUsername("string", "str");
         for (FriendSearchResponse friendSearchResponse : dtoList) {
             System.out.println(friendSearchResponse);
         }

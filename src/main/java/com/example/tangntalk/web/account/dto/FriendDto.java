@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class FriendDto {
 
-    private String accountId;
+    private String username;
     private String name;
     private String statusMessage;
     private String type;
@@ -52,7 +52,7 @@ public class FriendDto {
             @Builder
             @Data
             public static class Friend{
-                private String accountId;
+                private String username;
                 private String name;
                 private String statusMessage;
                 private String type;
@@ -61,7 +61,7 @@ public class FriendDto {
 
                 public static Friend fromFriendAccountProjection(FriendAccountProjection projection){
                     return Friend.builder()
-                            .accountId(projection.getAccountId())
+                            .username(projection.getUsername())
                             .name(projection.getName())
                             .statusMessage(projection.getStatusMessage())
                             .type(projection.getType())
@@ -77,7 +77,7 @@ public class FriendDto {
         @Data
         @Builder
         public static class SearchFriend{
-            private String accountId;
+            private String username;
             private String name;
             private String statusMessage;
             private String type;
@@ -85,7 +85,7 @@ public class FriendDto {
 
             public static SearchFriend fromProjection(SearchAccountProjection searchAccountProjection){
                 return SearchFriend.builder()
-                        .accountId(searchAccountProjection.getAccountId())
+                        .username(searchAccountProjection.getUsername())
                         .name(searchAccountProjection.getName())
                         .statusMessage(searchAccountProjection.getStatusMessage())
                         .type(searchAccountProjection.getType())

@@ -41,7 +41,7 @@ public class DBChatroomRepositoryTest {
     Long chatroomId2;
 
     AccountDto user1 = AccountDto.builder()
-            .accountId("t1")
+            .username("t1")
             .name("jihoon")
             .password("ddda")
             .statusMessage("hihi")
@@ -51,7 +51,7 @@ public class DBChatroomRepositoryTest {
             .build();
 
     AccountDto user2 = AccountDto.builder()
-            .accountId("t2")
+            .username("t2")
             .name("jihoon2")
             .password("ddda")
             .statusMessage("hihi")
@@ -61,7 +61,7 @@ public class DBChatroomRepositoryTest {
             .build();
 
     AccountDto user3 = AccountDto.builder()
-            .accountId("t3")
+            .username("t3")
             .name("jihoon3")
             .password("ddda")
             .statusMessage("hihi")
@@ -76,10 +76,10 @@ public class DBChatroomRepositoryTest {
         accountService.save(user1);
         accountService.save(user2);
         accountService.save(user3);
-        chatroomId1 = chatService.addChatroom(user1.getAccountId(), user2.getAccountId());
-        chatroomId2 = chatService.addChatroom(user2.getAccountId(), user3.getAccountId());
-        chatService.sendMessage(user1.getAccountId(), chatroomId1, "I am user 1", -1L);
-        chatService.sendMessage(user2.getAccountId(), chatroomId2, "I am user 2", -1L);
+        chatroomId1 = chatService.addChatroom(user1.getUsername(), user2.getUsername());
+        chatroomId2 = chatService.addChatroom(user2.getUsername(), user3.getUsername());
+        chatService.sendMessage(user1.getUsername(), chatroomId1, "I am user 1", -1L);
+        chatService.sendMessage(user2.getUsername(), chatroomId2, "I am user 2", -1L);
 
     }
 
@@ -102,7 +102,7 @@ public class DBChatroomRepositoryTest {
 
         Assertions.assertThat(chatroom.isPresent());
         Assertions.assertThat(chatroomList1.getChatrooms().get(0).getChatroomId()).isEqualTo(chatroomList2.getChatrooms().get(0).getChatroomId());
-        Assertions.assertThat(chatroom.get().getUser2().getAccountId()).isEqualTo(chatroomList1.getChatrooms().get(0).getOpponentId());
+        Assertions.assertThat(chatroom.get().getUser2().getUsername()).isEqualTo(chatroomList1.getChatrooms().get(0).getOpponentId());
     }
 
     @Transactional
@@ -116,7 +116,7 @@ public class DBChatroomRepositoryTest {
         int numMessages = 1000;
         start = System.currentTimeMillis();
         for(int i =0;i < numMessages; i++){
-            chatService.sendMessage(user2.getAccountId(), chatroomId1, "this is message "+i, -1L);
+            chatService.sendMessage(user2.getUsername(), chatroomId1, "this is message "+i, -1L);
         }
         log.info("insert took {}", System.currentTimeMillis() - start);
 

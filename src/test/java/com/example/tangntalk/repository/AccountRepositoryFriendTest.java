@@ -41,39 +41,39 @@ class AccountRepositoryFriendTest {
     @Transactional
     void delete(){
 
-        accountService.delFriend("tt", "pp");
+        accountService.deleteFriend("tt", "pp");
         log.info(accountService.findFriendAccount("tt").toString());
-       Assertions.assertThat(accountService.findFriendAccount("tt").getOffline().size()).isEqualTo(0);
+        Assertions.assertThat(accountService.findFriendAccount("tt").getOffline().size()).isEqualTo(0);
 
     }
 
     @BeforeEach
     void setup(){
         Account account1 = new Account();
-        account1.setAccountId("tt");
+        account1.setUsername("tt");
         account1.setName("jihoon");
         account1.setPassword("ddda");
         account1.setStatusMessage("hihi");
-        account1.setType("학생");
+        account1.setAccountType("학생");
         account1.setAccountLocation("공학관");
         account1.setConnectionStatus(true);
 
         Account account2 = new Account();
-        account2.setAccountId("nam");
+        account2.setUsername("nam");
         account2.setName("jihoon");
         account2.setPassword("ddda");
         account2.setStatusMessage("hihi");
-        account2.setType("학생");
+        account2.setAccountType("학생");
         account2.setAccountLocation("공학관");
         account2.setConnectionStatus(true);
 
 
         Account account3 = new Account();
-        account3.setAccountId("pp");
+        account3.setUsername("pp");
         account3.setName("jihoon");
         account3.setPassword("ddda");
         account3.setStatusMessage("hihi");
-        account3.setType("강사");
+        account3.setAccountType("강사");
         account3.setAccountLocation("공학관");
         account3.setConnectionStatus(false);
 

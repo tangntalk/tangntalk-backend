@@ -12,7 +12,7 @@ public class RendezvousMasker {
     public static String maskRendezvous(MessageDto messageDto, AccountDto accountDto){
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(accountDto.getAccountId())) {
+        if(messageDto.getRendezvousFlag() && !messageDto.getSenderId().equals(accountDto.getUsername())) {
             if (!messageDto.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(messageDto.getRendezvousTime())) {
                 messageDto.setContent("hidden message");
             }
@@ -23,7 +23,7 @@ public class RendezvousMasker {
 
     public static String maskRendezvous(ChatroomDto.ChatroomDetail chatroomDetail, AccountDto accountDto){
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(accountDto.getAccountId())) {
+        if(chatroomDetail.getRendezvousFlag() && !chatroomDetail.getSenderId().equals(accountDto.getUsername())) {
             if (!chatroomDetail.getRendezvousLocation().equals(accountDto.getAccountLocation()) || currentTime.after(chatroomDetail.getRendezvousTime())) {
                 chatroomDetail.setContent("hidden message");
             }

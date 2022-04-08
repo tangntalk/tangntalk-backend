@@ -18,7 +18,6 @@ public class Chatroom {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
     private Long chatroomId;
 
     @ManyToOne

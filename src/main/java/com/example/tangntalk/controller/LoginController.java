@@ -2,25 +2,10 @@ package com.example.tangntalk.controller;
 
 import com.example.tangntalk.common.dto.Response;
 import com.example.tangntalk.util.login.service.LoginService;
-import com.example.tangntalk.util.login.service.LoginServiceImpl;
-import com.example.tangntalk.util.login.LoginFormat;
-import com.example.tangntalk.web.account.domain.Account;
 import com.example.tangntalk.web.account.dto.AccountDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Slf4j
@@ -41,7 +26,7 @@ public class LoginController {
 //        if (session != null) {
 //            Object user = session.getAttribute("loginUser");
 //            Account loginUser= (Account)user;
-//            String redirect="/"+loginUser.getAccountId();
+//            String redirect="/"+loginUser.getUsername();
 //            response.sendRedirect(redirect);
 //        }
 //    }
@@ -52,10 +37,11 @@ public class LoginController {
 
     }
 
-    @PostMapping("/{accountId}/logout")
-    public Response.Empty logout(@PathVariable("accountId") String accountId){
+//    @PostMapping("/{username}/logout")
+    @PostMapping("/logout")
+    public Response.Empty logout(@PathVariable("username") String username){
 
-        loginService.updateConnectionFalse(accountId);
+        loginService.updateConnectionFalse(username);
         return new Response.Empty();
 
     }

@@ -1,7 +1,7 @@
 package com.example.tangntalk.web.account.dto;
 
+import com.example.tangntalk.security.authorization.role.Role;
 import com.example.tangntalk.web.account.domain.Account;
-import com.example.tangntalk.web.account.dto.projection.FriendAccountProjection;
 import com.example.tangntalk.web.account.dto.projection.NearByAccountProjection;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class AccountDto {
 
-    private String accountId;
+    private String username;
     private String name;
     private String email;
     private String password;
@@ -27,13 +27,13 @@ public class AccountDto {
 
     public static AccountDto fromAccount(Account user){
         return AccountDto.builder()
-                .accountId(user.getAccountId())
+                .username(user.getUsername())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .role(user.getRole())
+                .role(user.getRole().toString())
                 .statusMessage(user.getStatusMessage())
-                .type(user.getType())
+                .type(user.getAccountType())
                 .accountLocation(user.getAccountLocation())
                 .connectionStatus(user.getConnectionStatus())
                 .build();
@@ -41,13 +41,13 @@ public class AccountDto {
 
     public Account toAccount(){
         return Account.builder()
-                .accountId(accountId)
+                .username(username)
                 .name(name)
                 .email(email)
                 .password(password)
-                .role(role)
+                .role(Role.valueOf(role))
                 .statusMessage(statusMessage)
-                .type(type)
+                .accountType(type)
                 .accountLocation(accountLocation)
                 .connectionStatus(connectionStatus)
                 .build();
@@ -56,24 +56,24 @@ public class AccountDto {
     public static class Request {
         @Data
         public static class Register {
-            private String accountId;
+            private String username;
             private String name;
             private String password;
             private String type;
 
             public Account toEntity(){
                 return Account.builder()
-                        .accountId(accountId)
+                        .username(username)
                         .name(name)
                         .password(password)
-                        .type(type)
+                        .accountType(type)
                         .build();
             }
         }
 
         @Data
         public static class Login{
-            private String accountId;
+            private String username;
             private String password;
 
         }
@@ -134,7 +134,7 @@ public class AccountDto {
             @Builder
             @Data
             public static class NearByAccount {
-                private String accountId;
+                private String username;
                 private String name;
                 private String statusMessage;
                 private String type;
@@ -143,7 +143,7 @@ public class AccountDto {
 
                 public static NearByAccount fromProjection(NearByAccountProjection projection) {
                     return NearByAccount.builder()
-                            .accountId(projection.getAccountId())
+                            .username(projection.getUsername())
                             .name(projection.getName())
                             .statusMessage(projection.getStatusMessage())
                             .type(projection.getType())
@@ -156,11 +156,11 @@ public class AccountDto {
 
         @Data
         public static class Login{
-            private String accountId;
+            private String username;
             private String token;
 
             public Login(String loginId, String token) {
-                this.accountId = loginId;
+                this.username = loginId;
                 this.token = token;
             }
         }

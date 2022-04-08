@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @Builder
 public class FriendSearchResponse{
-    private String accountId;
+    private String username;
     private String name;
     private String statusMessage;
     private String type;
@@ -17,10 +17,10 @@ public class FriendSearchResponse{
 
     public static FriendSearchResponse fromAccount(Account account ,boolean isFriend){
         return FriendSearchResponse.builder()
-                .accountId(account.getAccountId())
+                .username(account.getUsername())
                 .name(account.getName())
                 .statusMessage(account.getStatusMessage())
-                .type(account.getType())
+                .type(account.getAccountType())
                 .isFriend(isFriend).build();
     }
 }

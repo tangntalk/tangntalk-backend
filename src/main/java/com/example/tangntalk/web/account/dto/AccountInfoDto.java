@@ -7,13 +7,13 @@ import lombok.*;
 @Setter
 @ToString
 @Builder
-public class AccountInfoQueryResponse {
+public class AccountInfoDto {
     String name;
     String statusMessage;
     String locationName;
 
-    public static AccountInfoQueryResponse fromAccount(Account account){
-        return AccountInfoQueryResponse.builder()
+    public static AccountInfoDto fromAccount(Account account){
+        return AccountInfoDto.builder()
                 .name(account.getName())
                 .statusMessage(account.getStatusMessage())
                 .locationName(account.getAccountLocation())

@@ -20,8 +20,8 @@ public class AccountQdslRepository {
     public List<Account> search(String id, String searchQuery){
 
         return  jpaQueryFactory.selectFrom(account)
-                .where(account.accountId.ne(id)
-                        .and(account.accountId.contains(searchQuery)
+                .where(account.username.ne(id)
+                        .and(account.username.contains(searchQuery)
                                 .or(account.name.contains(searchQuery))))
                 .fetch();
 
@@ -29,10 +29,10 @@ public class AccountQdslRepository {
 
     public List<FriendDto> friendQuery(Account requestAccount){
         return jpaQueryFactory.select(Projections.bean(FriendDto.class,
-                account.accountId,
+                account.username,
                 account.name,
                 account.statusMessage,
-                account.type,
+                account.accountType,
                 account.accountLocation,
                 account.connectionStatus,
                 chatroom.chatroomId))

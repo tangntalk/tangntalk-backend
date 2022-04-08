@@ -1,25 +1,23 @@
 package com.example.tangntalk.web.account.dto;
 
-import com.example.tangntalk.web.account.dto.projection.FriendAccountProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @ToString
 @Builder
-public class FriendQueryResponse {
+public class OnlineAndOfflineFriendListDto {
     private List<FriendQueryDto> online;
     private List<FriendQueryDto> offline;
 
-    public static FriendQueryResponse fromFriendDtoList(List<FriendDto> friendDtoList){
-        return FriendQueryResponse.builder()
+    public static OnlineAndOfflineFriendListDto fromFriendDtoList(List<FriendDto> friendDtoList){
+        return OnlineAndOfflineFriendListDto.builder()
                 .online(
                         friendDtoList
                                 .stream()
@@ -40,7 +38,7 @@ public class FriendQueryResponse {
     @ToString
     @Builder
     public static class FriendQueryDto{
-        private String accountId;
+        private String username;
         private String name;
         private String statusMessage;
         private String type;
@@ -49,7 +47,7 @@ public class FriendQueryResponse {
 
         public static FriendQueryDto fromFriendDto(FriendDto friendDto){
             return FriendQueryDto.builder()
-                    .accountId(friendDto.getAccountId())
+                    .username(friendDto.getUsername())
                     .name(friendDto.getName())
                     .statusMessage(friendDto.getStatusMessage())
                     .type(friendDto.getType())
