@@ -10,26 +10,23 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Chatroom {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long chatroomId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_1")
+    @OneToOne(fetch = FetchType.LAZY)
     private Account user1;
 
-    @ManyToOne
-    @JoinColumn(name = "user_2")
+    @OneToOne(fetch = FetchType.LAZY)
     private Account user2;
 
-    @OneToOne
-    @JoinColumn(name = "lastMessageId")
+    @OneToOne(fetch = FetchType.LAZY)
     private Message lastMessage;
 
     @Builder.Default

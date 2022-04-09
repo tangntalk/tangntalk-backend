@@ -1,6 +1,6 @@
-package com.example.yonseitalk.controller;
+package com.example.tangntalk.util.stomp;
 
-import com.example.yonseitalk.web.account.service.AccountService;
+import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
@@ -25,9 +25,6 @@ public class StompHandler implements ChannelInterceptor {
     private static final Map<String, String> connectAccountMap = new ConcurrentHashMap<>();
 
 
-
-
-
     @Override
     public Message preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
@@ -40,7 +37,7 @@ public class StompHandler implements ChannelInterceptor {
         switch (accessor.getCommand()) {
             case CONNECT:
                 String accountId = accessor.getHost();
-                if (accountService.findById(accountId).isPresent()) {
+                if (accountService.findByUsername(accountId).isPresent()) {
                     connectAccountMap.put(sessionId, accountId);
                     accountService.updateAccountConnectionStatus(accountId, true);
                 }

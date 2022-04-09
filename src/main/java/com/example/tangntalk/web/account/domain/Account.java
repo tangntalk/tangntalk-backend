@@ -1,6 +1,5 @@
 package com.example.tangntalk.web.account.domain;
 
-import com.example.tangntalk.AES128;
 import com.example.tangntalk.security.authorization.role.Role;
 import lombok.*;
 import org.hibernate.annotations.Check;
@@ -13,11 +12,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Check(constraints = "account_location IN ('공학관', '백양관', '학생회관', '신촌역')")
 @Builder
+@Check(constraints = "account_location IN ('공학관', '백양관', '학생회관', '신촌역')")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account implements UserDetails {
@@ -58,14 +57,7 @@ public class Account implements UserDetails {
     )
     @ManyToMany(cascade = CascadeType.ALL,
                 fetch = FetchType.LAZY)
-    private Set<Account> accountAddedFriends = new HashSet<>();
-
-    @Builder.Default
-    @ManyToMany(cascade = CascadeType.ALL,
-                mappedBy = "accountAddedFriends",
-                fetch = FetchType.LAZY)
-    private Set<Account> friendsAddedAccount = new HashSet<>();
-
+    private Set<Account> friends = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

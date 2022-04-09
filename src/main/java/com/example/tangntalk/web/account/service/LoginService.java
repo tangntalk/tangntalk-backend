@@ -1,7 +1,9 @@
-package com.example.tangntalk.util.login.service;
+package com.example.tangntalk.web.account.service;
 
 import com.example.tangntalk.security.jwt.JwtUtil;
 import com.example.tangntalk.web.account.dto.AccountDto;
+import com.example.tangntalk.web.account.dto.request.LoginDto;
+import com.example.tangntalk.web.account.dto.response.LoginSuccessDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,7 @@ public class LoginService{
     private final AccountService accountService;
     private final JwtUtil jwtUtil;
 
-    public AccountDto.Response.Login login(AccountDto.Request.Login loginRequest){
+    public LoginSuccessDto login(LoginDto loginRequest){
 
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
@@ -32,16 +34,11 @@ public class LoginService{
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-//        System.out.println(password);
-//        System.out.println(accountDto.getPassword());
-//        if(!password.equals(account.getPassword())){
-//            throw new IllegalArgumentException("잘못된 비밀번호입니다");
-//        }
         updateConnectionTrue(username);
 
         String token = jwtUtil.issueToken(username, accountDto.getRole());
 
-        return new AccountDto.Response.Login(username,token);
+        return new LoginSuccessDto(username,token);
     }
 
     @Transactional

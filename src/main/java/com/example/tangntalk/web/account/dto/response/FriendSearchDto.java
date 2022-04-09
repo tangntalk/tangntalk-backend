@@ -1,4 +1,4 @@
-package com.example.tangntalk.web.account.dto;
+package com.example.tangntalk.web.account.dto.response;
 
 import com.example.tangntalk.web.account.domain.Account;
 
@@ -8,15 +8,15 @@ import lombok.*;
 @Setter
 @ToString
 @Builder
-public class FriendSearchResponse{
+public class FriendSearchDto {
     private String username;
     private String name;
     private String statusMessage;
     private String type;
     private Boolean isFriend;
 
-    public static FriendSearchResponse fromAccount(Account account ,boolean isFriend){
-        return FriendSearchResponse.builder()
+    public static FriendSearchDto fromAccount(Account account , boolean isFriend){
+        return FriendSearchDto.builder()
                 .username(account.getUsername())
                 .name(account.getName())
                 .statusMessage(account.getStatusMessage())

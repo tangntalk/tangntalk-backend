@@ -1,11 +1,11 @@
-package com.example.tangntalk.controller;
+package com.example.tangntalk.web.account.controller;
 
 
 import com.example.tangntalk.common.dto.Response;
-import com.example.tangntalk.web.account.dto.FriendDto;
+import com.example.tangntalk.web.account.dto.response.FriendDto;
 
-import com.example.tangntalk.web.account.dto.OnlineAndOfflineFriendListDto;
-import com.example.tangntalk.web.account.dto.FriendSearchResponse;
+import com.example.tangntalk.web.account.dto.response.OnlineAndOfflineFriendListDto;
+import com.example.tangntalk.web.account.dto.response.FriendSearchDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +25,7 @@ public class FriendController {
     }
 
     @GetMapping("/friends/search")
-    public Response.ItemList<FriendSearchResponse> friendList(@RequestParam("query") String query){
+    public Response.ItemList<FriendSearchDto> friendList(@RequestParam("query") String query){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.ItemList<>(accountService.searchByNameOrUsername(username,query));
     }

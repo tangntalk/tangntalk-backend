@@ -2,7 +2,7 @@ package com.example.tangntalk.repository;
 
 import com.example.tangntalk.exception.NotFoundException;
 import com.example.tangntalk.web.account.domain.Account;
-import com.example.tangntalk.web.account.domain.AccountRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;

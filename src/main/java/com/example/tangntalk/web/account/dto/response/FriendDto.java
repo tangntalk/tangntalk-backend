@@ -1,4 +1,4 @@
-package com.example.tangntalk.web.account.dto;
+package com.example.tangntalk.web.account.dto.response;
 
 import com.example.tangntalk.web.account.domain.Account;
 import com.example.tangntalk.web.account.dto.projection.FriendAccountProjection;
@@ -7,9 +7,11 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class FriendDto {
 
     private String username;
@@ -19,8 +21,6 @@ public class FriendDto {
     private String accountLocation;
     private Boolean connectionStatus;
     private Long chatroomId;
-
-
 
 
     public static class Request{

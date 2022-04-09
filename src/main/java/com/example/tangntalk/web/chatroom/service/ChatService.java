@@ -1,16 +1,18 @@
 package com.example.tangntalk.web.chatroom.service;
 
 import com.example.tangntalk.web.account.dto.AccountDto;
-import com.example.tangntalk.web.chatroom.domain.ChatroomQdslRepository;
-import com.example.tangntalk.web.chatroom.domain.ChatroomRepository;
-import com.example.tangntalk.web.chatroom.dto.ChatroomDto;
+import com.example.tangntalk.web.chatroom.dto.response.ChatroomDetailDto;
+import com.example.tangntalk.web.chatroom.dto.response.ChatroomListDto;
+import com.example.tangntalk.web.chatroom.repository.ChatroomQdslRepository;
+import com.example.tangntalk.web.chatroom.repository.ChatroomRepository;
 import com.example.tangntalk.web.chatroom.util.RendezvousMasker;
-import com.example.tangntalk.web.message.domain.MessageRepository;
+import com.example.tangntalk.web.message.dto.response.MessageListDto;
+import com.example.tangntalk.web.message.repository.MessageRepository;
 import com.example.tangntalk.web.chatroom.domain.Chatroom;
 import com.example.tangntalk.web.message.domain.Message;
 import com.example.tangntalk.web.message.dto.MessageDto;
 import com.example.tangntalk.web.account.domain.Account;
-import com.example.tangntalk.web.account.domain.AccountRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +58,7 @@ public class ChatService {
     }
 
     @Transactional
-    public MessageDto.MessageList messageInquiry(Long chatroomId, String userId) {
+    public MessageListDto messageInquiry(Long chatroomId, String userId) {
 
         AccountDto accountDto = accountService.findByUsername(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));
         List<Message> messageList = messageRepository.findByChatroomId(chatroomId);
@@ -74,7 +76,7 @@ public class ChatService {
             return messageDto;
         }).collect(Collectors.toList());
 
-        return MessageDto.MessageList.fromMessageDtoList(messageDtos);
+        return MessageListDto.fromMessageDtoList(messageDtos);
     }
 
 
@@ -104,11 +106,11 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatroomDto.ChatroomList createChatroomView(String userId){
+    public ChatroomListDto createChatroomView(String userId){
         AccountDto account = accountService.findByUsername(userId).orElseThrow(() -> new IllegalArgumentException("No user with id: " + userId));
-        List<ChatroomDto.ChatroomDetail> chatroomDetailList = chatroomQdslRepository.findChatroomListbyUser(userId);
+        List<ChatroomDetailDto> chatroomDetailList = chatroomQdslRepository.findChatroomListByUser(userId);
         chatroomDetailList.forEach(chatroomDetail -> chatroomDetail.setContent(RendezvousMasker.maskRendezvous(chatroomDetail, account)));
-        return ChatroomDto.ChatroomList.fromChatroomDetailList(chatroomDetailList, userId);
+        return ChatroomListDto.fromChatroomDetailList(chatroomDetailList, userId);
     }
 
 }

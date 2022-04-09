@@ -1,9 +1,11 @@
-package com.example.tangntalk.controller;
+package com.example.tangntalk.web.account.controller;
 
 import com.example.tangntalk.common.dto.Response;
 import com.example.tangntalk.security.jwt.JwtUtil;
-import com.example.tangntalk.util.login.service.LoginService;
 import com.example.tangntalk.web.account.dto.AccountDto;
+import com.example.tangntalk.web.account.dto.request.LoginDto;
+import com.example.tangntalk.web.account.dto.response.LoginSuccessDto;
+import com.example.tangntalk.web.account.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +24,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public Response.Item<String> login(
-            @RequestBody AccountDto.Request.Login loginRequest,
+            @RequestBody LoginDto loginRequest,
             HttpServletResponse httpServletResponse
     ){
 
-        AccountDto.Response.Login loginResponse = loginService.login(loginRequest);
+        LoginSuccessDto loginResponse = loginService.login(loginRequest);
         Cookie cookie = new Cookie(JwtUtil.JWT_COOKIE_KEY, loginResponse.getToken());
         cookie.setMaxAge(3600);
         cookie.setHttpOnly(true);

@@ -1,6 +1,6 @@
-package com.example.yonseitalk.config;
+package com.example.tangntalk.config;
 
-import com.example.yonseitalk.controller.StompHandler;
+import com.example.tangntalk.util.stomp.StompHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;

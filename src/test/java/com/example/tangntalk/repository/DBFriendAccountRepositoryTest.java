@@ -1,17 +1,10 @@
 package com.example.tangntalk.repository;
 
-import com.example.tangntalk.web.account.dto.AccountDto;
-import com.example.tangntalk.web.account.dto.FriendDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest

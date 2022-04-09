@@ -1,6 +1,7 @@
-package com.example.tangntalk.web.account.domain;
+package com.example.tangntalk.web.account.repository;
 
-import com.example.tangntalk.web.account.dto.FriendDto;
+import com.example.tangntalk.web.account.domain.Account;
+import com.example.tangntalk.web.account.dto.response.FriendDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class AccountQdslRepository {
     }
 
     public List<FriendDto> friendQuery(Account requestAccount){
-        return jpaQueryFactory.select(Projections.bean(FriendDto.class,
+        return jpaQueryFactory.select(Projections.constructor(FriendDto.class,
                 account.username,
                 account.name,
                 account.statusMessage,
@@ -38,8 +39,8 @@ public class AccountQdslRepository {
                 chatroom.chatroomId))
                 .from(account)
                 .leftJoin(chatroom)
-                .on(account.eq(chatroom.user1()).or(account.eq(chatroom.user2())))
-                .where(account.friendsAddedAccount.contains(requestAccount))
+                .on(account.eq(chatroom.user1).or(account.eq(chatroom.user2)))
+                .where(account.friends.contains(requestAccount))
                 .fetch();
     }
 

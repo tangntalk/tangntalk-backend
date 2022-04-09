@@ -2,13 +2,15 @@ package com.example.tangntalk.repository;
 
 
 import com.example.tangntalk.web.chatroom.domain.Chatroom;
-import com.example.tangntalk.web.chatroom.domain.ChatroomQdslRepository;
-import com.example.tangntalk.web.chatroom.domain.ChatroomRepository;
+import com.example.tangntalk.web.chatroom.dto.response.ChatroomListDto;
+import com.example.tangntalk.web.chatroom.repository.ChatroomQdslRepository;
+import com.example.tangntalk.web.chatroom.repository.ChatroomRepository;
 import com.example.tangntalk.web.chatroom.dto.ChatroomDto;
 import com.example.tangntalk.web.chatroom.service.ChatService;
 import com.example.tangntalk.web.account.dto.AccountDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import com.example.tangntalk.web.message.dto.MessageDto;
+import com.example.tangntalk.web.message.dto.response.MessageListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -94,8 +95,8 @@ public class DBChatroomRepositoryTest {
     @Test
     void 채팅방_vanity_check(){
 
-        ChatroomDto.ChatroomList chatroomList1 = chatService.createChatroomView("t1");
-        ChatroomDto.ChatroomList chatroomList2 = chatService.createChatroomView("t2");
+        ChatroomListDto chatroomList1 = chatService.createChatroomView("t1");
+        ChatroomListDto chatroomList2 = chatService.createChatroomView("t2");
         Assertions.assertThat(chatroomList1.getChatrooms().size()).isEqualTo(1);
         Assertions.assertThat(chatroomList2.getChatrooms().size()).isEqualTo(2);
         Optional<Chatroom> chatroom = chatroomRepository.findByChatroomId(chatroomList1.getChatrooms().get(0).getChatroomId());
@@ -109,7 +110,7 @@ public class DBChatroomRepositoryTest {
     @Test
     void 메시지_보내고_조회하기(){
         Long start = System.currentTimeMillis();
-        ChatroomDto.ChatroomList chatroomList = chatService.createChatroomView("t1");
+        ChatroomListDto chatroomList = chatService.createChatroomView("t1");
         log.info("small chatroom took {}", System.currentTimeMillis() - start);
         Assertions.assertThat(chatroomList.getChatrooms().size()).isEqualTo(1);
 
@@ -122,7 +123,7 @@ public class DBChatroomRepositoryTest {
 
 
         start = System.currentTimeMillis();
-        MessageDto.MessageList messageList = chatService.messageInquiry(chatroomList.getChatrooms().get(0).getChatroomId(), "t1");
+        MessageListDto messageList = chatService.messageInquiry(chatroomList.getChatrooms().get(0).getChatroomId(), "t1");
         log.info("long chatroom took {}", System.currentTimeMillis()- start);
         Assertions.assertThat(messageList.getMessageList().size() == numMessages+1);
     }

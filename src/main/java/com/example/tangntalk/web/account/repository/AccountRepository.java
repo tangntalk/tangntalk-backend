@@ -1,5 +1,6 @@
-package com.example.tangntalk.web.account.domain;
+package com.example.tangntalk.web.account.repository;
 
+import com.example.tangntalk.web.account.domain.Account;
 import com.example.tangntalk.web.account.dto.projection.FriendAccountProjection;
 import com.example.tangntalk.web.account.dto.projection.NearByAccountProjection;
 import com.example.tangntalk.web.account.dto.projection.SearchAccountProjection;
@@ -16,7 +17,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     Optional<Account> findById(String id);
 
 
-    Set<Account> findByFriendsAddedAccountContains(Account account);
+    Set<Account> findByFriendsContains(Account account);
 
     List<Account> findByAccountLocation(String location);
 
@@ -25,8 +26,8 @@ public interface AccountRepository extends JpaRepository<Account, String> {
             "account.account_type as type, account.connection_status as connectionStatus, " +
             "account.account_location as accountLocation, chatroom.chatroom_id as chatroomId " +
             "from account " +
-            "left join chatroom  on :username in (chatroom.user_1,chatroom.user_2) and " +
-            "account.username in (chatroom.user_1,chatroom.user_2) " +
+            "left join chatroom  on :username in (chatroom.user1_id,chatroom.user2_id) and " +
+            "account.username in (chatroom.user1_id,chatroom.user2_id) " +
             "where account.account_location = :location " +
             "and account.username <> :username", nativeQuery = true)
     List<NearByAccountProjection> findByNearLocation(@Param("username") String username, @Param("location") String location);

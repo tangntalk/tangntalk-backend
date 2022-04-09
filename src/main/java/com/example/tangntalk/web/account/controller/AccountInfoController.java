@@ -1,8 +1,9 @@
-package com.example.tangntalk.controller;
+package com.example.tangntalk.web.account.controller;
 
 import com.example.tangntalk.common.dto.Response;
-import com.example.tangntalk.web.account.dto.*;
-import com.example.tangntalk.web.chatroom.domain.ChatroomRepository;
+import com.example.tangntalk.web.account.dto.request.ModifyInfoDto;
+import com.example.tangntalk.web.account.dto.response.AccountInfoDto;
+import com.example.tangntalk.web.account.dto.response.NearByFriendsDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,9 @@ public class AccountInfoController {
     }
 
     @PatchMapping(value = "/myinfo")
-    public Response.Empty modifyInformation(@RequestBody AccountDto.Request.ModifyInfo modifyInfo){
+    public Response.Empty modifyInformation(@RequestBody ModifyInfoDto modifyInfoDto){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        accountService.modifyInformation(username ,modifyInfo);
+        accountService.modifyInformation(username , modifyInfoDto);
         return new Response.Empty();
     }
 
@@ -39,7 +40,7 @@ public class AccountInfoController {
 
     //nearby
     @GetMapping(value = "/nearby/{targetLocation}")
-    public Response.Item<AccountDto.Response.NearBy> nearbyUser(@PathVariable("targetLocation") String target_location){
+    public Response.Item<NearByFriendsDto> nearbyUser(@PathVariable("targetLocation") String target_location){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.Item<>(accountService.nearByQuery(username,target_location));
     }

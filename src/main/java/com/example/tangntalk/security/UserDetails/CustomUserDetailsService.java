@@ -1,6 +1,6 @@
 package com.example.tangntalk.security.UserDetails;
 
-import com.example.tangntalk.web.account.domain.AccountRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,9 @@
 package com.example.tangntalk.web.account.domain;
 
-import com.example.tangntalk.web.account.dto.FriendDto;
-import com.example.tangntalk.web.account.dto.FriendSearchResponse;
+import com.example.tangntalk.web.account.dto.response.FriendDto;
+import com.example.tangntalk.web.account.dto.response.FriendSearchDto;
+import com.example.tangntalk.web.account.repository.AccountQdslRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,9 @@ class AccountQdslRepositoryTest {
 
     @Test
     void search(){
-        List<FriendSearchResponse> dtoList = accountService.searchByNameOrUsername("string", "str");
-        for (FriendSearchResponse friendSearchResponse : dtoList) {
-            System.out.println(friendSearchResponse);
+        List<FriendSearchDto> dtoList = accountService.searchByNameOrUsername("string", "str");
+        for (FriendSearchDto friendSearchDto : dtoList) {
+            System.out.println(friendSearchDto);
         }
 
     }

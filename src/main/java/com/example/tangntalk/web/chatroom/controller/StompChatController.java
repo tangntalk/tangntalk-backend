@@ -1,7 +1,8 @@
-package com.example.yonseitalk.controller;
+package com.example.tangntalk.web.chatroom.controller;
 
-import com.example.yonseitalk.web.chatroom.service.ChatService;
-import com.example.yonseitalk.web.message.dto.MessageSendDto;
+
+import com.example.tangntalk.web.chatroom.service.ChatService;
+import com.example.tangntalk.web.message.dto.request.MessageSendDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

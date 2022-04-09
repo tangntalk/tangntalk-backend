@@ -3,10 +3,13 @@ package com.example.tangntalk.web.account.service;
 import com.example.tangntalk.exception.DuplicateAccountException;
 import com.example.tangntalk.exception.NotFoundException;
 import com.example.tangntalk.security.authorization.role.Role;
-import com.example.tangntalk.web.account.domain.AccountQdslRepository;
+import com.example.tangntalk.web.account.repository.AccountQdslRepository;
 import com.example.tangntalk.web.account.dto.*;
 import com.example.tangntalk.web.account.domain.Account;
-import com.example.tangntalk.web.account.domain.AccountRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
+import com.example.tangntalk.web.account.dto.request.AccountRegisterDto;
+import com.example.tangntalk.web.account.dto.request.ModifyInfoDto;
+import com.example.tangntalk.web.account.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,15 +31,15 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void save(AccountDto.Request.Register accountRegisterRequest) {
-        accountRepository.findAccountByUsername(accountRegisterRequest.getUsername())
+    public void save(AccountRegisterDto accountRegisterDto) {
+        accountRepository.findAccountByUsername(accountRegisterDto.getUsername())
                 .ifPresent(user -> {throw new DuplicateAccountException();});
         Account account = Account.builder()
-                .username(accountRegisterRequest.getUsername())
-                .name(accountRegisterRequest.getName())
-                .password(passwordEncoder.encode(accountRegisterRequest.getPassword()))
-                .accountType(accountRegisterRequest.getType())
-                .role(Role.of(accountRegisterRequest.getType()))
+                .username(accountRegisterDto.getUsername())
+                .name(accountRegisterDto.getName())
+                .password(passwordEncoder.encode(accountRegisterDto.getPassword()))
+                .accountType(accountRegisterDto.getType())
+                .role(Role.of(accountRegisterDto.getType()))
                 .connectionStatus(false)
                 .statusMessage("")
                 .accountLocation("공학관")
@@ -71,13 +74,13 @@ public class AccountService {
 //    }
 
     @Transactional
-    public void modifyInformation(String username, AccountDto.Request.ModifyInfo modifyInfo) {
+    public void modifyInformation(String username, ModifyInfoDto modifyInfoDto) {
         Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
-        if (modifyInfo.getAccountLocation()!=null){
-            account.setAccountLocation(modifyInfo.getAccountLocation());
+        if (modifyInfoDto.getAccountLocation()!=null){
+            account.setAccountLocation(modifyInfoDto.getAccountLocation());
         }
-        if (modifyInfo.getStatusMessage()!=null){
-            account.setStatusMessage(modifyInfo.getStatusMessage());
+        if (modifyInfoDto.getStatusMessage()!=null){
+            account.setStatusMessage(modifyInfoDto.getStatusMessage());
         }
     }
 
@@ -97,45 +100,45 @@ public class AccountService {
     public void addFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
         Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
-        user.getAccountAddedFriends().add(friend);
-        friend.getFriendsAddedAccount().add(user);
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
     }
 
     @Transactional
     public void deleteFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
         Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
-        user.getAccountAddedFriends().remove(friend);
-        friend.getFriendsAddedAccount().remove(user);
+        user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
     }
 
     @Transactional
     public FriendDto.Response.FriendCheck isFriend(String username, String friendUsername){
         Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
         Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
-        return new FriendDto.Response.FriendCheck(account.getAccountAddedFriends().contains(friend));
+        return new FriendDto.Response.FriendCheck(account.getFriends().contains(friend));
     }
 
     @Transactional
-    public List<FriendSearchResponse> searchByNameOrUsername(String username, String searchQuery){
+    public List<FriendSearchDto> searchByNameOrUsername(String username, String searchQuery){
         Account requestAccount = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
 
         List<Account> searchAccountList = accountQdslRepository.search(username,searchQuery);
-        Set<Account> friendList = accountRepository.findByFriendsAddedAccountContains(requestAccount);
+        Set<Account> friendList = accountRepository.findByFriendsContains(requestAccount);
 
         return searchAccountList
                 .stream()
                 .map(account -> {
-                    return FriendSearchResponse
+                    return FriendSearchDto
                             .fromAccount(account,friendList.contains(account));
                 })
                 .collect(Collectors.toList());
 
     }
 
-    public AccountDto.Response.NearBy nearByQuery(String username,String targetLocation) {
+    public NearByFriendsDto nearByQuery(String username, String targetLocation) {
         accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
-        return new AccountDto.Response.NearBy(accountRepository.findByNearLocation(username,targetLocation));
+        return new NearByFriendsDto(accountRepository.findByNearLocation(username,targetLocation));
     }
 
 }

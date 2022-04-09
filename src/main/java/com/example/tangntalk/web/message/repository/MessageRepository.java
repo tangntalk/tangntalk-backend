@@ -1,5 +1,6 @@
-package com.example.tangntalk.web.message.domain;
+package com.example.tangntalk.web.message.repository;
 
+import com.example.tangntalk.web.message.domain.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

@@ -1,10 +1,13 @@
-package com.example.tangntalk.controller;
+package com.example.tangntalk.web.chatroom.controller;
 
 import com.example.tangntalk.common.dto.Response;
 import com.example.tangntalk.web.chatroom.dto.ChatroomDto;
+import com.example.tangntalk.web.chatroom.dto.response.ChatroomListDto;
 import com.example.tangntalk.web.chatroom.service.ChatService;
 import com.example.tangntalk.web.message.dto.MessageDto;
 import com.example.tangntalk.web.account.service.AccountService;
+import com.example.tangntalk.web.message.dto.response.MessageCountDto;
+import com.example.tangntalk.web.message.dto.response.MessageListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +29,14 @@ public class ChatroomController {
     }
 
     @GetMapping(value = "/chatrooms")
-    public Response.Item<ChatroomDto.ChatroomList> getChatroomList(){
+    public Response.Item<ChatroomListDto> getChatroomList(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.Item<>(chatService.createChatroomView(username));
 
     }
 
     @GetMapping(value = "/chatrooms/{chatroomId}")
-    public Response.Item<MessageDto.MessageList> getMessages(@PathVariable("chatroomId") Long chatroomId){
+    public Response.Item<MessageListDto> getMessages(@PathVariable("chatroomId") Long chatroomId){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.Item<>(chatService.messageInquiry(chatroomId, username));
     }
@@ -50,8 +53,8 @@ public class ChatroomController {
     }
 
     @GetMapping(value = "/chatrooms/{chatroomId}/count")
-    public Response.Item<MessageDto.MessageCount> getMessageCount(@PathVariable("chatroomId") Long chatroomId){
-        MessageDto.MessageCount messageCount = new MessageDto.MessageCount(chatService.getMessageCount(chatroomId));
+    public Response.Item<MessageCountDto> getMessageCount(@PathVariable("chatroomId") Long chatroomId){
+        MessageCountDto messageCount = new MessageCountDto(chatService.getMessageCount(chatroomId));
         return new Response.Item<>(messageCount);
     }
 }

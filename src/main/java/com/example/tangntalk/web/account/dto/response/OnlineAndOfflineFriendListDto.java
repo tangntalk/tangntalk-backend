@@ -1,4 +1,4 @@
-package com.example.tangntalk.web.account.dto;
+package com.example.tangntalk.web.account.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

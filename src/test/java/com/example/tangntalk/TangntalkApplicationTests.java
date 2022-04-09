@@ -1,7 +1,7 @@
 package com.example.tangntalk;
 
 import com.example.tangntalk.web.account.domain.Account;
-import com.example.tangntalk.web.account.domain.AccountRepository;
+import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.dto.AccountDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -27,50 +27,27 @@ public class ChatroomDto {
                 .build();
     }
 
-    @Data
-    @AllArgsConstructor
-    public static class ChatroomDetail {
+//    @Data
+//    @AllArgsConstructor
+//    public static class ChatroomDetail {
+//
+//        private Long chatroomId;
+//        private String account1Id;
+//        private String account2Id;
+//        private String account1Name;
+//        private String account2Name;
+//        private String senderId;
+//        private String content;
+//        private Date sendTime;
+//        private Boolean rendezvousFlag;
+//        private String rendezvousLocation;
+//        private Date rendezvousTime;
+//        private Boolean account1ConnectionStatus;
+//        private Boolean account2ConnectionStatus;
+//
+//    }
 
-        private Long chatroomId;
-        private String account1Id;
-        private String account2Id;
-        private String account1Name;
-        private String account2Name;
-        private String senderId;
-        private String content;
-        private Date sendTime;
-        private Boolean rendezvousFlag;
-        private String rendezvousLocation;
-        private Date rendezvousTime;
-        private Boolean account1ConnectionStatus;
-        private Boolean account2ConnectionStatus;
 
-    }
-
-    @Data
-    public static class ChatroomList {
-        List<SingleChatroom> chatrooms = new ArrayList<>();
-
-        public static ChatroomList fromChatroomDetailList(List<ChatroomDto.ChatroomDetail> chatroomDetailList, String username){
-            ChatroomList chatroomList = new ChatroomList();
-
-            chatroomDetailList.forEach(chatroomDetail -> {
-                boolean user1IsAccount = chatroomDetail.getAccount1Id().equals(username);
-                chatroomList.chatrooms.add(SingleChatroom.builder()
-                        .chatroomId(chatroomDetail.getChatroomId())
-                        .lastMessage(chatroomDetail.getContent())
-                        .lastSendTime(String.valueOf(chatroomDetail.getSendTime()))
-                        .lastMessageFrom(chatroomDetail.getSenderId())
-                        .opponentName( user1IsAccount ? chatroomDetail.getAccount2Name() : chatroomDetail.getAccount1Name())
-                        .opponentId( user1IsAccount ? chatroomDetail.getAccount2Id() : chatroomDetail.getAccount1Id())
-                        .messageLocation(chatroomDetail.getRendezvousLocation())
-                        .rendezvousTime(String.valueOf(chatroomDetail.getRendezvousTime()))
-                        .connectionStatus( user1IsAccount ? chatroomDetail.getAccount2ConnectionStatus() : chatroomDetail.getAccount2ConnectionStatus())
-                        .build());
-            });
-            return chatroomList;
-        }
-    }
 
 
     @Data

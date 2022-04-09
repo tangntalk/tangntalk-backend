@@ -1,11 +1,10 @@
-package com.example.tangntalk.controller;
+package com.example.tangntalk.web.account.controller;
 
 import com.example.tangntalk.common.dto.Response;
-import com.example.tangntalk.web.account.dto.AccountDto;
+import com.example.tangntalk.web.account.dto.request.AccountRegisterDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,8 +17,8 @@ public class AccountRegisterController {
     private final AccountService accountService;
 
     @PostMapping
-    public Response.Empty register(@RequestBody AccountDto.Request.Register accountRegisterRequest){
-        accountService.save(accountRegisterRequest);
+    public Response.Empty register(@RequestBody AccountRegisterDto accountRegisterDto){
+        accountService.save(accountRegisterDto);
         return new Response.Empty();
     }
 
