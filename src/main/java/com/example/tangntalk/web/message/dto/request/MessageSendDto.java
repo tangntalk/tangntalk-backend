@@ -1,4 +1,4 @@
-package com.example.yonseitalk.web.message.dto;
+package com.example.tangntalk.web.message.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
