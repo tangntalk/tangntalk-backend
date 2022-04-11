@@ -1,10 +1,8 @@
 package com.example.tangntalk.web.chatroom.controller;
 
 import com.example.tangntalk.common.dto.Response;
-import com.example.tangntalk.web.chatroom.dto.ChatroomDto;
 import com.example.tangntalk.web.chatroom.dto.response.ChatroomListDto;
 import com.example.tangntalk.web.chatroom.service.ChatService;
-import com.example.tangntalk.web.message.dto.MessageDto;
 import com.example.tangntalk.web.account.service.AccountService;
 import com.example.tangntalk.web.message.dto.response.MessageCountDto;
 import com.example.tangntalk.web.message.dto.response.MessageListDto;

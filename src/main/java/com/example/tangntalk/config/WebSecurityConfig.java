@@ -1,7 +1,10 @@
 package com.example.tangntalk.config;
 
+import com.example.tangntalk.exception.JwtAccessDeniedHandler;
+import com.example.tangntalk.exception.JwtAuthenticationEntryPoint;
 import com.example.tangntalk.security.jwt.JwtAuthenticationFilter;
 import com.example.tangntalk.security.jwt.JwtUtil;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] WHITELIST_PATTERNS = {
@@ -38,14 +42,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/register"
     };
 
+    @Lazy
     private final JwtUtil jwtUtil;
-    private final boolean enableSecurity;
 
-    public WebSecurityConfig(@Lazy JwtUtil jwtUtil, @Value("${security.enabled}") boolean enableSecurity) {
-        log.info("enable Security is "+enableSecurity);
-        this.jwtUtil = jwtUtil;
-        this.enableSecurity = enableSecurity;
-    }
+    @Value("${security.enabled}")
+    private boolean enableSecurity;
+
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,6 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception{
         http
                 .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()

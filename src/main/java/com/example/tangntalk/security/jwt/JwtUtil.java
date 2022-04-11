@@ -33,8 +33,6 @@ public class JwtUtil {
     private String secretKey = "secretKey-test-authorization-jwt-manage-token";
     private String AUTHORITIES_KEY = "role";
     public final static String JWT_COOKIE_KEY = "tngntlk-auth";
-//    private final String AUTHORIZATION_HEADER = "Authorization";
-//    private final String BEARER_PREFIX = "Bearer";
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -73,6 +71,7 @@ public class JwtUtil {
         if (StringUtils.isEmpty(token)) return null;
         Claims claims = null;
         try {
+            System.out.println("got here");
             claims = Jwts.parserBuilder().setSigningKey(SIGNING_KEY).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;

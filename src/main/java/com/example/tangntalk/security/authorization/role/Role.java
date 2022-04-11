@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum Role {
     NORMAL(new SimpleGrantedAuthority("NORMAL")),
-    ADMIN(new SimpleGrantedAuthority("NORMAL"));
+    ADMIN(new SimpleGrantedAuthority("ADMIN"));
 
     private final GrantedAuthority authority;
 
