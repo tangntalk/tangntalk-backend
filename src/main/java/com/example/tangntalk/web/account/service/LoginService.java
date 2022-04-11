@@ -32,6 +32,7 @@ public class LoginService{
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
+        // TODO: 없이도 정상작동해야함.
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         updateConnectionTrue(username);
