@@ -71,7 +71,6 @@ public class JwtUtil {
         if (StringUtils.isEmpty(token)) return null;
         Claims claims = null;
         try {
-            System.out.println("got here");
             claims = Jwts.parserBuilder().setSigningKey(SIGNING_KEY).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
