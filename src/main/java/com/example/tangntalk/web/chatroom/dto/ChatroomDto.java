@@ -62,7 +62,6 @@ public class ChatroomDto {
         String messageLocation;
         String rendezvousTime;
         Boolean connectionStatus;
-
     }
 
 }

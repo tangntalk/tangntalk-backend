@@ -1,8 +1,13 @@
 package com.example.tangntalk.util.stomp;
 
 import com.example.tangntalk.web.account.service.AccountService;
+import com.example.tangntalk.web.message.service.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -17,12 +22,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class StompHandler implements ChannelInterceptor {
     private final AccountService accountService;
+    private RedisSubscriber redisSubscriber;
+    private final RedisMessageListenerContainer redisMessageListener;
 
     private static final Map<String, String> connectAccountMap = new ConcurrentHashMap<>();
+
+
 
 
     @Override
@@ -41,6 +50,7 @@ public class StompHandler implements ChannelInterceptor {
                     connectAccountMap.put(sessionId, accountId);
                     accountService.updateAccountConnectionStatus(accountId, true);
                 }
+
                 // 유저가 Websocket으로 connect()를 한 뒤 호출됨
                 break;
             case DISCONNECT:

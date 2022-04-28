@@ -12,5 +12,7 @@ import org.springframework.context.annotation.Scope;
 public class MessageSendDto {
     private Long chatroomId;
     private String senderId;
+    private String receiverId;
     private String content;
+    private Long rendezvousTime;
 }
