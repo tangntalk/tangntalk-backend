@@ -35,9 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] WHITELIST_PATTERNS = {
             "/",
             "/v3/api-docs/**",
-            "/swagger-ui.html",
-            "/swagger-ui/**",
-            "/swagger-ui/swagger-ui.html",
+            "/swagger*/**",
+            "/webjars/**",
+            "/configuration/**",
             "/login",
             "/register"
     };
