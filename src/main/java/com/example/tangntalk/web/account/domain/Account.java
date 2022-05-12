@@ -1,6 +1,7 @@
 package com.example.tangntalk.web.account.domain;
 
 import com.example.tangntalk.security.authorization.role.Role;
+import com.example.tangntalk.web.statusmessage.domain.StatusMessage;
 import lombok.*;
 import org.hibernate.annotations.Check;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,7 +37,9 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private String statusMessage;
+    //상태 메세지
+    @OneToOne(fetch = FetchType.LAZY)
+    private StatusMessage statusMessage;
 
     @Column(nullable = false)
     private String accountType;

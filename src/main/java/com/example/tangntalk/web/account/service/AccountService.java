@@ -41,7 +41,7 @@ public class AccountService {
                 .accountType(accountRegisterDto.getType())
                 .role(Role.of(accountRegisterDto.getType()))
                 .connectionStatus(false)
-                .statusMessage("")
+//                .statusMessage("")
                 .accountLocation("공학관")
                 .build();
         accountRepository.save(account);
@@ -79,9 +79,9 @@ public class AccountService {
         if (modifyInfoDto.getAccountLocation()!=null){
             account.setAccountLocation(modifyInfoDto.getAccountLocation());
         }
-        if (modifyInfoDto.getStatusMessage()!=null){
-            account.setStatusMessage(modifyInfoDto.getStatusMessage());
-        }
+//        if (modifyInfoDto.getStatusMessage()!=null){
+//            account.setStatusMessage(modifyInfoDto.getStatusMessage());
+//        }
     }
 
     @Transactional

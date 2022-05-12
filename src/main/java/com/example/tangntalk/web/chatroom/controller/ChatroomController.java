@@ -16,7 +16,6 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 public class ChatroomController {
-
     private final ChatService chatService;
     private final AccountService accountService;
 
@@ -25,6 +24,8 @@ public class ChatroomController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.Item<>(chatService.addChatroom(username, body.get("opponentUsername")));
     }
+
+
 
     @GetMapping(value = "/chatrooms")
     public Response.Item<ChatroomListDto> getChatroomList(){

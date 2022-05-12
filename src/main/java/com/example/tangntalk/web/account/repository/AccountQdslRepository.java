@@ -12,6 +12,7 @@ import java.util.List;
 import static com.example.tangntalk.web.account.domain.QAccount.*;
 import static com.example.tangntalk.web.chatroom.domain.QChatroom.*;
 
+
 @Repository
 @RequiredArgsConstructor
 public class AccountQdslRepository {
