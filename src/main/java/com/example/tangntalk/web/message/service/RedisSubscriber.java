@@ -22,7 +22,7 @@ import java.io.IOException;
 public class RedisSubscriber implements MessageListener {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RedisTemplate<String, Object> redisTemplate;
-    private final SimpMessagingTemplate template;;
+    private final SimpMessagingTemplate template;
 
 
     @Override
@@ -32,7 +32,6 @@ public class RedisSubscriber implements MessageListener {
 
         try {
             MessageSendDto messageSendDto = objectMapper.readValue(publishMessage,MessageSendDto.class);
-            log.info("receive {}",messageSendDto.getReceiverId());
             template.convertAndSend("/sub/chat/" + messageSendDto.getReceiverId(), messageSendDto);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
