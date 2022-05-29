@@ -22,5 +22,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: set up mvn target files
+      - run mvn install
     - name: Build with Maven
       run: mvn -B package --file pom.xml
