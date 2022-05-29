@@ -1,5 +1,9 @@
 # 배포 방법
 
+
+(현재 자동화 진행중)
+github action -> AWS Code Deploy를 통한 CI/CD 파이프라인 구축 중
+
 ## 서버 배포 시 설정
 
 tangntalk/backend/src/main/resources/ 디렉토리에 설정을 선택 및 추가할 수 있다.</p>
