@@ -28,7 +28,7 @@ name: Deploy to Amazon ECS
 
 on:
   workflow_run:
-    workflows: [ "CI in Dev branch" ]
+    workflows: [ CI in Dev branch ]
     branches: [ releases ]
     types:
       - completed
