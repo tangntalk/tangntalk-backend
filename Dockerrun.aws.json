@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "public.ecr.aws/o6w2r5q2/tangntalk-backend/tangntalk-backend:latest",
+    "Name": "807459427734.dkr.ecr.ap-northeast-2.amazonaws.com/tandntalk_backend:latest",
     "Update": "true"
   },
   "Ports": [
