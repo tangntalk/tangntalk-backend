@@ -37,7 +37,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          ECR_REPOSITORY: tandntalk_backend
+          ECR_REPOSITORY: tangntalkb
           IMAGE_TAG: latest
         run: |
           docker buildx build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
