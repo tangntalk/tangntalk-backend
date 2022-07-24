@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mariadb://172.31.42.19:3306/tangntalk?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mariadb://54.180.93.49:3306
     username: tangntalk
     password: secret
   redis:
-    host: 172.31.42.19
+    host: 54.180.93.49
     port: 6379
     password:
 security:
