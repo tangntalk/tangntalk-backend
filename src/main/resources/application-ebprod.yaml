@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://54.180.93.49:3306
+    url: jdbc:mariadb://54.180.93.49:3306/tangntalk
     username: tangntalk
     password: secret
   redis:
