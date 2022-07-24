@@ -1,6 +1,7 @@
 package com.example.tangntalk.repository;
 
-import com.example.tangntalk.exception.NotFoundException;
+import com.example.tangntalk.exception.ErrorType;
+import com.example.tangntalk.exception.GlobalException;
 import com.example.tangntalk.web.account.domain.Account;
 import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.service.AccountService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -28,7 +30,9 @@ class AccountRepositoryFriendTest {
     @Transactional
     void save(){
 
-        Account account = accountRepository.findById("tt").orElseThrow(NotFoundException::new);
+        Account account = accountRepository.findById("tt").orElseThrow(() -> {
+            throw new GlobalException(HttpStatus.NOT_FOUND, ErrorType.NOT_FOUND_ERROR);
+        });
 
         Assertions.assertThat(accountService.findFriendAccount("tt").getOnline().size()).isEqualTo(1);
         Assertions.assertThat(accountService.findFriendAccount("tt").getOffline().size()).isEqualTo(1);

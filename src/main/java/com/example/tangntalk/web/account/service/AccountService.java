@@ -1,7 +1,7 @@
 package com.example.tangntalk.web.account.service;
 
-import com.example.tangntalk.exception.DuplicateAccountException;
-import com.example.tangntalk.exception.NotFoundException;
+import com.example.tangntalk.exception.ErrorType;
+import com.example.tangntalk.exception.GlobalException;
 import com.example.tangntalk.security.authorization.role.Role;
 import com.example.tangntalk.web.account.repository.AccountQdslRepository;
 import com.example.tangntalk.web.account.dto.*;
@@ -11,6 +11,7 @@ import com.example.tangntalk.web.account.dto.request.AccountRegisterDto;
 import com.example.tangntalk.web.account.dto.request.ModifyInfoDto;
 import com.example.tangntalk.web.account.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ public class AccountService {
     @Transactional
     public void save(AccountRegisterDto accountRegisterDto) {
         accountRepository.findAccountByUsername(accountRegisterDto.getUsername())
-                .ifPresent(user -> {throw new DuplicateAccountException();});
+                .ifPresent(user -> {throw new GlobalException(HttpStatus.CONFLICT, ErrorType.DUPLICATED_ACCOUNT_ERROR);});
         Account account = Account.builder()
                 .username(accountRegisterDto.getUsername())
                 .name(accountRegisterDto.getName())
@@ -52,7 +53,7 @@ public class AccountService {
     }
 
     public AccountInfoDto getAccountInfo(String username) {
-        Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account account = findAccountByUsername(username);
         return AccountInfoDto.fromAccount(account);
     }
 
@@ -75,7 +76,7 @@ public class AccountService {
 
     @Transactional
     public void modifyInformation(String username, ModifyInfoDto modifyInfoDto) {
-        Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account account = findAccountByUsername(username);
         if (modifyInfoDto.getAccountLocation()!=null){
             account.setAccountLocation(modifyInfoDto.getAccountLocation());
         }
@@ -86,42 +87,42 @@ public class AccountService {
 
     @Transactional
     public void updateAccountConnectionStatus(String username, Boolean flag){
-        Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account account = findAccountByUsername(username);
         account.setConnectionStatus(flag);
     }
 
     @Transactional
     public OnlineAndOfflineFriendListDto findFriendAccount(String username){
-        Account requestAccount = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account requestAccount = findAccountByUsername(username);
         return OnlineAndOfflineFriendListDto.fromFriendDtoList(accountQdslRepository.friendQuery(requestAccount));
     }
 
     @Transactional
     public void addFriend(String userId, String friendUsername){
-        Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
+        Account user = findAccountByUsername(userId);
+        Account friend = findAccountByUsername(friendUsername);
         user.getFriends().add(friend);
         friend.getFriends().add(user);
     }
 
     @Transactional
     public void deleteFriend(String userId, String friendUsername){
-        Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
+        Account user = findAccountByUsername(userId);
+        Account friend = findAccountByUsername(friendUsername);
         user.getFriends().remove(friend);
         friend.getFriends().remove(user);
     }
 
     @Transactional
     public FriendDto.Response.FriendCheck isFriend(String username, String friendUsername){
-        Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
-        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
+        Account account = findAccountByUsername(username);
+        Account friend = findAccountByUsername(friendUsername);
         return new FriendDto.Response.FriendCheck(account.getFriends().contains(friend));
     }
 
     @Transactional
     public List<FriendSearchDto> searchByNameOrUsername(String username, String searchQuery){
-        Account requestAccount = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account requestAccount = findAccountByUsername(username);
 
         List<Account> searchAccountList = accountQdslRepository.search(username,searchQuery);
         Set<Account> friendList = accountRepository.findByFriendsContains(requestAccount);
@@ -137,8 +138,17 @@ public class AccountService {
     }
 
     public NearByFriendsDto nearByQuery(String username, String targetLocation) {
-        accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        findAccountByUsername(username);
         return new NearByFriendsDto(accountRepository.findByNearLocation(username,targetLocation));
+    }
+
+    private Account findAccountByUsername(String name){
+        return accountRepository
+                .findAccountByUsername(name)
+                .orElseThrow(()->{throw new GlobalException(
+                        HttpStatus.NOT_FOUND,
+                        ErrorType.NOT_FOUND_ERROR
+                );});
     }
 
 }

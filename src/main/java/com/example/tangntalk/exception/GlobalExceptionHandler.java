@@ -1,9 +1,6 @@
-package com.example.tangntalk.config;
+package com.example.tangntalk.exception;
 
 import com.example.tangntalk.common.dto.Response;
-import com.example.tangntalk.exception.CommonException;
-import com.example.tangntalk.exception.DuplicateAccountException;
-import com.example.tangntalk.exception.NotFoundException;
 import com.example.tangntalk.view.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,14 +9,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler{
+
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<ExceptionResponse> handleConnectableException(GlobalException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
+    }
+
 
     @ExceptionHandler(value = {CommonException.class})
     protected ResponseEntity<ErrorResponse> handleCommonException(CommonException e) {
@@ -34,19 +36,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(value = {DuplicateAccountException.class})
-    protected Response.Error handleDuplicateAccountException(DuplicateAccountException e){
-        log.error("throw DuplicatedAccount Exception : {}", e);
-        return new Response.Error(e.getCode());
-    }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {NotFoundException.class})
-    protected Response.Error handleNotFoundException(NotFoundException e){
-        log.error("throw NonFoundException : {}", e);
-        return new Response.Error(e.getCode());
-    }
+
 
     /*
         db 단에서의 에러를 임시러 처리하게 했다.
