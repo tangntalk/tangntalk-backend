@@ -18,7 +18,7 @@ import java.io.StringWriter;
 public class GlobalExceptionHandler{
 
     @ExceptionHandler(GlobalException.class)
-    public ResponseEntity<ExceptionResponse> handleConnectableException(GlobalException e) {
+    public ResponseEntity<ExceptionResponse> handleGlobalException(GlobalException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e.getBody());
     }
 
