@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   datasource:
     driver-class-name:
@@ -13,4 +15,6 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
 security:
-  enabled: false
+  enabled: true
+tangntalk:
+  message-list-page-size: 20

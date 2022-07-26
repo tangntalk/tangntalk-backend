@@ -11,6 +11,7 @@ import com.example.tangntalk.web.account.dto.request.AccountRegisterDto;
 import com.example.tangntalk.web.account.dto.request.ModifyInfoDto;
 import com.example.tangntalk.web.account.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -93,23 +95,23 @@ public class AccountService {
     @Transactional
     public OnlineAndOfflineFriendListDto findFriendAccount(String username){
         Account requestAccount = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
-        return OnlineAndOfflineFriendListDto.fromFriendDtoList(accountQdslRepository.friendQuery(requestAccount));
+        return OnlineAndOfflineFriendListDto.fromFriendDtoList(requestAccount.getFriends().stream().map(FriendDto::from).collect(Collectors.toList()));
     }
 
     @Transactional
     public void addFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
         Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
-        user.getFriends().add(friend);
-        friend.getFriends().add(user);
+        user.addFriend(friend);
+//        friend.getFriends().add(user);
     }
 
     @Transactional
     public void deleteFriend(String userId, String friendUsername){
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(NotFoundException::new);
         Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
-        user.getFriends().remove(friend);
-        friend.getFriends().remove(user);
+        user.removeFriend(friend);
+//        friend.getFriends().remove(user);
     }
 
     @Transactional
@@ -136,9 +138,18 @@ public class AccountService {
 
     }
 
+    @Transactional
     public NearByFriendsDto nearByQuery(String username, String targetLocation) {
         accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
         return new NearByFriendsDto(accountRepository.findByNearLocation(username,targetLocation));
     }
 
+    @Transactional
+    public AccountInfoDto friendInfo(String username, String friendUsername) {
+        Account account = accountRepository.findAccountByUsername(username).orElseThrow(NotFoundException::new);
+        Account friend = accountRepository.findAccountByUsername(friendUsername).orElseThrow(NotFoundException::new);
+//        if(!account.getFriends().contains(friend))
+//            throw new IllegalArgumentException("requested account is not a friend.");
+        return AccountInfoDto.fromAccount(friend);
+    }
 }

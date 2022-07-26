@@ -8,12 +8,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +26,6 @@ public class StompEventListener {
 
 
     public static final Map<String, ChannelTopic> topics = new ConcurrentHashMap<>();
-
     public static final Map<String, String> sessions = new ConcurrentHashMap<>();
 
 
@@ -38,7 +34,6 @@ public class StompEventListener {
     public void handleSubscribe(SessionSubscribeEvent event) {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());
         String subscriptionURL = headers.getDestination();
-
         if(subscriptionURL == null || !subscriptionURL.startsWith("/sub/chat/")){
             return;
         }

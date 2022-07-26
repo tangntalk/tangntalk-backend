@@ -30,24 +30,12 @@ public class ChatroomController {
     public Response.Item<ChatroomListDto> getChatroomList(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return new Response.Item<>(chatService.createChatroomView(username));
-
     }
 
     @GetMapping(value = "/chatrooms/{chatroomId}")
-    public Response.Item<MessageListDto> getMessages(@PathVariable("chatroomId") Long chatroomId){
+    public Response.Item<MessageListDto> getMessages(@PathVariable("chatroomId") Long chatroomId, int page){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return new Response.Item<>(chatService.messageInquiry(chatroomId, username));
-    }
-
-    @PostMapping(value = "/chatrooms/{chatroomId}")
-    public Response.Item<Map<String, Boolean>> postMessage(@PathVariable("chatroomId") Long chatroomId, @RequestBody Map<String, String> body){
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Long rendezvousTime = (body.get("rendezvousTime").equals(null)) ? -1L : Long.valueOf(body.get("rendezvousTime"));
-        Long status = chatService.sendMessage(username, chatroomId, String.valueOf(body.get("content")), rendezvousTime);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("success", status > -1? true: false);
-        return new Response.Item<>(response);
+        return new Response.Item<>(chatService.messageInquiry(username, chatroomId, page));
     }
 
     @GetMapping(value = "/chatrooms/{chatroomId}/count")

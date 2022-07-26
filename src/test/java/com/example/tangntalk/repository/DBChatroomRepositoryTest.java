@@ -123,7 +123,7 @@ public class DBChatroomRepositoryTest {
 
 
         start = System.currentTimeMillis();
-        MessageListDto messageList = chatService.messageInquiry(chatroomList.getChatrooms().get(0).getChatroomId(), "t1");
+        MessageListDto messageList = chatService.messageInquiry("t1", chatroomList.getChatrooms().get(0).getChatroomId(), 0);
         log.info("long chatroom took {}", System.currentTimeMillis()- start);
         Assertions.assertThat(messageList.getMessageList().size() == numMessages+1);
     }
