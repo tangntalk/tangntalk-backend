@@ -12,14 +12,14 @@ services:
       TZ: Asia/Seoul
     networks:
       - backend
-    restart: always
+    restart: unless-stopped
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-
   redis:
     image: redis:alpine
     command: redis-server --port 6379
     container_name: redis_boot
     hostname: redis_boot
+    restart: unless-stopped
     labels:
       - "name=redis"
       - "mode=standalone"
@@ -27,7 +27,5 @@ services:
       - 6379:6379
     networks:
       - backend
-
-
 networks:
   backend:

@@ -3,12 +3,15 @@ package com.example.tangntalk.web.message.dto;
 import com.example.tangntalk.web.message.domain.Message;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
+@Setter
+@Getter
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageDto {
 
     private Long messageId;

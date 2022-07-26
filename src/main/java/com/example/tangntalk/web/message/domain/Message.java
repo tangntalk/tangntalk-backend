@@ -26,7 +26,7 @@ public class Message {
 //    @Column(nullable = false)
 //    private Long chatroomId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Account sender;
 
     @Convert(converter = AES128.class)

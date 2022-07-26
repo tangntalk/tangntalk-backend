@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @ToString
 @AllArgsConstructor
 public class FriendDto {
@@ -22,6 +23,16 @@ public class FriendDto {
     private Boolean connectionStatus;
     private Long chatroomId;
 
+    public static FriendDto from(Account account){
+        return FriendDto.builder()
+                .username(account.getUsername())
+                .name(account.getName())
+                .statusMessage(account.getStatusMessage())
+                .type(account.getAccountType())
+                .accountLocation(account.getAccountLocation())
+                .connectionStatus(account.getConnectionStatus())
+                .build();
+    }
 
     public static class Request{
         @Data

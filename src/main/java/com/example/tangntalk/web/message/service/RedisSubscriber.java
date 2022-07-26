@@ -1,20 +1,16 @@
 package com.example.tangntalk.web.message.service;
 
-import com.example.tangntalk.web.message.dto.request.MessageSendDto;
+import com.example.tangntalk.web.message.dto.MessageDto;
+import com.example.tangntalk.web.message.dto.response.SingleMessageDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jdt.internal.compiler.ast.MessageSend;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,16 +23,13 @@ public class RedisSubscriber implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-
         String publishMessage = redisTemplate.getStringSerializer().deserialize(message.getBody());
-
+        String topic = redisTemplate.getStringSerializer().deserialize(message.getChannel());
         try {
-            MessageSendDto messageSendDto = objectMapper.readValue(publishMessage,MessageSendDto.class);
-            template.convertAndSend("/sub/chat/" + messageSendDto.getReceiverId(), messageSendDto);
+            MessageDto messageDto = objectMapper.readValue(publishMessage, MessageDto.class);
+            template.convertAndSend("/sub/chat/" + topic, SingleMessageDto.from(messageDto));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-
     }
 }

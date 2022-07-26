@@ -16,6 +16,9 @@ import com.example.tangntalk.web.account.repository.AccountRepository;
 import com.example.tangntalk.web.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,8 @@ public class ChatService {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
     private final ChatroomQdslRepository chatroomQdslRepository;
+    @Value("${tangntalk.message-list-page-size}")
+    private int messageListPageSize;
 
     @Transactional
     public Long getMessageCount(Long chatroomId){
@@ -58,15 +63,14 @@ public class ChatService {
     }
 
     @Transactional
-    public MessageListDto messageInquiry(Long chatroomId, String userId) {
+    public MessageListDto messageInquiry(String userId, Long chatroomId, int page) {
 
         AccountDto accountDto = accountService.findByUsername(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));
-        List<Message> messageList = messageRepository.findByChatroomId(chatroomId);
+        List<Message> messageList = messageRepository.findMessageListByChatroomId(chatroomId, PageRequest.of(page, messageListPageSize));
 
         messageList.forEach(message -> {
             //가려진 메시지도 읽었다고 처리했다 가정하자.
             if(message.getReadTime()==null && !message.getSender().getUsername().equals(userId)){
-                log.info(message.getSender() + " should not equal " + userId);
                 message.setReadTime(new Timestamp(System.currentTimeMillis()));
             }
         });
@@ -82,7 +86,7 @@ public class ChatService {
 
 
     @Transactional
-    public Long sendMessage(String userId, Long chatroomId, String content, Long rendezvousTime) {
+    public MessageDto sendMessage(String userId, Long chatroomId, String content, Long rendezvousTime) {
         Chatroom chatroom = chatroomRepository.findByChatroomId(chatroomId).orElseThrow(() -> new IllegalArgumentException("No user with id "+chatroomId));;
         Account user = accountRepository.findAccountByUsername(userId).orElseThrow(() -> new IllegalArgumentException("No user with id "+userId));;
 
@@ -102,7 +106,7 @@ public class ChatService {
         }
 
         chatroom.addMessage(message);
-        return messageRepository.save(message).getMessageId();
+        return MessageDto.fromMessage(messageRepository.save(message));
     }
 
     @Transactional

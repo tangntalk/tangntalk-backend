@@ -26,7 +26,8 @@ public class Chatroom {
     @OneToOne(fetch = FetchType.LAZY)
     private Account user2;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true,
+            cascade = CascadeType.ALL)
     private Message lastMessage;
 
     @Builder.Default

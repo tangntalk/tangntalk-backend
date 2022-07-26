@@ -64,6 +64,17 @@ public class Account implements UserDetails {
         return Collections.singletonList(role.getAuthority());
     }
 
+    public void addFriend(Account account){
+        if(account == this)
+            throw new IllegalArgumentException("cannot add self to friend list");
+        this.friends.add(account);
+    }
+
+    public void removeFriend(Account account){
+        if(account == this)
+            throw new IllegalArgumentException("cannot add self to friend list");
+        this.friends.remove(account);
+    }
     @Override
     public String getUsername() {
         return username;
